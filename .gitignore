@@ -1,1 +1,3 @@
 /genitor/.env.local
+/genitor/.uploads/
+/genitor/node_modules/
