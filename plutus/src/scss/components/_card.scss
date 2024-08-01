@@ -1,0 +1,10 @@
+.card {
+	@apply p-5 border border-slate-700 rounded-xl;
+	@apply bg-slate-800;
+
+	&:hover {
+		@apply bg-slate-700;
+		@apply -translate-y-1;
+		transition: background-color 300ms ease, transform 300ms ease;
+	}
+}

@@ -1,0 +1,29 @@
+.auth-container {
+	@apply flex h-screen;
+}
+
+.auth-card {
+	@apply border border-slate-800 rounded-xl;
+	@apply m-auto py-12 px-6;
+	min-width: 400px;
+}
+
+.auth-title {
+	@apply flex align-middle justify-center gap-2 pb-12;
+}
+
+.auth-card__inputs {
+	@apply pb-12;
+}
+
+.auth-card__form {
+
+}
+
+.auth-card__error {
+	@apply text-red-400;
+}
+
+.auth-subline {
+	@apply mt-12 justify-center flex gap-1;
+}

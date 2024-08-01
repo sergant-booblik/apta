@@ -1,0 +1,28 @@
+.main-layout {
+	&--overlay::before {
+		@apply z-10;
+		@apply bg-black opacity-60;
+		@apply h-screen w-screen;
+		@apply absolute;
+		content: "";
+	}
+}
+
+.body {
+	@apply px-6 py-6;
+	@apply relative;
+}
+
+.body__header {
+	@apply flex items-center justify-between;
+	@apply mb-8;
+}
+
+.body__header-action {
+	@apply flex gap-3 items-center;
+	@apply cursor-pointer;
+
+	svg {
+		@apply text-slate-500;
+	}
+}

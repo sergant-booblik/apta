@@ -1,0 +1,46 @@
+@mixin use-component-color {
+	@each $color, $tone in $colors {
+		&--#{$color} {
+			@include use-border-color($tone);
+		}
+
+		&--outline {
+			@include use-text-color($tone);
+		}
+
+		&--#{$color}:not(&--outline) {
+			@include use-bg-color($tone);
+		}
+	}
+}
+
+
+@mixin use-bg-color($tone) {
+	@apply bg-#{$tone}-#{map-get($theme, light)} dark:bg-#{$tone}-#{map-get($theme, dark)};
+	@apply hover:bg-#{$tone}-#{map-get($theme, light) + 100} hover:dark:bg-#{$tone}-#{map-get($theme, dark) + 100};
+
+	&.button {
+		@apply bg-#{$tone}-#{map-get($theme, light)} dark:bg-#{$tone}-#{map-get($theme, dark)};
+		@apply hover:bg-#{$tone}-#{map-get($theme, light) + 100} hover:dark:bg-#{$tone}-#{map-get($theme, dark) + 100};
+	}
+}
+
+@mixin use-border-color($tone) {
+	@apply border-#{$tone}-#{map-get($theme, light)} dark:border-#{$tone}-#{map-get($theme, dark)};
+	@apply hover:border-#{$tone}-#{map-get($theme, light) + 100} hover:dark:border-#{$tone}-#{map-get($theme, dark) + 100};
+
+	&.button {
+		@apply border-#{$tone}-#{map-get($theme, light)} dark:border-#{$tone}-#{map-get($theme, dark)};
+		@apply hover:border-#{$tone}-#{map-get($theme, light) + 100} hover:dark:border-#{$tone}-#{map-get($theme, dark) + 100};
+	}
+}
+
+@mixin use-text-color($tone) {
+	@apply text-#{$tone}-#{map-get($theme, light)} dark:text-#{$tone}-#{map-get($theme, dark)};
+	@apply hover:text-#{$tone}-#{map-get($theme, light) + 100} hover:dark:text-#{$tone}-#{map-get($theme, dark) + 100};
+
+	&.button {
+		@apply text-#{$tone}-#{map-get($theme, light)} dark:text-#{$tone}-#{map-get($theme, dark)};
+		@apply hover:text-#{$tone}-#{map-get($theme, light) + 100} hover:dark:text-#{$tone}-#{map-get($theme, dark) + 100};
+	}
+}

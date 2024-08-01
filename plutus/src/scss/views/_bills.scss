@@ -1,0 +1,37 @@
+.body__inner {
+	@apply flex flex-wrap gap-6;
+}
+
+.bill-card {
+	@apply flex-grow;
+	@apply min-w-64;
+	@apply cursor-pointer;
+}
+
+.bill-card__top {
+	@apply flex justify-between;
+}
+
+.bill-info__title {
+	@apply flex flex-col gap-2;
+
+	p {
+		@apply text-slate-400;
+	}
+}
+
+.bill-info__balances {
+	@apply mt-6;
+}
+
+.bill-info-balance {
+	@apply flex;
+
+	span {
+		@apply basis-1/2;
+	}
+}
+
+.open-bill-modal__header {
+	@apply flex gap-8;
+}

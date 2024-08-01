@@ -1,0 +1,7 @@
+.input-group {
+	input {
+		@apply px-2 py-1;
+		@apply bg-slate-200 dark:bg-slate-800;
+		@apply border rounded dark:border-slate-700;
+	}
+}

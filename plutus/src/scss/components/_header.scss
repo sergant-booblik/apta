@@ -1,0 +1,19 @@
+.header {
+	@apply bg-slate-700;
+}
+
+.header-inner {
+	@apply px-8 py-7 flex justify-between items-center;
+}
+
+.header-title {
+	@apply flex gap-2;
+}
+
+.subheader {
+	@apply bg-slate-800;
+}
+
+.subheader-inner {
+	@apply px-6 py-3.5 flex justify-center items-center;
+}

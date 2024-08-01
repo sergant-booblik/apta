@@ -1,0 +1,7 @@
+.pill {
+	@apply py-1 px-2.5;
+	@apply border;
+	@apply rounded-full;
+
+	@include use-component-color;
+}
