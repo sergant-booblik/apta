@@ -3,20 +3,20 @@
     <div class="subheader-inner">
       <div class="menu">
         <div
-          v-for="item in menu"
-          :key="item"
+          v-for="(item, index) in menu"
+          :key="index"
           class="menu-item"
         >
           <router-link
-            :to="`/${item}`"
+            :to="`/${item.name}`"
             exact
             exact-active-class="menu-item-link--active"
             class="menu-item-link"
           >
             <component
-              :is="`${item}-icon`"
+              :is="item.icon"
             />
-            {{ $t(`Menu.Item.${item}`) }}
+            {{ t(`Menu.Item.${item}`) }}
           </router-link>
         </div>
       </div>
@@ -24,26 +24,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import MenuIcon from "@/components/icons/menu";
+import { useI18n } from 'vue-i18n'
 
-const HeaderComponent = defineComponent({
-  components: {
-    ...MenuIcon,
-  },
-  setup() {
-    const menu = [
-      'accounts',
-      'expenses',
-      // 'incomes', 'credits', 'budget', 'reports',
-    ];
+const { t } = useI18n();
 
-    return {
-      menu,
-    };
-  },
-});
-
-export default HeaderComponent;
+const menu = [
+  { name: 'accounts', icon: MenuIcon.AccountsIcon },
+  { name: 'expenses', icon: MenuIcon.ExpensesIcon },
+];
 </script>

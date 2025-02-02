@@ -23,13 +23,13 @@
             class="mb-4"
           />
           <p class="auth-card__error mb-4" v-if="error">
-            {{ inter(error) }}
+            {{ $t(error) }}
           </p>
         </div>
         <ButtonComponent
           :label="$t('Auth.Label.signIn')"
           flex
-          type="submit"
+          :type="ButtonType.SUBMIT"
         />
       </form>
       <div class="auth-subline">
@@ -49,37 +49,25 @@ import { ref, watch } from 'vue';
 import { useAuthStore } from '@/store/auth';
 import InputComponent from '@/components/InputComponent.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
-import { storeToRefs } from "pinia";
-import router, { RouteName } from "@/router";
-import Icon from "@/components/icons";
-import { useRouter } from "vue-router";
+import { storeToRefs } from 'pinia';
+import { RouteName } from '@/router';
+import Icon from '@/components/icons';
+import { useRouter } from 'vue-router';
+import { type ButtonType, type InputType } from '@/types/controllers';
 
-const LoginView = defineComponent({
-  components: {
-    InputComponent,
-    ButtonComponent,
-    LogoIcon: Icon.LogoIcon,
-  },
-  beforeRouteEnter() {
-    const authStore = useAuthStore();
-    if (authStore.isAuth) {
+const router = useRouter();
+const authStore = useAuthStore();
+const { error } = storeToRefs(authStore);
+
+const email = ref('');
+const password = ref('');
+
+const login = () => {
+  authStore.login(email.value, password.value)
+    .then(() => {
       router.push({ name: RouteName.HOME });
-    }
-  },
-  setup() {
-    const router = useRouter();
-    const authStore = useAuthStore();
-    const { error } = storeToRefs(authStore);
-
-    const email = ref('');
-    const password = ref('');
-
-    const login = () => {
-      authStore.login(email.value, password.value)
-        .then(() => {
-          router.push({ name: RouteName.HOME });
-        });
-    };
+    });
+};
 
 watch([email, password], () => {
   authStore.clearError();

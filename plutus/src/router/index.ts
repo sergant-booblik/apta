@@ -19,7 +19,7 @@ export enum RouteName {
   SETTINGS = 'SETTINGS',
 }
 
-enum Layout {
+export enum Layout {
   MAIN = 'main',
   EMPTY = 'empty',
 }

@@ -2,28 +2,21 @@
   <div class="header">
     <div class="header-inner">
       <div class="header-title">
-        <LogoIcon />
+        <Icon.LogoIcon />
         <h1>
-          {{ $t('Application Name') }}
+          {{ t('!Application Name!') }}
         </h1>
       </div>
       <div role="button">
-        <VerticalDotsIcon />
+        <Icon.VerticalDotsIcon />
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import Icon from "@/components/icons";
+import { useI18n } from 'vue-i18n'
 
-const HeaderComponent = defineComponent({
-  components: {
-    VerticalDotsIcon: Icon.VerticalDotsIcon,
-    LogoIcon: Icon.LogoIcon,
-  },
-});
-
-export default HeaderComponent;
+const { t } = useI18n();
 </script>

@@ -8,54 +8,44 @@
       <div class="bill-info__balances">
         <div class="bill-info-balance">
           <span>{{ $t('Amount.Initial') }}</span>
-          <FormattedAmount
-            :sum="bill?.initialSum"
-            :currency-code="bill?.currency.code"
-            sign="neutral"
-          />
+          {{ bill?.initialSum }}
         </div>
         <div class="bill-info-balance">
           <span>{{ $t('Amount.Income') }}</span>
-          <FormattedAmount
-            :sum="bill?.incomeSum"
-            :currency-code="bill?.currency.code"
-            sign="positive"
-          />
+          {{ bill?.incomeSum }}
         </div>
         <div class="bill-info-balance">
           <span>{{ $t('Amount.Outcome') }}</span>
-          <FormattedAmount
-            :sum="bill?.outcomeSum"
-            :currency-code="bill?.currency.code"
-            sign="negative"
-          />
+          {{ bill?.outcomeSum }}
         </div>
       </div>
     </div>
     <CardComponent
       class="card bill-card"
-      :style="{ backgroundColor: bill.customColor }"
+      :style="{ backgroundColor: bill?.customColor }"
     >
       <div class="bill-card__top">
-        <p>{{ bill.name }}</p>
+        <p>{{ bill?.name }}</p>
         <img
-          v-if="bill.customIcon"
-          :src="bill.customIcon"
+          v-if="bill?.customIcon"
+          :src="bill?.customIcon"
+          alt="icon"
         >
         <component
           v-else
-          :is="`${bill.icon}-icon`"
+          :is="`${bill?.icon}-icon`"
         />
       </div>
-      <h2>{{ toMoney(bill.amount, bill.currency.code) }}</h2>
+      <h2>{{ toMoney(bill?.amount, bill?.currency.code) }}</h2>
       <p
+        v-if="bill?.transSum"
         :class="[
           'format',
           { 'format--positive': bill.transSum > 0 },
           { 'format--negative': bill.transSum < 0 },
         ]"
       >
-        <CaretIcon />
+        <Icon.CaretIcon />
         {{ toMoney(bill.transSum, bill.currency.code) }}
       </p>
     </CardComponent>
@@ -69,26 +59,28 @@
         @change="uploadFile"
       >
     </form>
-    <img :src="bill.customIcon">
-    <ColorPicker
-      v-model="bill.customColor"
+    <img
+      :src="bill?.customIcon"
+      alt="icon"
+    >
+    <Sketch
+      v-model="bill?.customColor"
       :disable-alpha="true"
       :disable-fields="true"
     />
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent, type Ref, ref } from 'vue';
+<script setup lang="ts">
+import { computed, type Ref, ref } from 'vue';
 import { useBillStore } from '@/store/bill';
 import { useModalStore } from '@/store/modal';
 import { storeToRefs } from 'pinia';
-import BillIcon from '@/components/icons/bill';
 import type { Bill } from '@/types/bill';
 import { Sketch } from '@ckpack/vue-color';
-import { toMoney } from '../../helpers/to-money';
-import FormattedAmount from '@/components/elements/FormattedAmount.vue';
+import { toMoney } from '@/helpers/to-money';
 import CardComponent from '@/components/CardComponent.vue'
+import Icon from '@/components/icons';
 
 
 function useUploadFile(
@@ -104,33 +96,14 @@ function useUploadFile(
   return uploadFile;
 }
 
-const AddBillModal = defineComponent({
-  methods: { toMoney },
-  components: {
-    CardComponent,
-    ColorPicker: Sketch,
-    FormattedAmount,
-    ...BillIcon,
-  },
-  setup() {
-    const modalStore = useModalStore();
-    const billStore = useBillStore();
+const modalStore = useModalStore();
+const billStore = useBillStore();
 
-    const inputRef = ref<HTMLInputElement>();
+const inputRef = ref<HTMLInputElement>();
 
-    const { id } = storeToRefs(modalStore);
+const { id } = storeToRefs(modalStore);
 
-    const bill = computed(() => billStore.getCertainBill(id.value));
+const bill = computed(() => billStore.getCertainBill(id.value));
 
-    const uploadFile = useUploadFile(bill, inputRef);
-
-    return {
-      inputRef,
-      bill,
-      uploadFile,
-    };
-  },
-});
-
-export default AddBillModal;
+const uploadFile = useUploadFile(bill, inputRef);
 </script>

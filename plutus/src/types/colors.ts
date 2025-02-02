@@ -1,5 +1,3 @@
-export enum Colors {
+export enum ColorType {
   PRIMARY = 'primary',
 }
-
-export type ColorType = Colors;

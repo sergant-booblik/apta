@@ -6,7 +6,7 @@
       @click="changeCurrentRate"
     >
       <h2> {{ totalAmount }} </h2>
-      <ChangeCurrencyIcon />
+      <Icon.ChangeCurrencyIcon />
     </div>
   </div>
   <div
@@ -17,7 +17,7 @@
       v-for="bill in bills"
       :key="bill.id"
       class="card bill-card"
-      @click="openModal('open-bill', bill.id)"
+      @click="openModal(ModalType.OPEN_BILL, bill.id)"
       :style="{ backgroundColor: bill.customColor }"
     >
       <div class="bill-card__top">
@@ -25,6 +25,7 @@
         <img
           v-if="bill.customIcon"
           :src="bill.customIcon"
+          alt="icon"
         >
         <component
           v-else
@@ -39,31 +40,30 @@
           { 'format--negative': bill.transSum < 0 },
         ]"
       >
-        <CaretIcon />
+        <Icon.CaretIcon />
         {{ toMoney(bill.transSum, bill.currency.code) }}
       </p>
     </CardComponent>
     <CardComponent
       class="card bill-card bill-card--add"
-      @click="openModal('add-bill')"
+      @click="openModal(ModalType.ADD_BILL)"
     >
       +
     </CardComponent>
   </div>
 </template>
 
-<script lang="ts">
-import {computed, defineComponent, ref} from 'vue';
-import {toMoney} from "@/helpers/to-money";
-import {storeToRefs} from 'pinia';
-import {useBillStore} from '@/store/bill';
-import {useAuthStore} from '@/store/auth';
-import {useUserStore} from '@/store/user';
-import {useModalStore} from '@/store/modal';
-import { ModalType } from '@/types/modal';
-import CardComponent from "@/components/CardComponent.vue";
-import Icons from '@/components/icons';
-import BillIcon from "@/components/icons/bill";
+<script setup lang="ts">
+import { computed, onBeforeMount, ref } from 'vue'
+import { toMoney } from '@/helpers/to-money'
+import { storeToRefs } from 'pinia'
+import { useBillStore } from '@/store/bill'
+import { useAuthStore } from '@/store/auth'
+import { useUserStore } from '@/store/user'
+import { useModalStore } from '@/store/modal'
+import { ModalType } from '@/types/modal'
+import Icon from '@/components/icons'
+import CardComponent from '@/components/CardComponent.vue'
 
 function openModal(
   type: ModalType,
@@ -73,51 +73,30 @@ function openModal(
   modalStore.setModal(type, id);
 }
 
-const BillsView = defineComponent({
-  components: {
-    CardComponent,
-    CaretIcon: Icons.CaretIcon,
-    ChangeCurrencyIcon: Icons.ChangeCurrencyIcon,
-    ...BillIcon,
-  },
-  beforeRouteEnter() {
-    const authStore = useAuthStore();
-    const userStore = useUserStore();
-    const billStore = useBillStore();
-    if (!billStore.hasBills && authStore.isAuth) {
-      billStore.fetchBills(userStore.profile?.id);
-    }
-  },
-  setup() {
-    const userStore = useUserStore();
-    const billStore = useBillStore();
-    const { settings } = storeToRefs(userStore);
-    const { bills, totals, loading } = storeToRefs(billStore);
+const userStore = useUserStore();
+const billStore = useBillStore();
+const { settings } = storeToRefs(userStore);
+const { bills, totals, loading } = storeToRefs(billStore);
 
-    const currentCurrencyIndex = ref(0);
-    const currentCurrency = computed(() => settings.value?.currencies[currentCurrencyIndex.value]);
+const currentCurrencyIndex = ref(0);
+const currentCurrency = computed(() => settings.value?.currencies[currentCurrencyIndex.value]);
 
-    const totalAmount = computed(() => toMoney(totals.value[currentCurrency.value?.code], currentCurrency.value?.code));
+const totalAmount = computed(() => toMoney(totals.value[currentCurrency.value?.code], currentCurrency.value?.code));
 
-    const changeCurrentRate = () => {
-      if (currentCurrencyIndex.value === settings.value?.currencies.length - 1) {
-        currentCurrencyIndex.value = 0;
-      } else {
-        currentCurrencyIndex.value++;
-      }
-    };
+const changeCurrentRate = () => {
+  if (currentCurrencyIndex.value === settings.value?.currencies.length - 1) {
+    currentCurrencyIndex.value = 0;
+  } else {
+    currentCurrencyIndex.value++;
+  }
+};
 
-    return {
-      bills,
-      loading,
-      totalAmount,
-      currentCurrency,
-      changeCurrentRate,
-      toMoney,
-      openModal,
-    };
-  },
+onBeforeMount(() => {
+  const authStore = useAuthStore();
+  const userStore = useUserStore();
+  const billStore = useBillStore();
+  if (!billStore.hasBills && authStore.isAuth) {
+    billStore.fetchBills(userStore.profile?.id);
+  }
 });
-
-export default BillsView;
 </script>

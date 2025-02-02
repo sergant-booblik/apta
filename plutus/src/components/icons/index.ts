@@ -1,9 +1,9 @@
-import VerticalDotsIcon from "@/components/icons/VerticalDotsIcon.vue";
-import CaretIcon from "@/components/icons/CaretIcon.vue";
-import CircleIcon from "@/components/icons/CircleIcon.svg";
-import CloseIcon from "@/components/icons/CloseIcon.svg";
-import ChangeCurrencyIcon from "@/components/icons/ChangeCurrencyIcon.svg";
-import LogoIcon from "@/components/icons/LogoIcon.svg";
+import VerticalDotsIcon from '@/components/icons/vertical-dots.svg';
+import CaretIcon from '@/components/icons/caret.svg';
+import CircleIcon from '@/components/icons/circle.svg';
+import CloseIcon from '@/components/icons/close.svg';
+import ChangeCurrencyIcon from '@/components/icons/change-currency.svg';
+import LogoIcon from '@/components/icons/logo.svg';
 
 const Icon = {
   VerticalDotsIcon,

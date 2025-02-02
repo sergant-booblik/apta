@@ -4,10 +4,4 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-const CardComponent = defineComponent({});
-
-export default CardComponent;
-</script>
+<script setup lang="ts" />

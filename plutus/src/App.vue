@@ -5,41 +5,35 @@
   />
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue';
+<script setup lang="ts">
+import { computed, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router';
 import EmptyLayout from '@/layouts/EmptyLayout.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
+import { Layout } from '@/router'
 
-const App = defineComponent({
-  components: {
-    EmptyLayout,
-    MainLayout,
-  },
-  beforeMount() {
-    if (localStorage.theme === undefined) {
-      localStorage.theme = window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light';
-    }
-    const htmlElement = document.querySelector('html');
-    htmlElement?.setAttribute('data-mode', localStorage.theme);
-  },
-  setup() {
-    const colorTheme = computed(() => localStorage.theme);
-
-    const route = useRoute();
-    const layout = computed(() => route.meta.layout);
-    const layoutName = computed(() => `${layout.value}-layout`);
-
-    return {
-      layoutName,
-      colorTheme,
-    };
-  },
+const route = useRoute();
+const layout = computed(() => route.meta.layout);
+const layoutName = computed(() => {
+  switch(layout.value) {
+    case Layout.EMPTY:
+      return EmptyLayout;
+    case Layout.MAIN:
+      return MainLayout;
+    default:
+      return EmptyLayout;
+  }
 });
 
-export default App;
+onBeforeMount(() => {
+  if (localStorage.theme === undefined) {
+    localStorage.theme = window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+  }
+  const htmlElement = document.querySelector('html');
+  htmlElement?.setAttribute('data-mode', localStorage.theme);
+});
 </script>
 
 <style lang="scss" src="@/scss/style.scss" />

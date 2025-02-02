@@ -53,13 +53,12 @@
   </ul>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue';
+<script setup lang="ts">
+import { computed, onBeforeMount } from 'vue'
 import { useCurrenciesStore } from "@/store/currencies";
 import { storeToRefs} from "pinia";
 import { useUserStore } from '@/store/user';
 import type { Currency } from '@/types/currency';
-import ButtonComponent from "@/components/ButtonComponent.vue";
 import PillComponent from "@/components/PillComponent.vue";
 
 function useAddCurrency(): (currency: Currency) => void {
@@ -85,10 +84,10 @@ function useAddCurrency(): (currency: Currency) => void {
 
 function useRemoveCurrency(): (id: number) => void {
   const userStore = useUserStore();
-  const userCurrencies = userStore.settings.currencies;
+  const userCurrencies = userStore.settings?.currencies;
   function removeCurrency(id: number) {
-    const index = userCurrencies.findIndex((currency) => currency.id === id);
-    userCurrencies.splice(index, 1);
+    const index = userCurrencies?.findIndex((currency) => currency.id === id);
+    userCurrencies?.splice(index, 1);
     userStore.updateSettings(
       userStore.profile.id,
       {
@@ -101,42 +100,28 @@ function useRemoveCurrency(): (id: number) => void {
   return removeCurrency;
 }
 
-const CurrenciesComponent = defineComponent({
-  components: {PillComponent, ButtonComponent},
-  beforeMount() {
-    const currenciesStore = useCurrenciesStore();
-    currenciesStore.fetchPinnedCurrencies();
-    currenciesStore.fetchUnpinnedCurrencies();
-  },
-  setup() {
-    const currenciesStore = useCurrenciesStore();
-    const userStore = useUserStore();
+const currenciesStore = useCurrenciesStore();
+const userStore = useUserStore();
 
-    const { pinnedCurrencies, unpinnedCurrencies } = storeToRefs(currenciesStore);
-    const { settings } = storeToRefs(userStore);
+const { pinnedCurrencies, unpinnedCurrencies } = storeToRefs(currenciesStore);
+const { settings } = storeToRefs(userStore);
 
-    const userCurrencies = computed(() => settings.value?.currencies);
+const userCurrencies = computed(() => settings.value?.currencies);
 
-    const otherPinnedCurrencies = computed(() => {
-      return pinnedCurrencies.value.filter((currency) => !userCurrencies.value?.some((userCurrency) => userCurrency.id === currency.id));
-    });
-
-    const otherUnpinnedCurrencies = computed(() => {
-      return unpinnedCurrencies.value.filter((currency) => !userCurrencies.value?.some((userCurrency) => userCurrency.id === currency.id));
-    });
-
-    const addCurrency = useAddCurrency();
-    const removeCurrency = useRemoveCurrency();
-
-    return {
-      otherPinnedCurrencies,
-      otherUnpinnedCurrencies,
-      userCurrencies,
-      addCurrency,
-      removeCurrency,
-    };
-  },
+const otherPinnedCurrencies = computed(() => {
+  return pinnedCurrencies.value.filter((currency) => !userCurrencies.value?.some((userCurrency) => userCurrency.id === currency.id));
 });
 
-export default CurrenciesComponent;
+const otherUnpinnedCurrencies = computed(() => {
+  return unpinnedCurrencies.value.filter((currency) => !userCurrencies.value?.some((userCurrency) => userCurrency.id === currency.id));
+});
+
+const addCurrency = useAddCurrency();
+const removeCurrency = useRemoveCurrency();
+
+onBeforeMount(() => {
+  const currenciesStore = useCurrenciesStore();
+  currenciesStore.fetchPinnedCurrencies();
+  currenciesStore.fetchUnpinnedCurrencies();
+});
 </script>

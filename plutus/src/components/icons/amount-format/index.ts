@@ -1,4 +1,4 @@
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent } from 'vue';
 
 const FormattedAmountIcon = {
   SignPositiveIcon: defineAsyncComponent(() => import('./caret-up.svg')),

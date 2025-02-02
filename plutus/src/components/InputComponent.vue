@@ -16,48 +16,33 @@
   </div>
 </template>
 
-<script lang="ts">
-import { computed, defineComponent } from 'vue';
-import { useDebounceFn } from '@vueuse/core';
-import { Input } from '@/types/controllers';
-import type { PropType } from 'vue';
-import type { InputType } from '@/types/controllers';
+<script setup lang="ts">
+import { toRefs } from 'vue'
+import { computed } from 'vue'
+import { useDebounceFn } from '@vueuse/core'
+import { InputType } from '@/types/controllers'
 
-const InputComponent = defineComponent({
-  props: {
-    modelValue: {
-      type: String,
-      default: undefined,
-    },
-    label: {
-      type: String,
-      default: undefined,
-    },
-    placeholder: {
-      type: String,
-      default: undefined,
-    },
-    type: {
-      type: String as PropType<InputType>,
-      default: Input.TEXT,
-    },
-  },
-  emits: ['update:modelValue', 'input', 'blur'],
-  setup(props, {emit}) {
-    const inputValue = computed({
-      get: () => props.modelValue,
-      set: (value) => emit('update:modelValue', value),
-    });
+interface Props {
+  modelValue?: string,
+  label?: string,
+  placeholder?: string,
+  type?: InputType,
+}
 
-    const debouncedInput = useDebounceFn(() => {
-      emit('input');
-    }, 1000);
-
-    return {
-      inputValue,
-      debouncedInput,
-    };
-  },
+const props = withDefaults(defineProps<Props>(), {
+  type: InputType.TEXT,
 });
-export default InputComponent;
+
+const emit = defineEmits(['update:modelValue', 'input', 'blur']);
+
+const { modelValue } = toRefs(props);
+
+const inputValue = computed({
+  get: () => modelValue.value,
+  set: (value) => emit('update:modelValue', value),
+});
+
+const debouncedInput = useDebounceFn(() => {
+  emit('input');
+}, 1000);
 </script>

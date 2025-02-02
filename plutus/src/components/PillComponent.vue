@@ -10,28 +10,16 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { Colors } from '@/types/colors';
-import type { PropType } from 'vue';
-import type { ColorType } from '@/types/colors';
+<script setup lang="ts">
+import { ColorType } from '@/types/colors'
 
-const PillComponent = defineComponent({
-  props: {
-    label: {
-      type: String,
-      default: undefined,
-    },
-    color: {
-      type: String as PropType<ColorType>,
-      default: Colors.PRIMARY,
-    },
-    outline: {
-      type: Boolean,
-      default: false,
-    },
-  },
+interface Props {
+  label?: string,
+  color?: ColorType,
+  outline?: boolean,
+}
+
+withDefaults(defineProps<Props>(), {
+  color: ColorType.PRIMARY,
 });
-
-export default PillComponent;
 </script>

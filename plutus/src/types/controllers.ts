@@ -1,14 +1,11 @@
-export enum Button {
+export enum ButtonType {
   BUTTON = 'button',
   SUBMIT = 'submit',
   RESET = 'reset',
 }
 
-export enum Input {
+export enum InputType {
   TEXT = 'text',
   EMAIL = 'email',
   PASSWORD = 'password',
 }
-
-export type ButtonType = Button;
-export type InputType = Input;

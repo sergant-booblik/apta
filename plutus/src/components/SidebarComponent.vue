@@ -4,10 +4,4 @@
   />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-const SidebarComponent = defineComponent({});
-
-export default SidebarComponent;
-</script>
+<script lang="ts" />

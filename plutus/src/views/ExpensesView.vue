@@ -1,13 +1,11 @@
 <template>
   <div class="body__header">
-    <h1>{{ $t('Expenses') }}</h1>
+    <h1>{{ t('Expenses') }}</h1>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 
-const BillsView = defineComponent({});
-
-export default BillsView;
+const { t } = useI18n();
 </script>
