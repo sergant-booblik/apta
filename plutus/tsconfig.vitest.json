@@ -1,6 +1,9 @@
 {
   "extends": "./tsconfig.app.json",
   "exclude": [],
+  "include": [
+    "resources/i18n/**/*.json"
+  ],
   "compilerOptions": {
     "composite": true,
     "lib": [],

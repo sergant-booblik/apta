@@ -7,7 +7,7 @@
       </div>
       <div class="bill-info__balances">
         <div class="bill-info-balance">
-          <span>{{ inter('Amount.Initial') }}</span>
+          <span>{{ $t('Amount.Initial') }}</span>
           <FormattedAmount
             :sum="bill?.initialSum"
             :currency-code="bill?.currency.code"
@@ -15,7 +15,7 @@
           />
         </div>
         <div class="bill-info-balance">
-          <span>{{ inter('Amount.Income') }}</span>
+          <span>{{ $t('Amount.Income') }}</span>
           <FormattedAmount
             :sum="bill?.incomeSum"
             :currency-code="bill?.currency.code"
@@ -23,7 +23,7 @@
           />
         </div>
         <div class="bill-info-balance">
-          <span>{{ inter('Amount.Outcome') }}</span>
+          <span>{{ $t('Amount.Outcome') }}</span>
           <FormattedAmount
             :sum="bill?.outcomeSum"
             :currency-code="bill?.currency.code"
@@ -86,7 +86,6 @@ import { storeToRefs } from 'pinia';
 import BillIcon from '@/components/icons/bill';
 import type { Bill } from '@/types/bill';
 import { Sketch } from '@ckpack/vue-color';
-import inter from '../../helpers/translation';
 import { toMoney } from '../../helpers/to-money';
 import FormattedAmount from '@/components/elements/FormattedAmount.vue';
 import CardComponent from '@/components/CardComponent.vue'
@@ -106,7 +105,7 @@ function useUploadFile(
 }
 
 const AddBillModal = defineComponent({
-  methods: { toMoney, inter },
+  methods: { toMoney },
   components: {
     CardComponent,
     ColorPicker: Sketch,

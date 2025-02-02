@@ -59,7 +59,6 @@ import { useCurrenciesStore } from "@/store/currencies";
 import { storeToRefs} from "pinia";
 import { useUserStore } from '@/store/user';
 import type { Currency } from '@/types/currency';
-import inter from "../../helpers/translation";
 import ButtonComponent from "@/components/ButtonComponent.vue";
 import PillComponent from "@/components/PillComponent.vue";
 
@@ -130,7 +129,6 @@ const CurrenciesComponent = defineComponent({
     const removeCurrency = useRemoveCurrency();
 
     return {
-      inter,
       otherPinnedCurrencies,
       otherUnpinnedCurrencies,
       userCurrencies,

@@ -4,7 +4,7 @@
       <div class="header-title">
         <LogoIcon />
         <h1>
-          {{ inter('Application Name') }}
+          {{ $t('Application Name') }}
         </h1>
       </div>
       <div role="button">
@@ -16,18 +16,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import inter from '@/helpers/translation';
 import Icon from "@/components/icons";
 
 const HeaderComponent = defineComponent({
   components: {
     VerticalDotsIcon: Icon.VerticalDotsIcon,
     LogoIcon: Icon.LogoIcon,
-  },
-  setup() {
-    return {
-      inter,
-    };
   },
 });
 

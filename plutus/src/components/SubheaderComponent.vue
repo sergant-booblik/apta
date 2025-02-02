@@ -16,7 +16,7 @@
             <component
               :is="`${item}-icon`"
             />
-            {{ inter(`Menu.Item.${item}`) }}
+            {{ $t(`Menu.Item.${item}`) }}
           </router-link>
         </div>
       </div>
@@ -26,7 +26,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import inter from '@/helpers/translation';
 import MenuIcon from "@/components/icons/menu";
 
 const HeaderComponent = defineComponent({
@@ -41,7 +40,6 @@ const HeaderComponent = defineComponent({
     ];
 
     return {
-      inter,
       menu,
     };
   },

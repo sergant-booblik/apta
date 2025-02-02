@@ -10,7 +10,6 @@ import { computed, defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
 import EmptyLayout from '@/layouts/EmptyLayout.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
-import {useTranslationStore} from "@/store/translation";
 
 const App = defineComponent({
   components: {
@@ -18,12 +17,6 @@ const App = defineComponent({
     MainLayout,
   },
   beforeMount() {
-    const translationStore = useTranslationStore();
-    if (translationStore.translations === undefined) {
-      const lang = navigator.language;
-      translationStore.fetchTranslation(lang);
-    }
-
     if (localStorage.theme === undefined) {
       localStorage.theme = window.matchMedia('(prefers-color-scheme: dark)').matches
         ? 'dark'

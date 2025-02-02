@@ -1,6 +1,6 @@
 <template>
   <div class="body__header">
-    <h1>{{ inter('Accounts') }}</h1>
+    <h1>{{ $t('Accounts') }}</h1>
     <div
       class="body__header-action"
       @click="changeCurrentRate"
@@ -60,7 +60,6 @@ import {useBillStore} from '@/store/bill';
 import {useAuthStore} from '@/store/auth';
 import {useUserStore} from '@/store/user';
 import {useModalStore} from '@/store/modal';
-import inter from "../helpers/translation";
 import { ModalType } from '@/types/modal';
 import CardComponent from "@/components/CardComponent.vue";
 import Icons from '@/components/icons';
@@ -109,7 +108,6 @@ const BillsView = defineComponent({
     };
 
     return {
-      inter,
       bills,
       loading,
       totalAmount,

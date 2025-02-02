@@ -5,7 +5,6 @@ import { Router } from 'express';
 import { AuthUser, AuthLogin, AuthLogout, AuthRefresh, AuthRegister } from './controller/auth';
 import { getUser, updateUser } from './controller/users';
 import { getPinnedCurrencies } from './controller/currency';
-import { getTranslation } from './controller/translation';
 import { AddBill, DeleteBill, GetBills, UpdateBill, uploadBillIcon } from './controller/bill'
 import { AddTransfer, DeleteTransfer, GetTransfers, updateTransfer } from './controller/transfer';
 import { addCategory, deleteCategory, getCategories, updateCategory } from './controller/category';
@@ -32,8 +31,6 @@ export const routes = (router: Router) => {
 
   router.get('/api/users/:id', getUser);
   router.put('/api/users/:id', updateUser);
-
-  router.get('/api/translation/:lang', getTranslation);
 
   router.get('/api/currency', getPinnedCurrencies);
 

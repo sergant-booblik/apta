@@ -2,9 +2,8 @@
   <div class="auth-container">
     <div class="auth-card">
       <div class="auth-title">
-        <h2 class="text-center">{{ inter('Auth.SignIn.title.part1') }}</h2>
-        <LogoIcon />
-        <h2 class="text-center">{{ inter('Auth.SignIn.title.part2') }}</h2>
+        <Icon.LogoIcon />
+        <h2 class="text-center">{{ $t('Auth.SignIn.title') }}</h2>
       </div>
       <form
         class="auth-card__form"
@@ -13,13 +12,14 @@
         <div class="auth-card__inputs">
           <InputComponent
             v-model="email"
-            :placeholder="inter('Auth.Label.login')"
+            :type="InputType.EMAIL"
+            :placeholder="$t('Auth.Label.login')"
             class="mb-4"
           />
           <InputComponent
             v-model="password"
-            type="password"
-            :placeholder="inter('Auth.Label.password')"
+            :type="InputType.PASSWORD"
+            :placeholder="$t('Auth.Label.password')"
             class="mb-4"
           />
           <p class="auth-card__error mb-4" v-if="error">
@@ -27,28 +27,26 @@
           </p>
         </div>
         <ButtonComponent
-          :label="inter('Auth.Label.signIn')"
+          :label="$t('Auth.Label.signIn')"
           flex
           type="submit"
         />
       </form>
       <div class="auth-subline">
         <p>
-          {{ inter('Auth.SignIn.Subline.text') }}
+          {{ $t('Auth.SignIn.Subline.text') }}
         </p>
         <a href="/">
-          {{ inter('Auth.SignIn.Subline.link') }}
+          {{ $t('Auth.SignIn.Subline.link') }}
         </a>
       </div>
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import type {Ref} from 'vue';
-import {defineComponent, ref, watch} from 'vue';
-import {useAuthStore} from '@/store/auth';
-import inter from '@/helpers/translation';
+<script setup lang="ts">
+import { ref, watch } from 'vue';
+import { useAuthStore } from '@/store/auth';
 import InputComponent from '@/components/InputComponent.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
 import { storeToRefs } from "pinia";
@@ -83,20 +81,7 @@ const LoginView = defineComponent({
         });
     };
 
-    watch([email, password], () => {
-      authStore.clearError();
-    });
-
-
-    return {
-      inter,
-      email,
-      password,
-      login,
-      error,
-    };
-  },
+watch([email, password], () => {
+  authStore.clearError();
 });
-
-export default LoginView;
 </script>
