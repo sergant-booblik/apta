@@ -50,7 +50,9 @@
             }
           },
           "Colors": {
-            "title": "Colors"
+            "title": "Colors",
+            "background": "Background",
+            "font": "Font"
           }
         },
         "settings": {
@@ -83,6 +85,13 @@
       "text": "This action cannot be undone!\nAre you sure you want to delete bill?",
       "control": {
         "delete": "Delete",
+        "cancel": "Cancel"
+      }
+    },
+    "CloseBill": {
+      "text": "Closing this account will hide it from the list.\nYou can reopen it later.",
+      "control": {
+        "close": "Close",
         "cancel": "Cancel"
       }
     }

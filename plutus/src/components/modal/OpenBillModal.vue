@@ -181,6 +181,20 @@
               </div>
               <div class="customize__colors">
                 <h3 class="mb-2">{{ t('Modal.OpenBill.Tab.customize.Colors.title') }}</h3>
+                <div class="flex gap-4">
+                  <ColorPicker
+                    v-model="bill.customColor"
+                    :label="t('Modal.OpenBill.Tab.customize.Colors.background')"
+                    container=".modal__wrapper"
+                    @update="(v) => changeCustomColor(v)"
+                  />
+                  <ColorPicker
+                    v-model="bill.customFontColor"
+                    :label="t('Modal.OpenBill.Tab.customize.Colors.font')"
+                    container=".modal__wrapper"
+                    @update="(v) => changeCustomFontColor(v)"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -239,7 +253,7 @@
               :icon="Icon.ExclamationCircleIcon"
               :text="t('Alert.CloseBill.text')"
               :controls="[
-                { label: t('Alert.CloseBill.control.cancel'), onClick: toggleConfirmationDelete },
+                { label: t('Alert.CloseBill.control.cancel'), onClick: toggleConfirmationClose },
                 { label: t('Alert.CloseBill.control.close'), onClick: closeBill, color: ColorType.DANGER },
               ]"
             />
@@ -269,6 +283,9 @@ import { ColorType } from '@/types/colors'
 import AlertComponent from '@/components/AlertComponent.vue'
 import { useProfileStore } from '@/store/profile'
 import { formatTimeAgo } from '@vueuse/core'
+import ColorPicker from '@/components/ColorPicker.vue'
+// import { ColorPicker } from "vue3-colorpicker";
+// import "vue3-colorpicker/style.css";
 
 function useUploadFile(
   bill: Ref<Bill | undefined>,
@@ -282,8 +299,22 @@ function useUploadFile(
   return uploadFile;
 }
 
-function uploadBill(field: keyof Bill, value: unknown): void {
+function updateBill(field: keyof Bill, value: unknown): void {
   billStore.updateBill({ id: bill.value?.id, [field]: value });
+}
+
+function changeCustomColor(color: string) {
+  if (bill.value) {
+    bill.value.customColor = color;
+    updateBill('customColor', color);
+  }
+}
+
+function changeCustomFontColor(color: string) {
+  if (bill.value) {
+    bill.value.customFontColor = color;
+    updateBill('customFontColor', color);
+  }
 }
 
 function triggerFileInput() {
@@ -331,7 +362,7 @@ function deleteBill(): void {
 }
 
 function closeBill(): void {
-  uploadBill('isClosed', true);
+  updateBill('isClosed', true);
 }
 
 function toDate(string: Date) {
