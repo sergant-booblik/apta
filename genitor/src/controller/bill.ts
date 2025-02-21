@@ -10,6 +10,7 @@ import { Income } from '../entity/income'
 import { Expense } from '../entity/expense'
 import { Currency } from '../entity/currency'
 import ShortUniqueId from 'short-unique-id'
+import uploadToS3 from '../middleware/upload'
 
 export interface TransferInterface {
   type: 'income' | 'expense' | 'transferReceived' | 'transferSend',
@@ -172,14 +173,27 @@ export const addBill = async (req: Request, res: Response) => {
 }
 
 export const uploadBillIcon = async (req: Request, res: Response, next: NextFunction) => {
-  const id = req.params.id as unknown;
-  const customIconUrl = `${req.protocol}://${req.hostname}:${PORT}/icon/${req.file?.filename}`;
-  await billRepository.update({ id: id as string } , {customIcon: customIconUrl }).then((result) => {
-    console.log(result);
-  });
-  const bill = await billRepository.findOne({ where: { id: id as string } });
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
 
-  res.send({ bill });
+    const id = req.params.id as string;
+    const username = id || "default";
+
+    // Загружаем файл в S3
+    const customIconUrl = await uploadToS3(req.file, username);
+
+    // Обновляем БД
+    await billRepository.update({ id }, { customIcon: customIconUrl });
+
+    const bill = await billRepository.findOne({ where: { id } });
+
+    res.json({ bill });
+  } catch (error) {
+    console.error("Upload error:", error);
+    res.status(500).json({ error: "Upload failed" });
+  }
 }
 
 export const UpdateBill = async (req: Request, res: Response) => {
