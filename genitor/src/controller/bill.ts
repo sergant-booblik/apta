@@ -196,14 +196,14 @@ export const uploadBillIcon = async (req: Request, res: Response, next: NextFunc
   }
 }
 
-export const UpdateBill = async (req: Request, res: Response) => {
+export const updateBill = async (req: Request, res: Response) => {
   const id = req.params.id as unknown;
-  const { data } = req.body;
+  const data = req.body;
 
   await billRepository.update(id as string, { ...data });
   const bill = await billRepository.findOne({ where: { id: id as string | undefined } });
 
-  res.send(bill);
+  res.send({ bill });
 }
 
 export const deleteBill = async (req: Request, res: Response) => {

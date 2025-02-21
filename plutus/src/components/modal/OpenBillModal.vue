@@ -209,29 +209,38 @@
               class="mb-3"
             />
             <div
-              v-show="!isShowConfirmation"
-              class="button__group"
+              v-show="!isShowConfirmationDelete && !isShowConfirmationClose"
+              class="flex gap-4 justify-end"
             >
               <ButtonComponent
                 class="self-end mt-4"
-                :label="t('Modal.OpenBill.Tab.settings.Button.delete.label')"
-                :color="ColorType.DANGER"
-                @click="toggleConfirmation"
+                :label="t('Modal.OpenBill.Tab.settings.Button.close.label')"
+                :color="ColorType.PRIMARY"
+                @click="toggleConfirmationClose"
               />
               <ButtonComponent
                 class="self-end mt-4"
                 :label="t('Modal.OpenBill.Tab.settings.Button.delete.label')"
                 :color="ColorType.DANGER"
-                @click="toggleConfirmation"
+                @click="toggleConfirmationDelete"
               />
             </div>
             <AlertComponent
-              v-show="isShowConfirmation"
+              v-show="isShowConfirmationDelete"
               :icon="Icon.ExclamationCircleIcon"
               :text="t('Alert.DeleteBill.text')"
               :controls="[
-                { label: t('Alert.DeleteBill.control.cancel'), onClick: toggleConfirmation },
+                { label: t('Alert.DeleteBill.control.cancel'), onClick: toggleConfirmationDelete },
                 { label: t('Alert.DeleteBill.control.delete'), onClick: deleteBill, color: ColorType.DANGER },
+              ]"
+            />
+            <AlertComponent
+              v-show="isShowConfirmationClose"
+              :icon="Icon.ExclamationCircleIcon"
+              :text="t('Alert.CloseBill.text')"
+              :controls="[
+                { label: t('Alert.CloseBill.control.cancel'), onClick: toggleConfirmationDelete },
+                { label: t('Alert.CloseBill.control.close'), onClick: closeBill, color: ColorType.DANGER },
               ]"
             />
           </div>
@@ -273,9 +282,13 @@ function useUploadFile(
   return uploadFile;
 }
 
+function uploadBill(field: keyof Bill, value: unknown): void {
+  billStore.updateBill({ id: bill.value?.id, [field]: value });
+}
+
 function triggerFileInput() {
   inputRef.value?.click();
-};
+}
 
 function calculateTransferIcon(type: 'income' | 'expense' | 'transferReceived' | 'transferSend') {
   switch (type) {
@@ -305,12 +318,20 @@ function calculateTabIcon(name: string) {
   }
 }
 
-function toggleConfirmation(): void {
-  isShowConfirmation.value = !isShowConfirmation.value;
+function toggleConfirmationDelete(): void {
+  isShowConfirmationDelete.value = !isShowConfirmationDelete.value;
+}
+
+function toggleConfirmationClose(): void {
+  isShowConfirmationClose.value = !isShowConfirmationClose.value;
 }
 
 function deleteBill(): void {
   if (bill.value) billStore.deleteBill(bill.value);
+}
+
+function closeBill(): void {
+  uploadBill('isClosed', true);
 }
 
 function toDate(string: Date) {
@@ -326,7 +347,8 @@ const profileStore = useProfileStore();
 
 const inputRef = ref<HTMLInputElement>();
 
-const isShowConfirmation = ref(false);
+const isShowConfirmationDelete = ref(false);
+const isShowConfirmationClose = ref(false);
 
 const { id } = storeToRefs(modalStore);
 const { profile } = storeToRefs(profileStore);

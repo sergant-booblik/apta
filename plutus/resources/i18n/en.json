@@ -67,6 +67,9 @@
             }
           },
           "Button": {
+            "close": {
+              "label": "Close bill"
+            },
             "delete": {
               "label": "Delete bill"
             }

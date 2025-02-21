@@ -16,6 +16,7 @@ export interface Bill {
   customIcon: string,
   customColor: string,
   customFontColor: string,
+  isClosed: boolean,
 }
 
 export interface Transfer {

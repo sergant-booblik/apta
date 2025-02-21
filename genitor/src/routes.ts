@@ -5,7 +5,7 @@ import { Router } from 'express';
 import { authLogin, authLogout, authRefresh, authRegister, verifyToken } from './controller/auth'
 import { getMyProfile, updateProfile } from './controller/users';
 import { getPinnedCurrencies } from './controller/currency';
-import { addBill, deleteBill, fetchBills, UpdateBill, uploadBillIcon } from './controller/bill'
+import { addBill, deleteBill, fetchBills, updateBill, uploadBillIcon } from './controller/bill';
 import { AddTransfer, DeleteTransfer, GetTransfers, updateTransfer } from './controller/transfer';
 import { addCategory, deleteCategory, getCategories, updateCategory } from './controller/category';
 import { addSubcategory, deleteSubcategory, getSubCategories, updateSubcategory } from './controller/subcategory';
@@ -36,7 +36,7 @@ export const routes = (router: Router) => {
 
   router.post('/api/bill/', addBill);
   router.get('/api/bill', fetchBills);
-  router.put('/api/bill/:id', UpdateBill);
+  router.put('/api/bill/:id/', updateBill);
   router.delete('/api/bill/:id', deleteBill);
   router.post('/api/bill/:id/icon', uploadIcon.single('icon'), uploadBillIcon)
 

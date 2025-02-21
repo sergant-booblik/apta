@@ -13,7 +13,6 @@ export function createUploadBillIconFunction(apiUrl: string): (
   request: UploadBillIconRequest,
 ) => Promise<UploadBillIconResponse> {
   return (request: UploadBillIconRequest): Promise<UploadBillIconResponse> => {
-    console.log(request.id);
     const url = new URL(`${apiUrl}/bill/${request.id}/icon`);
     const formData = new FormData();
     if (request.files) {

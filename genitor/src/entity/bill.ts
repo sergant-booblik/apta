@@ -44,6 +44,9 @@ export class Bill {
   @Column({ default: null })
   customFontColor: string;
 
+  @Column({ default: false })
+  isClosed: boolean;
+
   @ManyToOne(() => User, (user) => user.bills)
   user: User;
 

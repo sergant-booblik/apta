@@ -2,6 +2,7 @@ import type { Bill, Transfer } from '@/types/bill'
 import { defineStore } from 'pinia';
 import { api } from '@/api';
 import type {AddBillRequest} from "@/api/add-bill";
+import type { UpdateBillResponse } from '@/api/update-bill'
 
 interface BillState {
   bills: Bill[],
@@ -39,10 +40,7 @@ export const useBillStore = defineStore('bill', {
           });
       });
     },
-    async addBill(
-      id: number,
-      bill: Bill,
-      ) {
+    async addBill(id: number, bill: Bill) {
       return new Promise((resolve, reject) => {
         this.loading = true;
         api.addBill({ id, bill })
@@ -69,6 +67,15 @@ export const useBillStore = defineStore('bill', {
           })
           .catch((error) => reject(error));
       });
+    },
+    async updateBill(bill: Partial<Bill>) {
+      return new Promise<UpdateBillResponse>((resolve, reject) => {
+        api.updateBill({ bill })
+          .then((response) => {
+            const billIndex = this.bills.indexOf(response.bill);
+            this.bills[billIndex] = response.bill;
+          })
+      })
     },
     async deleteBill(bill: Bill) {
       return new Promise((resolve, reject) => {

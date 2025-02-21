@@ -21,6 +21,7 @@ import type { UpdateProfileRequest, UpdateProfileResponse } from '@/api/update-p
 import type { FetchUserResponse } from '@/api/fetch-user'
 import type { LogoutResponse } from '@/api/logout'
 import { createDeleteBillFunction, type DeleteBillRequest, type DeleteBillResponse } from '@/api/delete-bill'
+import { createUpdateBillFunction, type UpdateBillRequest, type UpdateBillResponse } from '@/api/update-bill'
 
 const userId = ref(0);
 const accessToken = ref('');
@@ -44,6 +45,7 @@ interface Api {
   fetchBills: () => Promise<FetchBillsResponse>;
   addBill: (request: AddBillRequest) => Promise<AddBillResponse>;
   uploadBillIcon: (request: UploadBillIconRequest) => Promise<UploadBillIconResponse>;
+  updateBill: (request: UpdateBillRequest) => Promise<UpdateBillResponse>;
   deleteBill: (request: DeleteBillRequest) => Promise<DeleteBillResponse>;
 }
 function createApi(): Api {
@@ -68,6 +70,7 @@ function createApi(): Api {
     fetchBills: createFetchBillsFunction(apiUrl),
     addBill: createAddBillFunction(apiUrl),
     uploadBillIcon: createUploadBillIconFunction(apiUrl),
+    updateBill: createUpdateBillFunction(apiUrl),
     deleteBill: createDeleteBillFunction(apiUrl),
   };
 }
