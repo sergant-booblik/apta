@@ -19,13 +19,12 @@ export const getCurrencies = async (reqCurrencies: string[]) => {
     where: whereOptions,
   });
   const updatedDates = rates.map((rate) => rate.updatedDate.getTime());
-  const lastUpdatedDate = Math.max(...updatedDates);
   const isOutdatedRates = rates.some((rate) => {
     const currentDate = Date.now();
     const updatedDate = new Date(rate.updatedDate).getTime();
     return (currentDate - updatedDate) / (1000 * 60 * 60 * 12) > 1;
   });
-  if (isOutdatedRates) {
+  if (isOutdatedRates || updatedDates.length === 0) {
     await updateAllCurrencies()
   }
 

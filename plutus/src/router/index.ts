@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '@/store/auth';
 import type { RouteRecordRaw } from 'vue-router';
-import DashboardView from "@/views/DashboardView.vue";
+import DashboardView from '@/views/DashboardView.vue';
 import LoginView from '@/views/LoginView.vue';
 import BillsView from '@/views/BillsView.vue';
 import SettingsView from '@/views/SettingsView.vue';
@@ -14,6 +14,7 @@ interface RouteMeta {
 export enum RouteName {
   HOME = 'HOME',
   LOGIN = 'LOGIN',
+  REGISTER = 'REGISTER',
   BILLS = 'BILLS',
   EXPENSES = 'EXPENSES',
   SETTINGS = 'SETTINGS',
@@ -60,20 +61,6 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
-});
-
-router.beforeEach((to, from, next) => {
-  const authStore = useAuthStore();
-  if (authStore.isAuth) next();
-  authStore.authUser().then(() => {
-    const isRequireAuth = to.matched.some((record) => record.meta.auth);
-    const isUserAuthorize = authStore.isAuth;
-    if (isRequireAuth && !isUserAuthorize) {
-      next({ name: RouteName.LOGIN });
-    } else {
-      next();
-    }
-  });
 });
 
 export default router;

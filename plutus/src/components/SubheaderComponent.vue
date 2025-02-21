@@ -16,7 +16,7 @@
             <component
               :is="item.icon"
             />
-            {{ t(`Menu.Item.${item}`) }}
+            {{ t(`Header.Subheader.Menu.${item.name}`) }}
           </router-link>
         </div>
       </div>

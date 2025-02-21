@@ -1,24 +1,26 @@
 import { ref } from 'vue';
-import { createAuthFunction } from '@/api/auth';
+import { createRefreshTokenFunction, createVerifyTokenFunction } from '@/api/auth'
 import { createFetchTranslationFunction } from '@/api/translation';
 import { createFetchCurrenciesFunction } from '@/api/fetch-currencies';
 import { createLoginFunction } from '@/api/login';
 import { createFetchBillsFunction } from '@/api/fetch-bills';
-import { createUpdateSettingsFunction } from '@/api/update-settings';
 import { createAddBillFunction} from "@/api/add-bill";
+import { createUploadBillIconFunction } from '@/api/upload-bill-icon';
+import { createFetchUserFunction } from '@/api/fetch-user'
+import { createLogoutFunction } from '@/api/logout';
+import { createUpdateProfileFunction } from '@/api/update-profile'
 import type { Ref } from 'vue';
-import type { AuthResponse} from '@/api/auth';
+import type { VerifyTokenResponse, RefreshTokenResponse } from '@/api/auth';
 import type { FetchTranslationRequest, FetchTranslationResponse } from '@/api/translation';
 import type { LoginRequest, LoginResponse } from '@/api/login';
-import type { FetchBillsRequest, FetchBillsResponse } from '@/api/fetch-bills';
+import type { FetchBillsResponse } from '@/api/fetch-bills';
 import type { FetchCurrenciesResponse, FetchCurrenciesRequest } from '@/api/fetch-currencies';
-import type { UpdateSettingsRequest, UpdateSettingsResponse} from '@/api/update-settings';
 import type { AddBillRequest, AddBillResponse } from '@/api/add-bill';
-import {
-  createUploadBillIconFunction,
-  type UploadBillIconRequest,
-  type UploadBillIconResponse
-} from '@/api/upload-bill-icon';
+import type { UploadBillIconRequest, UploadBillIconResponse } from '@/api/upload-bill-icon';
+import type { UpdateProfileRequest, UpdateProfileResponse } from '@/api/update-profile'
+import type { FetchUserResponse } from '@/api/fetch-user'
+import type { LogoutResponse } from '@/api/logout'
+import { createDeleteBillFunction, type DeleteBillRequest, type DeleteBillResponse } from '@/api/delete-bill'
 
 const userId = ref(0);
 const accessToken = ref('');
@@ -27,18 +29,22 @@ interface Api {
   userId: Ref<number>;
   accessToken: Ref<string | undefined>;
 
-  auth: () => Promise<AuthResponse>;
   login: (request: LoginRequest) => Promise<LoginResponse>;
+  verifyToken: () => Promise<VerifyTokenResponse>;
+  refreshToken: () => Promise<RefreshTokenResponse>;
+  logout: () => Promise<LogoutResponse>;
 
-  updateSettings: (request: UpdateSettingsRequest) => Promise<UpdateSettingsResponse>;
+  fetchUser: () => Promise<FetchUserResponse>;
+  updateProfile: (request: UpdateProfileRequest) => Promise<UpdateProfileResponse>;
 
   fetchTranslation: (request: FetchTranslationRequest) => Promise<FetchTranslationResponse>;
 
   fetchCurrencies: (request: FetchCurrenciesRequest) => Promise<FetchCurrenciesResponse>;
 
-  fetchBills: (request: FetchBillsRequest) => Promise<FetchBillsResponse>;
+  fetchBills: () => Promise<FetchBillsResponse>;
   addBill: (request: AddBillRequest) => Promise<AddBillResponse>;
   uploadBillIcon: (request: UploadBillIconRequest) => Promise<UploadBillIconResponse>;
+  deleteBill: (request: DeleteBillRequest) => Promise<DeleteBillResponse>;
 }
 function createApi(): Api {
   const apiUrl = 'http://localhost:8000/api';
@@ -47,10 +53,13 @@ function createApi(): Api {
     userId,
     accessToken,
 
-    auth: createAuthFunction(apiUrl),
     login: createLoginFunction(apiUrl),
+    verifyToken: createVerifyTokenFunction(apiUrl),
+    refreshToken: createRefreshTokenFunction(apiUrl),
+    logout: createLogoutFunction(apiUrl),
 
-    updateSettings: createUpdateSettingsFunction(apiUrl),
+    fetchUser: createFetchUserFunction(apiUrl),
+    updateProfile: createUpdateProfileFunction(apiUrl),
 
     fetchTranslation: createFetchTranslationFunction(apiUrl),
 
@@ -59,6 +68,7 @@ function createApi(): Api {
     fetchBills: createFetchBillsFunction(apiUrl),
     addBill: createAddBillFunction(apiUrl),
     uploadBillIcon: createUploadBillIconFunction(apiUrl),
+    deleteBill: createDeleteBillFunction(apiUrl),
   };
 }
 

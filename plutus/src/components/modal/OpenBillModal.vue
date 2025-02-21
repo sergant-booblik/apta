@@ -1,87 +1,265 @@
 <template>
-  <div class="open-bill-modal__header">
-    <div class="bill-info">
-      <div class="bill-info__title">
-        <h2>{{ bill?.name }}</h2>
-        <p>{{ bill?.subtitle }}</p>
+  <div v-if="bill">
+    <div class="open-bill-modal__header">
+      <div class="bill-info">
+        <div class="bill-info__title">
+          <h2>{{ bill.name }}</h2>
+          <p>{{ bill.subtitle }}</p>
+        </div>
+        <div class="bill-info__balances">
+          <div class="bill-info-balance">
+            <span>{{ t('Modal.OpenBill.Amount.initial') }}</span>
+            <FormattedAmount
+              :sum="bill.amount"
+              :currency-code="bill.currency.code"
+              :sign="Sign.NEUTRAL"
+            />
+          </div>
+          <div class="bill-info-balance">
+            <span>{{ t('Modal.OpenBill.Amount.incomes') }}</span>
+            <FormattedAmount
+              :sum="bill.incomeSum"
+              :currency-code="bill.currency.code"
+              :sign="Sign.POSITIVE"
+            />
+          </div>
+          <div class="bill-info-balance">
+            <span>{{ t('Modal.OpenBill.Amount.expenses') }}</span>
+            <FormattedAmount
+              :sum="bill.outcomeSum"
+              :currency-code="bill.currency.code"
+              :sign="Sign.NEGATIVE"
+            />
+          </div>
+        </div>
       </div>
-      <div class="bill-info__balances">
-        <div class="bill-info-balance">
-          <span>{{ $t('Amount.Initial') }}</span>
-          {{ bill?.initialSum }}
+      <CardComponent
+        class="card bill-card"
+        :style="{
+          backgroundColor: bill.customColor,
+          color: bill.customFontColor,
+         }"
+      >
+        <div class="bill-card__top">
+          <div>
+            <p>{{ bill.name }}</p>
+            <p class="text-sm mb-3 opacity-60">{{ bill.subtitle }}</p>
+          </div>
+          <div
+            v-if="bill.customIcon"
+            class="bill-card__icon"
+          >
+            <img
+              :src="bill.customIcon"
+              alt="icon"
+            >
+          </div>
+          <component
+            v-else
+            :is="`${bill.icon}-icon`"
+          />
         </div>
-        <div class="bill-info-balance">
-          <span>{{ $t('Amount.Income') }}</span>
-          {{ bill?.incomeSum }}
-        </div>
-        <div class="bill-info-balance">
-          <span>{{ $t('Amount.Outcome') }}</span>
-          {{ bill?.outcomeSum }}
-        </div>
-      </div>
-    </div>
-    <CardComponent
-      class="card bill-card"
-      :style="{ backgroundColor: bill?.customColor }"
-    >
-      <div class="bill-card__top">
-        <p>{{ bill?.name }}</p>
-        <img
-          v-if="bill?.customIcon"
-          :src="bill?.customIcon"
-          alt="icon"
-        >
-        <component
-          v-else
-          :is="`${bill?.icon}-icon`"
+        <h2>{{ toMoney(bill.currentAmount, bill.currency.code) }}</h2>
+        <FormattedAmount
+          :currency-code="bill.currency.code"
+          :sum="bill.transSum"
+          class="mt-auto"
         />
-      </div>
-      <h2>{{ toMoney(bill?.amount, bill?.currency.code) }}</h2>
-      <p
-        v-if="bill?.transSum"
-        :class="[
-          'format',
-          { 'format--positive': bill.transSum > 0 },
-          { 'format--negative': bill.transSum < 0 },
-        ]"
-      >
-        <Icon.CaretIcon />
-        {{ toMoney(bill.transSum, bill.currency.code) }}
-      </p>
-    </CardComponent>
-  </div>
-  <div class="modal__body">
-    <form enctype="multipart/form-data">
-      <input
-        ref="inputRef"
-        type="file"
-        name="icon"
-        @change="uploadFile"
-      >
-    </form>
-    <img
-      :src="bill?.customIcon"
-      alt="icon"
-    >
-    <Sketch
-      v-model="bill?.customColor"
-      :disable-alpha="true"
-      :disable-fields="true"
-    />
+      </CardComponent>
+    </div>
+    <div class="open-bill-modal__body">
+      <nav class="tab">
+        <div class="tab__header">
+          <div
+            v-for="(tab, index) in Tabs"
+            role="button"
+            :class="[
+            'tab__item',
+            { 'tab__item--active': tabItemActiveIndex === index }
+          ]"
+            @click="tabItemActiveIndex = index"
+          >
+            <component :is="calculateTabIcon(tab.name)" />
+            {{ t(`Modal.OpenBill.Tab.${tab.name}.title`) }}
+          </div>
+        </div>
+        <div class="tab__body">
+          <div
+            v-if="tabItemActiveIndex === 0"
+            class="tab__body-item"
+          >
+            <table
+              v-if="bill.transfers.length > 0"
+              class="tab__transfers"
+            >
+              <tr
+                v-for="(transfer, index) in bill.transfers"
+                :key="index"
+                class="transfer__item"
+              >
+                <td class="transfer__icon">
+                  <component :is="calculateTransferIcon(transfer.type)" />
+                </td>
+                <td class="transfer__amount">
+                  <FormattedAmount
+                    :sum="transfer.amount"
+                    :currency-code="bill.currency.code"
+                    :sign="Sign.NONE"
+                  />
+                </td>
+                <td class="transfer__category">
+                  {{
+                    transfer.type === 'transferReceived' || transfer.type === 'transferSend'
+                      ? t(transfer.category)
+                      : transfer.category
+                  }}
+                </td>
+                <td class="transfer__subcategory">
+                  {{
+                    transfer.type === 'transferReceived' || transfer.type === 'transferSend'
+                      ? t(transfer.subcategory)
+                      : transfer.subcategory
+                  }}
+                </td>
+                <td class="transfer__name">
+                  {{
+                    transfer.type === 'transferReceived' || transfer.type === 'transferSend'
+                      ? t(transfer.name)
+                      : transfer.name
+                  }}
+                </td>
+                <td :title="toDate(transfer.date)" class="transfer__date">
+                  {{ formatTimeAgo(new Date(transfer.date)) }}
+                </td>
+              </tr>
+            </table>
+            <div
+              v-else
+              class="tab__transfers--empty"
+            >
+              <h4>{{ t('Modal.OpenBill.Tab.transactions.Empty.title') }}</h4>
+              <p>
+                {{ t('Modal.OpenBill.Tab.transactions.Empty.text') }}
+              </p>
+            </div>
+            <router-link
+              to="#"
+              class="mt-4 font-extralight float-end text-sm flex gap-2 items-center hover:opacity-80"
+            >
+              {{ t('Transfer.History.Footer.link') }}
+              <Icon.ExternalLinkIcon />
+            </router-link>
+          </div>
+          <div
+            v-if="tabItemActiveIndex === 1"
+            class="tab__body-item"
+          >
+            <div class="tab__body-item item--customize">
+              <div class="customize__icon">
+                <h3 class="mb-2">{{ t('Modal.OpenBill.Tab.customize.Icon.title') }}</h3>
+                <div class="image-upload">
+                  <input
+                    ref="inputRef"
+                    type="file"
+                    accept="image/*"
+                    @change="uploadFile"
+                  />
+                  <div class="preview-container">
+                    <img
+                      v-if="bill.customIcon"
+                      :src="bill.customIcon"
+                      alt="Image preview"
+                      class="preview"
+                    />
+                  </div>
+                  <ButtonComponent
+                    :label="bill.customIcon ? t('Modal.OpenBill.Tab.customize.Icon.Uploader.change') : t('Modal.OpenBill.Tab.customize.Icon.Uploader.upload')"
+                    :color="ColorType.SECONDARY"
+                    @click="triggerFileInput"
+                  />
+                </div>
+              </div>
+              <div class="customize__colors">
+                <h3 class="mb-2">{{ t('Modal.OpenBill.Tab.customize.Colors.title') }}</h3>
+              </div>
+            </div>
+          </div>
+          <div
+            v-if="tabItemActiveIndex === 2"
+            class="tab__body-item item--settings"
+          >
+            <InputComponent
+              flex
+              v-model="bill.name"
+              :label="t('Modal.OpenBill.Tab.settings.Input.name.label')"
+              class="mb-3"
+            />
+            <InputComponent
+              flex
+              v-model="bill.subtitle"
+              :label="t('Modal.OpenBill.Tab.settings.Input.subtitle.label')"
+              class="mb-3"
+            />
+            <InputComponent
+              flex
+              to-fixed
+              :append-text="bill.currency.code"
+              v-model="bill.amount"
+              :label="t('Modal.OpenBill.Tab.settings.Input.initial.label')"
+              class="mb-3"
+            />
+            <div
+              v-show="!isShowConfirmation"
+              class="button__group"
+            >
+              <ButtonComponent
+                class="self-end mt-4"
+                :label="t('Modal.OpenBill.Tab.settings.Button.delete.label')"
+                :color="ColorType.DANGER"
+                @click="toggleConfirmation"
+              />
+              <ButtonComponent
+                class="self-end mt-4"
+                :label="t('Modal.OpenBill.Tab.settings.Button.delete.label')"
+                :color="ColorType.DANGER"
+                @click="toggleConfirmation"
+              />
+            </div>
+            <AlertComponent
+              v-show="isShowConfirmation"
+              :icon="Icon.ExclamationCircleIcon"
+              :text="t('Alert.DeleteBill.text')"
+              :controls="[
+                { label: t('Alert.DeleteBill.control.cancel'), onClick: toggleConfirmation },
+                { label: t('Alert.DeleteBill.control.delete'), onClick: deleteBill, color: ColorType.DANGER },
+              ]"
+            />
+          </div>
+        </div>
+      </nav>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, type Ref, ref } from 'vue';
-import { useBillStore } from '@/store/bill';
-import { useModalStore } from '@/store/modal';
-import { storeToRefs } from 'pinia';
-import type { Bill } from '@/types/bill';
-import { Sketch } from '@ckpack/vue-color';
-import { toMoney } from '@/helpers/to-money';
+import { computed, type Ref, ref } from 'vue'
+import { useBillStore } from '@/store/bill'
+import { useModalStore } from '@/store/modal'
+import { storeToRefs } from 'pinia'
+import type { Bill } from '@/types/bill'
+import { toMoney } from '@/helpers/to-money'
 import CardComponent from '@/components/CardComponent.vue'
-import Icon from '@/components/icons';
-
+import Icon from '@/components/icons'
+import FormattedAmount from '@/components/elements/FormattedAmount.vue'
+import { Sign } from '@/types/currency'
+import { useI18n } from 'vue-i18n'
+import Tabs from '../../../resources/static/bill-modal-tab.json'
+import InputComponent from '@/components/InputComponent.vue'
+import ButtonComponent from '@/components/ButtonComponent.vue'
+import { ColorType } from '@/types/colors'
+import AlertComponent from '@/components/AlertComponent.vue'
+import { useProfileStore } from '@/store/profile'
+import { formatTimeAgo } from '@vueuse/core'
 
 function useUploadFile(
   bill: Ref<Bill | undefined>,
@@ -89,19 +267,71 @@ function useUploadFile(
 ): () => void {
   const billStore = useBillStore();
   function uploadFile(): void {
-    console.log(bill);
-    billStore.uploadBillIcon(bill?.value, inputRef.value?.files);
+    billStore.uploadBillIcon(bill.value, inputRef.value?.files);
   }
 
   return uploadFile;
 }
 
+function triggerFileInput() {
+  inputRef.value?.click();
+};
+
+function calculateTransferIcon(type: 'income' | 'expense' | 'transferReceived' | 'transferSend') {
+  switch (type) {
+    case 'income':
+      return Icon.TransferIncomeIcon;
+    case 'expense':
+      return Icon.TransferOutcomeIcon;
+    case 'transferSend':
+      return Icon.TransferTransactionSentIcon;
+    case 'transferReceived':
+      return Icon.TransferTransactionReceivedIcon;
+    default:
+      throw new Error(`Unrecognized icon ${type}`);
+  }
+}
+
+function calculateTabIcon(name: string) {
+  switch (name) {
+    case 'transactions':
+      return Icon.ListIcon;
+    case 'customize':
+      return Icon.PaletteIcon;
+    case 'settings':
+      return Icon.GearIcon;
+    default:
+      throw new Error(name);
+  }
+}
+
+function toggleConfirmation(): void {
+  isShowConfirmation.value = !isShowConfirmation.value;
+}
+
+function deleteBill(): void {
+  if (bill.value) billStore.deleteBill(bill.value);
+}
+
+function toDate(string: Date) {
+  const date = new Date(string);
+  return date.toLocaleDateString(profile.value?.locale);
+}
+
+const { t } = useI18n();
+
 const modalStore = useModalStore();
 const billStore = useBillStore();
+const profileStore = useProfileStore();
 
 const inputRef = ref<HTMLInputElement>();
 
+const isShowConfirmation = ref(false);
+
 const { id } = storeToRefs(modalStore);
+const { profile } = storeToRefs(profileStore);
+
+const tabItemActiveIndex = ref(0);
 
 const bill = computed(() => billStore.getCertainBill(id.value));
 

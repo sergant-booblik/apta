@@ -26,7 +26,8 @@ a {
 .format {
 	@apply flex items-center gap-1;
 
-	&--neutral {
+	&--neutral,
+	&--none {
 		@apply text-slate-200;
 	}
 

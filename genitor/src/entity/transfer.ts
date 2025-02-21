@@ -24,13 +24,13 @@ export class Transfer {
   @ManyToOne(() => User, (user) => user.transfers)
   user: User;
 
-  @ManyToOne(() => Bill, (bill) => bill.sendingBills, {
+  @ManyToOne(() => Bill, (bill) => bill.sendingTransfers, {
     eager: true,
   })
   @JoinTable()
   sendingBill: Bill;
 
-  @ManyToOne(() => Bill, (bill) => bill.receivingBills, {
+  @ManyToOne(() => Bill, (bill) => bill.receivingTransfers, {
     eager: true,
   })
   @JoinTable()

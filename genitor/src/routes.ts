@@ -2,16 +2,16 @@
 // TODO add bearer to protect api
 
 import { Router } from 'express';
-import { AuthUser, AuthLogin, AuthLogout, AuthRefresh, AuthRegister } from './controller/auth';
-import { getUser, updateUser } from './controller/users';
+import { authLogin, authLogout, authRefresh, authRegister, verifyToken } from './controller/auth'
+import { getMyProfile, updateProfile } from './controller/users';
 import { getPinnedCurrencies } from './controller/currency';
-import { AddBill, DeleteBill, GetBills, UpdateBill, uploadBillIcon } from './controller/bill'
+import { addBill, deleteBill, fetchBills, UpdateBill, uploadBillIcon } from './controller/bill'
 import { AddTransfer, DeleteTransfer, GetTransfers, updateTransfer } from './controller/transfer';
 import { addCategory, deleteCategory, getCategories, updateCategory } from './controller/category';
 import { addSubcategory, deleteSubcategory, getSubCategories, updateSubcategory } from './controller/subcategory';
 import { addExpense, deleteExpense, getExpenses, updateExpense } from './controller/expense';
 import { addIncome, deleteIncome, getIncomes, updateIncome } from './controller/income';
-import multer from 'multer'
+import multer from 'multer';
 
 const storage = multer.diskStorage({
   destination: './.uploads/icon',
@@ -23,21 +23,21 @@ const storage = multer.diskStorage({
 const uploadIcon = multer({ storage });
 
 export const routes = (router: Router) => {
-  router.post('/api/auth/register', AuthRegister);
-  router.post('/api/auth/login', AuthLogin);
-  router.get('/api/auth/user', AuthUser);
-  router.post('/api/auth/refresh', AuthRefresh);
-  router.get('/api/auth/logout', AuthLogout);
+  router.post('/api/auth/register/', authRegister);
+  router.post('/api/auth/login/', authLogin);
+  router.get('/api/auth/verify/', verifyToken);
+  router.post('/api/auth/refresh/', authRefresh);
+  router.get('/api/auth/logout/', authLogout);
 
-  router.get('/api/users/:id', getUser);
-  router.put('/api/users/:id', updateUser);
+  router.get('/api/users/profile/my/', getMyProfile);
+  router.put('/api/users/profile/my/', updateProfile);
 
   router.get('/api/currency', getPinnedCurrencies);
 
-  router.get('/api/:userId/bill', GetBills);
-  router.post('/api/:userId/bill', AddBill);
+  router.post('/api/bill/', addBill);
+  router.get('/api/bill', fetchBills);
   router.put('/api/bill/:id', UpdateBill);
-  router.delete('/api/bill/:id', DeleteBill);
+  router.delete('/api/bill/:id', deleteBill);
   router.post('/api/bill/:id/icon', uploadIcon.single('icon'), uploadBillIcon)
 
   router.get('/api/:userId/transfer', GetTransfers);

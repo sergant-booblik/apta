@@ -19,16 +19,16 @@ export class User {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
-  name!: string;
+  @Column({ default: '' })
+  name: string;
 
-  @Column({ type: "longtext" })
+  @Column({ type: "longtext", default: null })
   imageUrl: string;
 
   @Column({ unique: true })
   email!: string;
 
-  @Column()
+  @Column({ select: false })
   password!: string;
 
   @OneToMany(() => Bill, (bill) => bill.user)

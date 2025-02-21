@@ -3,9 +3,7 @@
     <div class="header-inner">
       <div class="header-title">
         <Icon.LogoIcon />
-        <h1>
-          {{ t('!Application Name!') }}
-        </h1>
+        <h1>Pluton</h1>
       </div>
       <div role="button">
         <Icon.VerticalDotsIcon />
@@ -16,7 +14,4 @@
 
 <script setup lang="ts">
 import Icon from "@/components/icons";
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n();
 </script>

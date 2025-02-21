@@ -1,7 +1,31 @@
 .input-group {
+	&:has(.input-text--append) {
+		input {
+			@apply rounded-e-none;
+		}
+	}
+
 	input {
 		@apply px-2 py-1;
 		@apply bg-slate-200 dark:bg-slate-800;
 		@apply border rounded dark:border-slate-700;
+	}
+
+	&--flex {
+		@apply flex items-baseline;
+
+		label {
+			@apply mr-2;
+			@apply grow shrink-0;
+		}
+	}
+
+	.input-text {
+		@apply px-2 py-1;
+		@apply bg-slate-700 border border-slate-700;
+
+		&--append {
+			@apply rounded-e;
+		}
 	}
 }

@@ -4,9 +4,19 @@ import { createPinia } from 'pinia';
 import App from './App.vue';
 import router from './router';
 import i18n from '@/logic/i18n';
+import { useAuthStore } from '@/store/auth'
+import { setupRouterGuard } from '@/logic/setup-router-guard'
 
-createApp(App)
-  .use(router)
-  .use(createPinia())
-  .use(i18n)
-  .mount('#app');
+const app = createApp(App);
+const pinia = createPinia();
+
+app.use(pinia);
+app.use(i18n);
+app.use(router);
+
+const authStore = useAuthStore();
+
+authStore.initialize().finally(() => {
+  setupRouterGuard(router);
+  app.mount('#app');
+})

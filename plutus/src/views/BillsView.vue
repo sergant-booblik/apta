@@ -1,6 +1,6 @@
 <template>
   <div class="body__header">
-    <h1>{{ $t('Accounts') }}</h1>
+    <h1>{{ $t('Bills.title') }}</h1>
     <div
       class="body__header-action"
       @click="changeCurrentRate"
@@ -16,33 +16,38 @@
     <CardComponent
       v-for="bill in bills"
       :key="bill.id"
-      class="card bill-card"
+      class="bill-card"
       @click="openModal(ModalType.OPEN_BILL, bill.id)"
-      :style="{ backgroundColor: bill.customColor }"
+      :style="{
+        backgroundColor: bill.customColor,
+        color: bill.customFontColor,
+      }"
     >
       <div class="bill-card__top">
-        <p>{{ bill.name }}</p>
-        <img
-          v-if="bill.customIcon"
-          :src="bill.customIcon"
-          alt="icon"
+        <div>
+          <p>{{ bill.name }}</p>
+          <p class="text-sm mb-3 opacity-60">{{ bill.subtitle }}</p>
+        </div>
+        <div
+          v-if="bill?.customIcon"
+          class="bill-card__icon"
         >
+          <img
+            :src="bill?.customIcon"
+            alt="icon"
+          >
+        </div>
         <component
           v-else
           :is="`${bill.icon}-icon`"
         />
       </div>
-      <h2>{{ toMoney(bill.amount, bill.currency.code) }}</h2>
-      <p
-        :class="[
-          'format',
-          { 'format--positive': bill.transSum > 0 },
-          { 'format--negative': bill.transSum < 0 },
-        ]"
-      >
-        <Icon.CaretIcon />
-        {{ toMoney(bill.transSum, bill.currency.code) }}
-      </p>
+      <h2>{{ toMoney(bill.currentAmount, bill.currency.code) }}</h2>
+      <FormattedAmount
+        :currency-code="bill.currency.code"
+        :sum="bill.transSum"
+        class="mt-auto"
+      />
     </CardComponent>
     <CardComponent
       class="card bill-card bill-card--add"
@@ -58,12 +63,12 @@ import { computed, onBeforeMount, ref } from 'vue'
 import { toMoney } from '@/helpers/to-money'
 import { storeToRefs } from 'pinia'
 import { useBillStore } from '@/store/bill'
-import { useAuthStore } from '@/store/auth'
-import { useUserStore } from '@/store/user'
+import { useProfileStore } from '@/store/profile'
 import { useModalStore } from '@/store/modal'
 import { ModalType } from '@/types/modal'
 import Icon from '@/components/icons'
 import CardComponent from '@/components/CardComponent.vue'
+import FormattedAmount from '@/components/elements/FormattedAmount.vue'
 
 function openModal(
   type: ModalType,
@@ -73,18 +78,18 @@ function openModal(
   modalStore.setModal(type, id);
 }
 
-const userStore = useUserStore();
+const profileStore = useProfileStore();
 const billStore = useBillStore();
-const { settings } = storeToRefs(userStore);
+const { profile } = storeToRefs(profileStore);
 const { bills, totals, loading } = storeToRefs(billStore);
 
 const currentCurrencyIndex = ref(0);
-const currentCurrency = computed(() => settings.value?.currencies[currentCurrencyIndex.value]);
+const currentCurrency = computed(() => profile.value?.currencies[currentCurrencyIndex.value]);
 
 const totalAmount = computed(() => toMoney(totals.value[currentCurrency.value?.code], currentCurrency.value?.code));
 
 const changeCurrentRate = () => {
-  if (currentCurrencyIndex.value === settings.value?.currencies.length - 1) {
+  if (currentCurrencyIndex.value === profile.value?.currencies.length - 1) {
     currentCurrencyIndex.value = 0;
   } else {
     currentCurrencyIndex.value++;
@@ -92,11 +97,9 @@ const changeCurrentRate = () => {
 };
 
 onBeforeMount(() => {
-  const authStore = useAuthStore();
-  const userStore = useUserStore();
   const billStore = useBillStore();
-  if (!billStore.hasBills && authStore.isAuth) {
-    billStore.fetchBills(userStore.profile?.id);
+  if (!billStore.hasBills) {
+    billStore.fetchBills();
   }
 });
 </script>

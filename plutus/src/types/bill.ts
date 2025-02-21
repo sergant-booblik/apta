@@ -7,11 +7,22 @@ export interface Bill {
   subtitle: string,
   icon: string,
   currency: Currency,
+  transfers: Transfer[],
   sumInCurrencies: Record<string, number>,
-  initialSum: number,
+  currentAmount: number,
   incomeSum: number,
   outcomeSum: number,
   transSum: number,
   customIcon: string,
   customColor: string,
+  customFontColor: string,
+}
+
+export interface Transfer {
+  type: 'income' | 'expense' | 'transferReceived' | 'transferSend',
+  amount: number,
+  category: string,
+  subcategory: string,
+  name: string,
+  date: Date,
 }

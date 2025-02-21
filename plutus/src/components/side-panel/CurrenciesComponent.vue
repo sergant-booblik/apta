@@ -57,23 +57,22 @@
 import { computed, onBeforeMount } from 'vue'
 import { useCurrenciesStore } from "@/store/currencies";
 import { storeToRefs} from "pinia";
-import { useUserStore } from '@/store/user';
+import { useProfileStore } from '@/store/profile';
 import type { Currency } from '@/types/currency';
 import PillComponent from "@/components/PillComponent.vue";
 
 function useAddCurrency(): (currency: Currency) => void {
-  const userStore = useUserStore();
-  const userCurrencies = userStore.settings?.currencies;
+  const profileStore = useProfileStore();
+  const userCurrencies = profileStore.profile?.currencies;
 
   function addCurrency(currency: Currency) {
     userCurrencies?.push(currency);
     userCurrencies?.sort((a, b) => {
       return a.id - b.id;
     });
-    userStore.updateSettings(
-      userStore.profile.id,
+    profileStore.updateProfile(
       {
-        ...userStore.settings,
+        ...profileStore.profile,
         currencies: userCurrencies,
       }
     );
@@ -83,15 +82,15 @@ function useAddCurrency(): (currency: Currency) => void {
 }
 
 function useRemoveCurrency(): (id: number) => void {
-  const userStore = useUserStore();
-  const userCurrencies = userStore.settings?.currencies;
+  const profileStore = useProfileStore();
+  const userCurrencies = profileStore.profile?.currencies;
+
   function removeCurrency(id: number) {
     const index = userCurrencies?.findIndex((currency) => currency.id === id);
     userCurrencies?.splice(index, 1);
-    userStore.updateSettings(
-      userStore.profile.id,
+    profileStore.updateProfile(
       {
-        ...userStore.settings,
+        ...profileStore.profile,
         currencies: userCurrencies,
       }
     );
@@ -101,12 +100,12 @@ function useRemoveCurrency(): (id: number) => void {
 }
 
 const currenciesStore = useCurrenciesStore();
-const userStore = useUserStore();
+const profileStore = useProfileStore();
 
 const { pinnedCurrencies, unpinnedCurrencies } = storeToRefs(currenciesStore);
-const { settings } = storeToRefs(userStore);
+const { profile } = storeToRefs(profileStore);
 
-const userCurrencies = computed(() => settings.value?.currencies);
+const userCurrencies = computed(() => profile.value?.currencies);
 
 const otherPinnedCurrencies = computed(() => {
   return pinnedCurrencies.value.filter((currency) => !userCurrencies.value?.some((userCurrency) => userCurrency.id === currency.id));

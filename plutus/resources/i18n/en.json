@@ -1,7 +1,102 @@
 {
   "Auth": {
     "SignIn": {
-      "title": "Welcome to  Pluton"
+      "title": "Welcome to  Pluton",
+      "Subline": {
+        "text": "Not a member?",
+        "link": "Sign Up"
+      },
+      "Email": {
+        "placeholder": "Email"
+      },
+      "Password": {
+        "placeholder": "Password"
+      },
+      "Submit": {
+        "button": "Sign In"
+      }
+    }
+  },
+  "Header": {
+    "Subheader": {
+      "Menu": {
+        "accounts": "Accounts",
+        "expenses": "Expenses"
+      }
+    }
+  },
+  "Modal": {
+    "OpenBill": {
+      "Amount": {
+        "initial": "Initial balance",
+        "incomes": "Incomes",
+        "expenses": "Expenses"
+      },
+      "Tab": {
+        "transactions": {
+          "title": "Transactions",
+          "Empty": {
+            "title": "No transactions yet!",
+            "text": "Start tracking your expenses, incomes, or transfers to see them here.\nAdd your first one and stay on top of your finances!"
+          }
+        },
+        "customize": {
+          "title": "Customize card",
+          "Icon": {
+            "title": "Icon",
+            "Uploader": {
+              "change": "Change Icon",
+              "upload": "Upload Icon"
+            }
+          },
+          "Colors": {
+            "title": "Colors"
+          }
+        },
+        "settings": {
+          "title": "Settings",
+          "Input": {
+            "name": {
+              "label": "Bill name"
+            },
+            "subtitle": {
+              "label": "Subtitle"
+            },
+            "initial": {
+              "label": "Initial balance"
+            }
+          },
+          "Button": {
+            "delete": {
+              "label": "Delete bill"
+            }
+          }
+        }
+      }
+    }
+  },
+  "Alert": {
+    "DeleteBill": {
+      "text": "This action cannot be undone!\nAre you sure you want to delete bill?",
+      "control": {
+        "delete": "Delete",
+        "cancel": "Cancel"
+      }
+    }
+  },
+  "Bills": {
+    "title": "Accounts"
+  },
+  "Transfer": {
+    "History": {
+      "transaction": "\uD83D\uDCB8 Transaction",
+      "received": "\uD83D\uDCE5 Received",
+      "sent": "\uD83D\uDCE4 Sent",
+      "from": "From bill",
+      "to": "To bill",
+      "Footer": {
+        "link": "Go to full transaction history"
+      }
     }
   }
 }

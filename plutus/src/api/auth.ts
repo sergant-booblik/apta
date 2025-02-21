@@ -1,22 +1,33 @@
 import type { Currency } from '@/types/currency';
 
-export interface AuthResponse {
-  id: number,
-  email: string,
-  name: string,
-  locale: string,
-  currencies: Currency[],
-  defaultCurrency: Currency,
-  error: { message: string, error: string },
+export interface VerifyTokenResponse {
+  success: boolean,
 }
-export function createAuthFunction(apiUrl: string): () => Promise<AuthResponse> {
-  const url = new URL(`${apiUrl}/auth/user`);
-  return (): Promise<AuthResponse> => fetch(url.toString(), {
+
+export interface RefreshTokenResponse {
+  success: boolean,
+}
+
+export function createVerifyTokenFunction(apiUrl: string): () => Promise<VerifyTokenResponse> {
+  const url = new URL(`${apiUrl}/auth/verify/`);
+  return (): Promise<VerifyTokenResponse> => fetch(url.toString(), {
     method: 'GET',
     credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
     },
   }).then((resp) => resp.json())
-    .then((resp: AuthResponse) => resp);
+    .then((resp: VerifyTokenResponse) => resp);
+}
+
+export function createRefreshTokenFunction(apiUrl: string): () => Promise<RefreshTokenResponse> {
+  const url = new URL(`${apiUrl}/auth/refresh/`);
+  return (): Promise<RefreshTokenResponse> => fetch(url.toString(), {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  }).then((resp) => resp.json())
+    .then((resp: VerifyTokenResponse) => resp);
 }

@@ -27,6 +27,9 @@ export class Category {
   @Column()
   name: string;
 
+  @Column({ default: null })
+  emoji: string;
+
   @OneToMany(() => Subcategory, (subcategory) => subcategory.category)
   subcategories: Subcategory[];
 

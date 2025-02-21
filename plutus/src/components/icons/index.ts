@@ -1,17 +1,21 @@
-import VerticalDotsIcon from '@/components/icons/vertical-dots.svg';
-import CaretIcon from '@/components/icons/caret.svg';
-import CircleIcon from '@/components/icons/circle.svg';
-import CloseIcon from '@/components/icons/close.svg';
-import ChangeCurrencyIcon from '@/components/icons/change-currency.svg';
-import LogoIcon from '@/components/icons/logo.svg';
+import { defineAsyncComponent } from 'vue'
 
 const Icon = {
-  VerticalDotsIcon,
-  CaretIcon,
-  CircleIcon,
-  CloseIcon,
-  ChangeCurrencyIcon,
-  LogoIcon,
+  VerticalDotsIcon: defineAsyncComponent(() => import('./vertical-dots.svg')),
+  CaretIcon: defineAsyncComponent(() => import('./caret.svg')),
+  CircleIcon: defineAsyncComponent(() => import('./circle.svg')),
+  CloseIcon: defineAsyncComponent(() => import('./close.svg')),
+  ChangeCurrencyIcon: defineAsyncComponent(() => import('./change-currency.svg')),
+  ExclamationCircleIcon: defineAsyncComponent(() => import('./exclamation-circle.svg')),
+  ExternalLinkIcon: defineAsyncComponent(() => import('./external-link.svg')),
+  GearIcon: defineAsyncComponent(() => import('./gear.svg')),
+  ListIcon: defineAsyncComponent(() => import('./list.svg')),
+  LogoIcon: defineAsyncComponent(() => import('./logo.svg')),
+  PaletteIcon: defineAsyncComponent(() => import('./palette.svg')),
+  TransferIncomeIcon: defineAsyncComponent(() => import('./transfer-income.svg')),
+  TransferOutcomeIcon: defineAsyncComponent(() => import('./transfer-outcome.svg')),
+  TransferTransactionSentIcon: defineAsyncComponent(() => import('./transfer-transaction-sent.svg')),
+  TransferTransactionReceivedIcon: defineAsyncComponent(() => import('./transfer-transaction-received.svg')),
 };
 
 export default Icon;

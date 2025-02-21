@@ -17,6 +17,10 @@ export default {
       sans: ['Roboto', 'sans-serif'],
       serif: ['Lora', 'serif'],
     },
+    aspectRatio: {
+      square: '1/ 1',
+      '4/2': '4 / 2',
+    },
     extend: {},
   },
   plugins: [],

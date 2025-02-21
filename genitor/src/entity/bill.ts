@@ -19,26 +19,30 @@ const { randomUUID } = new ShortUniqueId({ length: 5 });
 
 @Entity()
 export class Bill {
-  @PrimaryColumn('varchar', { default: randomUUID() } )
+  @PrimaryColumn('varchar', { default: randomUUID() })
   id!: string;
+
 
   @Column({ default: 0.00, type: 'float' })
   amount!: number;
 
   @Column()
-  name: string;
+  name!: string;
 
-  @Column()
+  @Column({ default: '' })
   subtitle: string;
 
-  @Column()
+  @Column({ default: null })
   icon: string;
 
-  @Column()
+  @Column({ default: null })
   customIcon: string;
 
-  @Column()
+  @Column({ default: null })
   customColor: string;
+
+  @Column({ default: null })
+  customFontColor: string;
 
   @ManyToOne(() => User, (user) => user.bills)
   user: User;
@@ -49,16 +53,16 @@ export class Bill {
   @JoinTable()
   currency: Currency;
 
-  @OneToMany(() => Transfer, (billTransfer) => billTransfer.amountSent)
-  sendingBills: Bill[];
+  @OneToMany(() => Transfer, (billTransfer) => billTransfer.sendingBill, { cascade: true })
+  sendingTransfers: Transfer[];
 
-  @OneToMany(() => Transfer, (billTransfer) => billTransfer.amountReceived)
-  receivingBills: Bill[];
+  @OneToMany(() => Transfer, (billTransfer) => billTransfer.receivingBill, { cascade: true })
+  receivingTransfers: Transfer[];
 
-  @OneToMany(() => Expense, (expense) => expense.bill)
+  @OneToMany(() => Expense, (expense) => expense.bill, { cascade: true })
   expenses: Expense[];
 
-  @OneToMany(() => Income, (income) => income.bill)
+  @OneToMany(() => Income, (income) => income.bill, { cascade: true })
   incomes: Income[];
 
   @DeleteDateColumn()

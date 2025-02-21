@@ -3,13 +3,23 @@
 }
 
 .bill-card {
-	@apply flex-grow;
-	@apply min-w-64;
+	@apply flex flex-col grow shrink;
+	@apply min-w-72 max-w-80;
+	@apply max-h-80;
+	@apply aspect-4/2;
 	@apply cursor-pointer;
 }
 
 .bill-card__top {
 	@apply flex justify-between;
+}
+
+.bill-card__icon {
+	@apply w-10 h-10;
+}
+
+.bill-info {
+	@apply grow shrink-0;
 }
 
 .bill-info__title {
@@ -25,7 +35,7 @@
 }
 
 .bill-info-balance {
-	@apply flex;
+	@apply flex gap-3;
 
 	span {
 		@apply basis-1/2;
@@ -33,5 +43,47 @@
 }
 
 .open-bill-modal__header {
-	@apply flex gap-8;
+	@apply flex gap-8 justify-between;
+
+	.bill-card {
+		@apply cursor-default;
+
+		&:hover {
+			@apply translate-y-0;
+			@apply bg-transparent;
+		}
+	}
 }
+
+.open-bill-modal__body {
+	@apply mt-8;
+}
+
+.image-upload {
+	@apply flex items-center gap-2;
+
+	input {
+		@apply hidden;
+		@apply w-0 h-0;
+	}
+
+	.preview-container {
+		@apply aspect-square;
+		@apply w-10 h-10;
+
+		&--empty {
+			@apply bg-slate-600;
+		}
+
+		img {
+			@apply flex justify-center items-center;
+			@apply object-contain;
+			@apply w-10 h-10;
+		}
+	}
+
+	.button-group {
+		@apply grow shrink-0;
+	}
+}
+

@@ -11,6 +11,9 @@ export class Subcategory {
   @Column()
   name: string;
 
+  @Column({ default: null })
+  emoji: string;
+
   @ManyToOne(() => Category, (category) => category.subcategories)
   category: Category;
 

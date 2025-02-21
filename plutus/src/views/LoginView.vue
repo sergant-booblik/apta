@@ -13,13 +13,13 @@
           <InputComponent
             v-model="email"
             :type="InputType.EMAIL"
-            :placeholder="$t('Auth.Label.login')"
+            :placeholder="t('Auth.SignIn.Email.placeholder')"
             class="mb-4"
           />
           <InputComponent
             v-model="password"
             :type="InputType.PASSWORD"
-            :placeholder="$t('Auth.Label.password')"
+            :placeholder="t('Auth.SignIn.Password.placeholder')"
             class="mb-4"
           />
           <p class="auth-card__error mb-4" v-if="error">
@@ -27,7 +27,7 @@
           </p>
         </div>
         <ButtonComponent
-          :label="$t('Auth.Label.signIn')"
+          :label="$t('Auth.SignIn.Submit.button')"
           flex
           :type="ButtonType.SUBMIT"
         />
@@ -53,11 +53,14 @@ import { storeToRefs } from 'pinia';
 import { RouteName } from '@/router';
 import Icon from '@/components/icons';
 import { useRouter } from 'vue-router';
-import { type ButtonType, type InputType } from '@/types/controllers';
+import { ButtonType, InputType } from '@/types/controllers';
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter();
 const authStore = useAuthStore();
 const { error } = storeToRefs(authStore);
+
+const { t } = useI18n();
 
 const email = ref('');
 const password = ref('');

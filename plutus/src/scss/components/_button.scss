@@ -2,17 +2,25 @@
 	.button {
 		@apply py-1.5 px-2;
 		@apply rounded;
-	}
 
-	.button--primary {
-		@apply bg-blue-600;
-	}
+		&--primary {
+			@apply bg-blue-600;
+		}
 
-	.button--flex {
-		@apply w-full;
-	}
+		&--secondary {
+			@apply bg-slate-600;
+		}
 
-	.button--outline {
-		@apply bg-opacity-0;
+		&--danger {
+			@apply bg-red-800;
+		}
+
+		&--flex {
+			@apply w-full;
+		}
+
+		&--outline {
+			@apply bg-opacity-0;
+		}
 	}
 }

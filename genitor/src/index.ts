@@ -16,7 +16,6 @@ genitorDataSource.initialize().then(() => {
     credentials: true,
   }));
   app.use(express.static('.uploads'));
-  console.log(__dirname + '/.uploads');
 
   routes(app);
 

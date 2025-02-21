@@ -1,9 +1,5 @@
 import type { Bill } from '@/types/bill';
 
-export interface FetchBillsRequest {
-  readonly id: number;
-}
-
 export interface FetchBillsResponse {
   bills: Bill[],
   rates: Record<string, number>,
@@ -11,9 +7,9 @@ export interface FetchBillsResponse {
   totals: Record<string, number>,
 }
 
-export function createFetchBillsFunction(apiUrl: string): (request: FetchBillsRequest) => Promise<FetchBillsResponse> {
-  return (request: FetchBillsRequest): Promise<FetchBillsResponse> => {
-    const url = new URL(`${apiUrl}/${request.id}/bill`);
+export function createFetchBillsFunction(apiUrl: string): () => Promise<FetchBillsResponse> {
+  return (): Promise<FetchBillsResponse> => {
+    const url = new URL(`${apiUrl}/bill`);
     return fetch(url.toString(), {
       method: 'GET',
       credentials: 'include',

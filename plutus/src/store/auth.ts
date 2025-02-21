@@ -1,39 +1,46 @@
 import { defineStore } from 'pinia';
-import { useUserStore } from '@/store/user';
+import { useProfileStore } from '@/store/profile'
 import { api } from '@/api';
-import type { AuthResponse } from '@/api/auth';
-import {useRouter} from "vue-router";
+import type { VerifyTokenResponse } from '@/api/auth'
+import type { ErrorData } from '@/types/error';
+
 
 interface AuthState {
   isAuth: boolean,
-  error: string | undefined,
+  errors: Record<string, ErrorData[]> | undefined;
   loading: boolean,
 }
 
 export const useAuthStore = defineStore('auth', {
   state: (): AuthState => ({
     isAuth: false,
-    error: undefined,
+    errors: undefined,
     loading: false,
   }),
   actions: {
-    async authUser() {
-      const userStore = useUserStore();
+    initialize() {
+      const profileStore = useProfileStore();
+
+      return new Promise((resolve, reject) => {
+        this.verifyToken()
+          .then((result: VerifyTokenResponse) => {
+            if (result?.success) {
+              return resolve(profileStore.fetchUser());
+            } else {
+              return resolve(this.refreshToken().then(() => profileStore.fetchUser()));
+            }
+          }).catch((error) => {
+          this.logout();
+          return reject(error);
+        });
+      });
+    },
+    async verifyToken(): Promise<VerifyTokenResponse> {
       return new Promise((resolve, reject) => {
         this.loading = true;
-        api.auth()
-          .then((response: AuthResponse) => {
-            this.isAuth = !!(response.id && response.email);
-            userStore.setProfile({
-              id: response.id,
-              email: response.email,
-              name: response.name,
-            });
-            userStore.setSettings({
-              locale: response.locale,
-              currencies: response.currencies,
-              defaultCurrency: response.defaultCurrency,
-            });
+        api.verifyToken()
+          .then((response: VerifyTokenResponse) => {
+            this.isAuth = response.success;
             resolve(response);
           }).catch((error) => reject(error))
           .finally(() => {
@@ -41,23 +48,25 @@ export const useAuthStore = defineStore('auth', {
           });
       });
     },
+    async refreshToken() {
+      return new Promise((resolve, reject) => {
+        this.loading = true;
+        api.refreshToken()
+          .then((result) => resolve(result))
+          .catch((error) => reject(error));
+      });
+    },
     async login(email: string, password: string) {
-      const userStore = useUserStore();
       return new Promise((resolve, reject) => {
         this.loading = true;
         api.login({ email, password })
           .then((response) => {
             this.isAuth = true;
-            userStore.setProfile({
-              id: response.id,
-              email: response.email,
-              name: response.name,
-            });
 
             resolve(response);
           })
           .catch((response) => {
-            this.error = response.error;
+            this.errors = response.error;
             reject(response);
           })
           .finally(() => {
@@ -65,8 +74,18 @@ export const useAuthStore = defineStore('auth', {
           });
       });
     },
+    async logout() {
+      const profileStore = useProfileStore();
+      return new Promise((resolve) => {
+        api.logout().then(() => {
+          this.isAuth = false;
+          profileStore.clearUser();
+        });
+        resolve(true);
+      });
+    },
     clearError() {
-      this.error = undefined;
+      this.errors = undefined;
     },
   }
 });

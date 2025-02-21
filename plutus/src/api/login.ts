@@ -1,3 +1,5 @@
+import type { ErrorData } from '@/types/error'
+
 export interface LoginRequest {
   email: string,
   password: string,
@@ -7,7 +9,7 @@ export interface LoginResponse {
   id: number,
   email: string,
   name: string,
-  error: string,
+  errors: { email: ErrorData[], password: ErrorData[] },
 }
 
 export function createLoginFunction(

@@ -1,15 +1,15 @@
 import { createI18n } from 'vue-i18n';
 import en from '../../resources/i18n/en.json';
-import { useUserStore } from '@/store/user';
+import { useProfileStore } from '@/store/profile';
 
 export type Locale = 'en';
 
 export const LOCALE_STORAGE_KEY = 'locale';
 
 export function calculateCurrentLocale(): Locale {
-  const userStore = useUserStore();
+  const profileStore = useProfileStore();
 
-  const profileLocale = userStore.settings?.locale  as Locale;
+  const profileLocale = profileStore.profile?.locale  as Locale;
   if (profileLocale) {
     return profileLocale;
   }

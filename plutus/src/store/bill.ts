@@ -1,4 +1,4 @@
-import type { Bill } from '@/types/bill';
+import type { Bill, Transfer } from '@/types/bill'
 import { defineStore } from 'pinia';
 import { api } from '@/api';
 import type {AddBillRequest} from "@/api/add-bill";
@@ -22,11 +22,10 @@ export const useBillStore = defineStore('bill', {
     getCertainBill: (state: BillState): (id: string | undefined | number) => Bill | undefined => (id: string | undefined | number): Bill | undefined => state.bills.find((bill) => bill.id === id),
   },
   actions: {
-    fetchBills(id: number | undefined) {
+    fetchBills() {
       return new Promise((resolve, reject) => {
-        if (!id) return;
         this.loading = true;
-        api.fetchBills({ id })
+        api.fetchBills()
           .then((response) => {
             this.bills = response.bills;
             this.rates = response.rates;
@@ -48,7 +47,7 @@ export const useBillStore = defineStore('bill', {
         this.loading = true;
         api.addBill({ id, bill })
           .then((response) => {
-            this.fetchBills(id);
+            this.fetchBills();
 
             resolve(response);
           })
@@ -70,6 +69,14 @@ export const useBillStore = defineStore('bill', {
           })
           .catch((error) => reject(error));
       });
+    },
+    async deleteBill(bill: Bill) {
+      return new Promise((resolve, reject) => {
+        api.deleteBill({ id: bill.id })
+          .then((response) => {
+            resolve(response);
+          }).catch((error) => reject(error))
+      })
     },
   }
 });
