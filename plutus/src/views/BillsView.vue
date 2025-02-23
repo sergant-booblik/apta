@@ -29,7 +29,10 @@
     <CardComponent
       v-for="bill in bills"
       :key="bill.id"
-      class="bill-card"
+      :class="[
+        'bill-card',
+        { 'bill-card--hidden': bill.isClosed },
+      ]"
       @click="openModal(ModalType.OPEN_BILL, bill.id)"
       :style="{
         backgroundColor: bill.customColor,
@@ -38,7 +41,13 @@
     >
       <div class="bill-card__top">
         <div>
-          <p>{{ bill.name }}</p>
+          <p class="flex gap-2 items-center">
+            <Icon.EyeSlashIcon
+              v-if="bill.isClosed"
+              class="hidden-icon"
+            />
+            {{ bill.name }}
+          </p>
           <p class="text-sm mb-3 opacity-60">{{ bill.subtitle }}</p>
         </div>
         <div

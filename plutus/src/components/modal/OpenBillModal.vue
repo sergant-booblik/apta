@@ -3,7 +3,12 @@
     <div class="open-bill-modal__header">
       <div class="bill-info">
         <div class="bill-info__title">
-          <h2>{{ bill.name }}</h2>
+          <h2 class="flex gap-2 items-center">
+            <Icon.EyeSlashIcon
+              v-if="bill.isClosed"
+            />
+            {{ bill.name }}
+          </h2>
           <p>{{ bill.subtitle }}</p>
         </div>
         <div class="bill-info__balances">
@@ -34,7 +39,10 @@
         </div>
       </div>
       <CardComponent
-        class="card bill-card"
+        :class="[
+          'card bill-card',
+          { 'bill-card--hidden': bill.isClosed }
+        ]"
         :style="{
           backgroundColor: bill.customColor,
           color: bill.customFontColor,
@@ -72,16 +80,38 @@
       <nav class="tab">
         <div class="tab__header">
           <div
-            v-for="(tab, index) in Tabs"
             role="button"
             :class="[
-            'tab__item',
-            { 'tab__item--active': tabItemActiveIndex === index }
-          ]"
-            @click="tabItemActiveIndex = index"
+              'tab__item',
+              { 'tab__item--active': tabItemActiveIndex === 0 }
+            ]"
+            @click="tabItemActiveIndex = 0"
           >
-            <component :is="calculateTabIcon(tab.name)" />
-            {{ t(`Modal.OpenBill.Tab.${tab.name}.title`) }}
+            <Icon.ListIcon />
+            {{ t(`Modal.OpenBill.Tab.transactions.title`) }}
+          </div>
+          <div
+            v-if="!bill.isClosed"
+            role="button"
+            :class="[
+              'tab__item',
+              { 'tab__item--active': tabItemActiveIndex === 1 }
+            ]"
+            @click="tabItemActiveIndex = 1"
+          >
+            <Icon.PaletteIcon />
+            {{ t(`Modal.OpenBill.Tab.customize.title`) }}
+          </div>
+          <div
+            role="button"
+            :class="[
+              'tab__item',
+              { 'tab__item--active': tabItemActiveIndex === 2 }
+            ]"
+            @click="tabItemActiveIndex = 2"
+          >
+            <Icon.GearIcon />
+            {{ t(`Modal.OpenBill.Tab.settings.title`) }}
           </div>
         </div>
         <div class="tab__body">
@@ -204,22 +234,25 @@
             class="tab__body-item item--settings"
           >
             <InputComponent
-              flex
               v-model="bill.name"
+              flex
+              :disabled="bill.isClosed"
               :label="t('Modal.OpenBill.Tab.settings.Input.name.label')"
               class="mb-3"
             />
             <InputComponent
-              flex
               v-model="bill.subtitle"
+              flex
+              :disabled="bill.isClosed"
               :label="t('Modal.OpenBill.Tab.settings.Input.subtitle.label')"
               class="mb-3"
             />
             <InputComponent
+              v-model="bill.amount"
               flex
               to-fixed
+              :disabled="bill.isClosed"
               :append-text="bill.currency.code"
-              v-model="bill.amount"
               :label="t('Modal.OpenBill.Tab.settings.Input.initial.label')"
               class="mb-3"
             />
@@ -228,10 +261,18 @@
               class="flex gap-4 justify-end"
             >
               <ButtonComponent
+                v-if="!bill.isClosed"
                 class="self-end mt-4"
                 :label="t('Modal.OpenBill.Tab.settings.Button.close.label')"
                 :color="ColorType.PRIMARY"
                 @click="toggleConfirmationClose"
+              />
+              <ButtonComponent
+                v-else
+                class="self-end mt-4"
+                :label="t('Modal.OpenBill.Tab.settings.Button.open.label')"
+                :color="ColorType.PRIMARY"
+                @click="openBill"
               />
               <ButtonComponent
                 class="self-end mt-4"
@@ -277,7 +318,6 @@ import Icon from '@/components/icons'
 import FormattedAmount from '@/components/elements/FormattedAmount.vue'
 import { Sign } from '@/types/currency'
 import { useI18n } from 'vue-i18n'
-import Tabs from '../../../resources/static/bill-modal-tab.json'
 import InputComponent from '@/components/InputComponent.vue'
 import ButtonComponent from '@/components/ButtonComponent.vue'
 import { ColorType } from '@/types/colors'
@@ -336,19 +376,6 @@ function calculateTransferIcon(type: 'income' | 'expense' | 'transferReceived' |
   }
 }
 
-function calculateTabIcon(name: string) {
-  switch (name) {
-    case 'transactions':
-      return Icon.ListIcon;
-    case 'customize':
-      return Icon.PaletteIcon;
-    case 'settings':
-      return Icon.GearIcon;
-    default:
-      throw new Error(name);
-  }
-}
-
 function toggleConfirmationDelete(): void {
   isShowConfirmationDelete.value = !isShowConfirmationDelete.value;
 }
@@ -362,7 +389,18 @@ function deleteBill(): void {
 }
 
 function closeBill(): void {
-  updateBill('isClosed', true);
+  if (bill.value) {
+    updateBill('isClosed', true);
+    isShowConfirmationClose.value = false;
+    bill.value.isClosed = true;
+  }
+}
+
+function openBill(): void {
+  if (bill.value) {
+    updateBill('isClosed', false);
+    bill.value.isClosed = false;
+  }
 }
 
 function toDate(string: Date) {

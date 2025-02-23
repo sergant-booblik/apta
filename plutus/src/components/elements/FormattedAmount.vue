@@ -22,6 +22,7 @@ import { getContrastAmountClass } from '@/helpers/contrast-amount-class'
 
 function useCalculateSign(sign: Sign | undefined): (amount: number | undefined) => Sign {
   function calculateSign(amount: number | undefined): Sign {
+    if (sign !== undefined && sign !== Sign.NONE) return sign;
     if (amount) {
       if (amount > 0) return Sign.POSITIVE;
       if (amount < 0) return Sign.NEGATIVE;

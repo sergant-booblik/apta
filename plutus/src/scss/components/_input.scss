@@ -1,4 +1,12 @@
 .input-group {
+	&:has(input:disabled) {
+		@apply opacity-40;
+
+		input {
+			@apply cursor-not-allowed;
+		}
+	}
+
 	&:has(.input-text--append) {
 		input {
 			@apply rounded-e-none;

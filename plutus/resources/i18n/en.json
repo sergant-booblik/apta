@@ -72,6 +72,9 @@
             "close": {
               "label": "Close bill"
             },
+            "open": {
+              "label": "Open bill"
+            },
             "delete": {
               "label": "Delete bill"
             }

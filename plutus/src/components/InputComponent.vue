@@ -21,6 +21,7 @@
       v-model="inputValue"
       :type="type"
       :placeholder="placeholder"
+      :disabled="disabled"
       class="w-full"
       @input="debouncedInput"
     >
@@ -48,6 +49,7 @@ interface Props {
   toFixed?: boolean,
   prependText?: string,
   appendText?: string,
+  disabled?: boolean,
 }
 
 const props = withDefaults(defineProps<Props>(), {
