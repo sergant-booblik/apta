@@ -1,8 +1,10 @@
 <template>
-  <span :class="[
-    'format',
-    `format--${calculateSign(sum)}`,
-  ]">
+  <span
+    :class="[
+      'format',
+      getContrastAmountClass(backgroundColor, calculateSign(sum)),
+    ]"
+  >
     <component
       v-if="sign !== Sign.NONE"
       :is="signComponent"
@@ -16,10 +18,10 @@ import { computed, toRefs } from 'vue'
 import { toMoney } from '@/helpers/to-money'
 import FormattedAmountIcon from '@/components/icons/amount-format'
 import { Sign } from '@/types/currency'
+import { getContrastAmountClass } from '@/helpers/contrast-amount-class'
 
 function useCalculateSign(sign: Sign | undefined): (amount: number | undefined) => Sign {
   function calculateSign(amount: number | undefined): Sign {
-    if (sign !== undefined) return sign;
     if (amount) {
       if (amount > 0) return Sign.POSITIVE;
       if (amount < 0) return Sign.NEGATIVE;
@@ -34,6 +36,7 @@ interface Props {
   sum?: number,
   currencyCode?: string,
   sign?: Sign,
+  backgroundColor?: string,
 }
 
 const props = defineProps<Props>();

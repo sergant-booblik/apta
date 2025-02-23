@@ -63,6 +63,7 @@
         <FormattedAmount
           :currency-code="bill.currency.code"
           :sum="bill.transSum"
+          :background-color="bill.customColor"
           class="mt-auto"
         />
       </CardComponent>
