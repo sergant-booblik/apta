@@ -26,10 +26,10 @@ export const useBillStore = defineStore('bill', {
     getCertainBill: (state: BillState): (id: string | undefined | number) => Bill | undefined => (id: string | undefined | number): Bill | undefined => state.bills.find((bill) => bill.id === id),
   },
   actions: {
-    async fetchBills() {
+    async fetchBills(isShowClosed?: boolean) {
       return new Promise((resolve, reject) => {
         this.loadingBills = true;
-        api.fetchBills()
+        api.fetchBills({ isShowClosed })
           .then((response) => {
             this.bills = response.bills;
 
@@ -41,10 +41,10 @@ export const useBillStore = defineStore('bill', {
           });
       });
     },
-    async fetchTotalSum(currency?: string) {
+    async fetchTotalSum(currency?: string, isShowClosed?: boolean) {
       return new Promise((resolve, reject) => {
         this.loadingTotal = true;
-        api.fetchTotalSum({ currency })
+        api.fetchTotalSum({ currency, isShowClosed })
           .then((response) => {
             this.total = response.total;
 

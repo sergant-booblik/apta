@@ -26,3 +26,8 @@
 		@apply text-slate-500;
 	}
 }
+
+.body__controls {
+	@apply flex gap-3 justify-end;
+	@apply mb-4;
+}

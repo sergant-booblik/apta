@@ -9,6 +9,7 @@
         { 'button--outline': outline },
       ]"
     >
+      <component :is="appendIcon" />
       {{ label }}
     </button>
   </div>
@@ -17,6 +18,7 @@
 <script setup lang="ts">
 import { ColorType } from '@/types/colors'
 import { ButtonType } from '@/types/controllers'
+import type { Component } from 'vue'
 
 interface Props {
   label?: string,
@@ -24,6 +26,7 @@ interface Props {
   flex?: boolean,
   outline?: boolean,
   type?: ButtonType,
+  appendIcon?: Component,
 }
 
 withDefaults(defineProps<Props>(), {

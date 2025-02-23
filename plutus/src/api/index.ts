@@ -4,7 +4,7 @@ import { createRefreshTokenFunction, createVerifyTokenFunction } from '@/api/aut
 import { createFetchTranslationFunction } from '@/api/translation';
 import { createFetchCurrenciesFunction } from '@/api/fetch-currencies';
 import { createLoginFunction } from '@/api/login';
-import { createFetchBillsFunction } from '@/api/fetch-bills';
+import { createFetchBillsFunction } from '@/api/fetch-bills'
 import { createAddBillFunction} from "@/api/add-bill";
 import { createUploadBillIconFunction } from '@/api/upload-bill-icon';
 import { createFetchUserFunction } from '@/api/fetch-user'
@@ -17,7 +17,7 @@ import { createFetchTotalSumFunction } from '@/api/fetch-total-sum';
 import type { VerifyTokenResponse, RefreshTokenResponse } from '@/api/auth';
 import type { FetchTranslationRequest, FetchTranslationResponse } from '@/api/translation';
 import type { LoginRequest, LoginResponse } from '@/api/login';
-import type { FetchBillsResponse } from '@/api/fetch-bills';
+import type { FetchBillsResponse, FetchBillRequest } from '@/api/fetch-bills';
 import type { FetchCurrenciesResponse, FetchCurrenciesRequest } from '@/api/fetch-currencies';
 import type { AddBillRequest, AddBillResponse } from '@/api/add-bill';
 import type { UploadBillIconRequest, UploadBillIconResponse } from '@/api/upload-bill-icon';
@@ -48,7 +48,7 @@ interface Api {
 
   fetchCurrencies: (request: FetchCurrenciesRequest) => Promise<FetchCurrenciesResponse>;
 
-  fetchBills: () => Promise<FetchBillsResponse>;
+  fetchBills: (request: FetchBillRequest) => Promise<FetchBillsResponse>;
   addBill: (request: AddBillRequest) => Promise<AddBillResponse>;
   uploadBillIcon: (request: UploadBillIconRequest) => Promise<UploadBillIconResponse>;
   updateBill: (request: UpdateBillRequest) => Promise<UpdateBillResponse>;

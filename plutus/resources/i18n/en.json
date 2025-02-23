@@ -97,7 +97,12 @@
     }
   },
   "Bills": {
-    "title": "Accounts"
+    "title": "Accounts",
+    "Controls": {
+      "show": "Show closed accounts",
+      "hide": "Hide closed accounts",
+      "add": "Add new account"
+    }
   },
   "Transfer": {
     "History": {

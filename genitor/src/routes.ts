@@ -13,7 +13,7 @@ import {
   fetchTotalBillsAmount,
   updateBill,
   uploadBillIcon
-} from './controller/bill'
+} from './controller/bill';
 import { AddTransfer, DeleteTransfer, GetTransfers, updateTransfer } from './controller/transfer';
 import { addCategory, deleteCategory, getCategories, updateCategory } from './controller/category';
 import { addSubcategory, deleteSubcategory, getSubCategories, updateSubcategory } from './controller/subcategory';
@@ -43,7 +43,7 @@ export const routes = (router: Router) => {
   router.get('/api/currency', getPinnedCurrencies);
 
   router.post('/api/bill/', addBill);
-  router.get('/api/bill', fetchBills);
+  router.get('/api/bill?:closed', fetchBills);
   router.get('/api/bill/total?:currency', fetchTotalBillsAmount);
   router.put('/api/bill/:id/', updateBill);
   router.delete('/api/bill/:id', deleteBill);

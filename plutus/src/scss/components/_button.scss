@@ -1,6 +1,6 @@
 .button-group {
 	.button {
-		@apply py-1.5 px-2;
+		@apply py-1.5 px-2 flex gap-2 items-center;
 		@apply rounded;
 
 		&--primary {
@@ -21,6 +21,10 @@
 
 		&--outline {
 			@apply bg-opacity-0;
+		}
+
+		svg {
+			@apply h-5 w-5;
 		}
 	}
 }

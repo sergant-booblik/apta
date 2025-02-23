@@ -2,6 +2,7 @@ import type { Currency } from '@/types/currency'
 
 export interface FetchTotalSumRequest {
   currency?: string,
+  isShowClosed?: boolean,
 }
 
 export interface FetchTotalSumResponse {

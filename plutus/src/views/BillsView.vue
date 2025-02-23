@@ -1,6 +1,6 @@
 <template>
   <div class="body__header">
-    <h1>{{ $t('Bills.title') }}</h1>
+    <h1>{{ t('Bills.title') }}</h1>
     <div
       class="body__header-action"
       @click="changeCurrentRate"
@@ -8,6 +8,19 @@
       <h2 v-if="!loadingTotal"> {{ toMoney(total?.amount, total?.currencyCode) }} </h2>
       <Icon.ChangeCurrencyIcon />
     </div>
+  </div>
+  <div class="body__controls">
+    <ButtonComponent
+      :label=" isShowClosedAccounts ? t('Bills.Controls.hide') : t('Bills.Controls.show')"
+      :append-icon="isShowClosedAccounts ? Icon.EyeIcon : Icon.EyeSlashIcon"
+      :color="ColorType.SECONDARY"
+      @click="toggleClosedAccounts"
+    />
+    <ButtonComponent
+      :label="t('Bills.Controls.add')"
+      :append-icon="Icon.PlusIcon"
+      :color="ColorType.PRIMARY"
+    />
   </div>
   <div
     v-if="!loadingBills"
@@ -60,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, onUnmounted, ref, watch } from 'vue'
+import { computed, onBeforeMount, ref, watch } from 'vue'
 import { toMoney } from '@/helpers/to-money'
 import { storeToRefs } from 'pinia'
 import { useBillStore } from '@/store/bill'
@@ -70,6 +83,10 @@ import { ModalType } from '@/types/modal'
 import Icon from '@/components/icons'
 import CardComponent from '@/components/CardComponent.vue'
 import FormattedAmount from '@/components/elements/FormattedAmount.vue'
+import ButtonComponent from '@/components/ButtonComponent.vue'
+import { useI18n } from 'vue-i18n'
+import { ColorType } from '@/types/colors'
+import Icons from '@/components/icons'
 
 function openModal(
   type: ModalType,
@@ -79,16 +96,27 @@ function openModal(
   modalStore.setModal(type, id);
 }
 
+function toggleClosedAccounts(): void {
+  isShowClosedAccounts.value = !isShowClosedAccounts.value;
+}
+
+const { t } = useI18n();
+
 const profileStore = useProfileStore();
 const billStore = useBillStore();
 const { profile } = storeToRefs(profileStore);
 const { bills, total, loadingBills, loadingTotal } = storeToRefs(billStore);
 
+const isShowClosedAccounts = ref(false);
 const currentCurrencyIndex = ref(0);
-const currentCurrency = computed(() => profile.value?.currencies[currentCurrencyIndex.value]);
+const currentCurrency = computed(() => {
+  if (profile.value?.currencies) {
+    return profile.value?.currencies[currentCurrencyIndex.value];
+  }
+});
 
 const changeCurrentRate = () => {
-  if (currentCurrencyIndex.value === profile.value?.currencies.length - 1) {
+  if (profile.value?.currencies && currentCurrencyIndex.value === profile.value?.currencies.length - 1) {
     currentCurrencyIndex.value = 0;
   } else {
     currentCurrencyIndex.value++;
@@ -105,5 +133,10 @@ onBeforeMount(() => {
 
 watch(currentCurrency, (newCurrency) => {
   billStore.fetchTotalSum(newCurrency?.code);
+});
+
+watch(isShowClosedAccounts, (newValue) => {
+  billStore.fetchBills(newValue);
+  billStore.fetchTotalSum(currentCurrency.value?.code, newValue);
 });
 </script>

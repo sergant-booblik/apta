@@ -10,6 +10,7 @@ import ShortUniqueId from 'short-unique-id';
 import uploadToS3 from '../middleware/upload';
 import { getCurrencies } from './rate';
 import { Currency } from '../entity/currency';
+import { Not } from 'typeorm'
 type TransactionType = 'income' | 'expense';
 type TransferType = 'transferReceived' | 'transferSend';
 
@@ -44,9 +45,9 @@ const processTransactions = (
     .filter(tx => tx.bill.id === billId)
     .map(tx => formatTransaction(tx, type, tx.amount * amountMultiplier));
 
-const getModifiedBills = async (userId: number) => {
+const getModifiedBills = async (userId: number, isShowClosed: boolean) => {
   const [bills, transfers, incomes, expenses] = await Promise.all([
-    repositories.bill.find({ where: { user: { id: userId } } }),
+    repositories.bill.find({ where: { user: { id: userId }, ...(isShowClosed ? {} : { isClosed: false }) } }),
     repositories.transfer.find({ where: { user: { id: userId } } }),
     repositories.income.find({ where: { user: { id: userId } } }),
     repositories.expense.find({ where: { user: { id: userId } } }),
@@ -80,7 +81,8 @@ const getModifiedBills = async (userId: number) => {
 export const fetchBills = async (req: Request, res: Response) => {
   try {
     const userId = await getUserId(req.cookies['accessToken']);
-    res.send({ bills: await getModifiedBills(userId) });
+    const isShowClosed = req.query.closed === 'true';
+    res.send({ bills: await getModifiedBills(userId, isShowClosed) });
   } catch (error) {
     console.error("Error fetching bills:", error);
     res.status(500).send({ error: "Failed to fetch bills" });
@@ -118,8 +120,9 @@ export const fetchTotalBillsAmount = async (req: Request, res: Response) => {
     const userId = await getUserId(req.cookies['accessToken']);
     const userData = await repositories.user.findOne({ where: { id: userId } });
     const currentCurrencyCode = req.query.currency ?? userData?.defaultCurrency.code;
+    const isShowClosed = req.query.closed === 'true';
 
-    const modifiedBills = await getModifiedBills(userId);
+    const modifiedBills = await getModifiedBills(userId, isShowClosed);
     const userCurrencies = userData?.currencies.map(currency => currency.code);
     if (!userCurrencies) return;
 
