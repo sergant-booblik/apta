@@ -1,16 +1,16 @@
 import { DataSource } from 'typeorm';
+import dotenv from 'dotenv';
 
-//TODO replace to env
+dotenv.config();
+
 export const genitorDataSource = new DataSource({
-  "type": "mysql",
-  "host": "localhost",
-  "port": 3306,
-  "database": "genitor",
-  "username": "genitor",
-  "password": "mopx12",
-  "entities": [
-    "src/entity/*.ts"
-  ],
-  "logging": false,
-  "synchronize": true
+  type: 'mysql',
+  host: process.env.ORM_CONFIG_HOST!,
+  port: Number(process.env.ORM_CONFIG_PORT),
+  database: process.env.ORM_CONFIG_DATABASE!,
+  username: process.env.ORM_CONFIG_USERNAME!,
+  password: process.env.ORM_CONFIG_PASSWORD!,
+  entities: ['src/entity/*.ts'],
+  logging: false,
+  synchronize: true
 });
