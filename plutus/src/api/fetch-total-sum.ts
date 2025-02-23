@@ -1,9 +1,14 @@
+import type { Currency } from '@/types/currency'
+
 export interface FetchTotalSumRequest {
   currency?: string,
 }
 
 export interface FetchTotalSumResponse {
-  total: number,
+  total: {
+    amount: number,
+    currencyCode: string,
+  },
 }
 
 export function createFetchTotalSumFunction(apiUrl: string): (request: FetchTotalSumRequest) => Promise<FetchTotalSumResponse> {

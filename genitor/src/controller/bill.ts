@@ -117,7 +117,7 @@ export const fetchTotalBillsAmount = async (req: Request, res: Response) => {
   try {
     const userId = await getUserId(req.cookies['accessToken']);
     const userData = await repositories.user.findOne({ where: { id: userId } });
-    const currentCurrency = req.query.currency ?? userData?.defaultCurrency.code;
+    const currentCurrencyCode = req.query.currency ?? userData?.defaultCurrency.code;
 
     const modifiedBills = await getModifiedBills(userId);
     const userCurrencies = userData?.currencies.map(currency => currency.code);
@@ -128,13 +128,13 @@ export const fetchTotalBillsAmount = async (req: Request, res: Response) => {
 
     modifiedBills.forEach(bill => {
       const billRate = rates.find(rate => rate.currency.code === bill.currency.code)?.rate;
-      const currentRate = rates.find(rate => rate.currency.code === currentCurrency)?.rate;
+      const currentRate = rates.find(rate => rate.currency.code === currentCurrencyCode)?.rate;
       if (billRate && currentRate) {
         totalSum += bill.currentAmount / (billRate / currentRate);
       }
     });
 
-    res.send({ total: totalSum });
+    res.send({ total: { amount: totalSum, currencyCode: currentCurrencyCode } });
   } catch (error) {
     console.error("Error fetching total sum:", error);
     res.status(500).send({ error: "Failed to fetch total sum" });

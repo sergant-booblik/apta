@@ -2,10 +2,14 @@ import type { Bill } from '@/types/bill'
 import { defineStore } from 'pinia';
 import { api } from '@/api';
 import type { UpdateBillResponse } from '@/api/update-bill'
+import type { Currency } from '@/types/currency'
 
 interface BillState {
   bills: Bill[],
-  total?: number,
+  total?: {
+    amount: number,
+    currencyCode: string,
+  },
   loadingBills: boolean,
   loadingTotal: boolean,
 }

@@ -5,7 +5,7 @@
       class="body__header-action"
       @click="changeCurrentRate"
     >
-      <h2 v-if="!loadingTotal"> {{ toMoney(total, currentCurrency?.code) }} </h2>
+      <h2 v-if="!loadingTotal"> {{ toMoney(total?.amount, total?.currencyCode) }} </h2>
       <Icon.ChangeCurrencyIcon />
     </div>
   </div>
@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref, watch } from 'vue'
+import { computed, onBeforeMount, onUnmounted, ref, watch } from 'vue'
 import { toMoney } from '@/helpers/to-money'
 import { storeToRefs } from 'pinia'
 import { useBillStore } from '@/store/bill'
