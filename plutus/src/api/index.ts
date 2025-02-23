@@ -1,5 +1,6 @@
 import { ref } from 'vue';
-import { createRefreshTokenFunction, createVerifyTokenFunction } from '@/api/auth'
+import type { Ref } from 'vue';
+import { createRefreshTokenFunction, createVerifyTokenFunction } from '@/api/auth';
 import { createFetchTranslationFunction } from '@/api/translation';
 import { createFetchCurrenciesFunction } from '@/api/fetch-currencies';
 import { createLoginFunction } from '@/api/login';
@@ -8,8 +9,11 @@ import { createAddBillFunction} from "@/api/add-bill";
 import { createUploadBillIconFunction } from '@/api/upload-bill-icon';
 import { createFetchUserFunction } from '@/api/fetch-user'
 import { createLogoutFunction } from '@/api/logout';
-import { createUpdateProfileFunction } from '@/api/update-profile'
-import type { Ref } from 'vue';
+import { createUpdateProfileFunction } from '@/api/update-profile';
+import { createDeleteBillFunction } from '@/api/delete-bill';
+import { createUpdateBillFunction } from '@/api/update-bill';
+import { createFetchBillTransactionFunction } from '@/api/fetch-bill-transactions';
+import { createFetchTotalSumFunction } from '@/api/fetch-total-sum';
 import type { VerifyTokenResponse, RefreshTokenResponse } from '@/api/auth';
 import type { FetchTranslationRequest, FetchTranslationResponse } from '@/api/translation';
 import type { LoginRequest, LoginResponse } from '@/api/login';
@@ -20,8 +24,10 @@ import type { UploadBillIconRequest, UploadBillIconResponse } from '@/api/upload
 import type { UpdateProfileRequest, UpdateProfileResponse } from '@/api/update-profile'
 import type { FetchUserResponse } from '@/api/fetch-user'
 import type { LogoutResponse } from '@/api/logout'
-import { createDeleteBillFunction, type DeleteBillRequest, type DeleteBillResponse } from '@/api/delete-bill'
-import { createUpdateBillFunction, type UpdateBillRequest, type UpdateBillResponse } from '@/api/update-bill'
+import type { DeleteBillRequest, DeleteBillResponse } from '@/api/delete-bill';
+import type { UpdateBillRequest, UpdateBillResponse } from '@/api/update-bill';
+import type { FetchBillTransactionsRequest, FetchBillTransactionsResponse } from '@/api/fetch-bill-transactions';
+import type { FetchTotalSumRequest, FetchTotalSumResponse } from '@/api/fetch-total-sum';
 
 const userId = ref(0);
 const accessToken = ref('');
@@ -47,6 +53,9 @@ interface Api {
   uploadBillIcon: (request: UploadBillIconRequest) => Promise<UploadBillIconResponse>;
   updateBill: (request: UpdateBillRequest) => Promise<UpdateBillResponse>;
   deleteBill: (request: DeleteBillRequest) => Promise<DeleteBillResponse>;
+
+  fetchBillTransaction: (request: FetchBillTransactionsRequest) => Promise<FetchBillTransactionsResponse>;
+  fetchTotalSum: (request: FetchTotalSumRequest) => Promise<FetchTotalSumResponse>;
 }
 function createApi(): Api {
   const apiUrl = 'http://localhost:8000/api';
@@ -72,6 +81,9 @@ function createApi(): Api {
     uploadBillIcon: createUploadBillIconFunction(apiUrl),
     updateBill: createUpdateBillFunction(apiUrl),
     deleteBill: createDeleteBillFunction(apiUrl),
+
+    fetchBillTransaction: createFetchBillTransactionFunction(apiUrl),
+    fetchTotalSum: createFetchTotalSumFunction(apiUrl),
   };
 }
 

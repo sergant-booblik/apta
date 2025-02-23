@@ -5,7 +5,15 @@ import { Router } from 'express';
 import { authLogin, authLogout, authRefresh, authRegister, verifyToken } from './controller/auth'
 import { getMyProfile, updateProfile } from './controller/users';
 import { getPinnedCurrencies } from './controller/currency';
-import { addBill, deleteBill, fetchBills, updateBill, uploadBillIcon } from './controller/bill';
+import {
+  addBill,
+  deleteBill,
+  fetchBills,
+  fetchBillTransactions,
+  fetchTotalBillsAmount,
+  updateBill,
+  uploadBillIcon
+} from './controller/bill'
 import { AddTransfer, DeleteTransfer, GetTransfers, updateTransfer } from './controller/transfer';
 import { addCategory, deleteCategory, getCategories, updateCategory } from './controller/category';
 import { addSubcategory, deleteSubcategory, getSubCategories, updateSubcategory } from './controller/subcategory';
@@ -36,9 +44,12 @@ export const routes = (router: Router) => {
 
   router.post('/api/bill/', addBill);
   router.get('/api/bill', fetchBills);
+  router.get('/api/bill/total?:currency', fetchTotalBillsAmount);
   router.put('/api/bill/:id/', updateBill);
   router.delete('/api/bill/:id', deleteBill);
-  router.post('/api/bill/:id/icon', uploadIcon.single('icon'), uploadBillIcon)
+  router.post('/api/bill/:id/icon', uploadIcon.single('icon'), uploadBillIcon);
+
+  router.get('/api/bill/:id/transactions?:count', fetchBillTransactions);
 
   router.get('/api/:userId/transfer', GetTransfers);
   router.post('/api/:userId/transfer', AddTransfer);

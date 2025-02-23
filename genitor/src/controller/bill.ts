@@ -1,164 +1,145 @@
 import { NextFunction, Request, Response } from 'express'
 import { genitorDataSource } from '../../ormconfig';
+import { User } from '../entity/user';
 import { Bill } from '../entity/bill';
-import {User} from "../entity/user";
-import {Transfer} from "../entity/transfer";
-import {getCurrencies} from "./rate";
-import { PORT } from '../index'
-import { getUserId } from '../helper/get-user-id'
-import { Income } from '../entity/income'
-import { Expense } from '../entity/expense'
-import { Currency } from '../entity/currency'
-import ShortUniqueId from 'short-unique-id'
-import uploadToS3 from '../middleware/upload'
+import { Transfer } from '../entity/transfer';
+import { getUserId } from '../helper/get-user-id';
+import { Income } from '../entity/income';
+import { Expense } from '../entity/expense';
+import ShortUniqueId from 'short-unique-id';
+import uploadToS3 from '../middleware/upload';
+import { getCurrencies } from './rate';
+import { Currency } from '../entity/currency';
+type TransactionType = 'income' | 'expense';
+type TransferType = 'transferReceived' | 'transferSend';
 
-export interface TransferInterface {
-  type: 'income' | 'expense' | 'transferReceived' | 'transferSend',
+const repositories = {
+  user: genitorDataSource.getRepository(User),
+  bill: genitorDataSource.getRepository(Bill),
+  transfer: genitorDataSource.getRepository(Transfer),
+  income: genitorDataSource.getRepository(Income),
+  expense: genitorDataSource.getRepository(Expense),
+};
+
+const formatTransaction = (
+  transaction: Income | Expense,
+  type: TransactionType,
   amount: number,
-  category: string,
-  subcategory: string,
-  name: string,
-  date: Date,
-}
+) => ({
+  type,
+  amount,
+  category: `${transaction.category.emoji} ${transaction.category.name}`,
+  subcategory: `${transaction.subcategory.emoji} ${transaction.subcategory.name}`,
+  name: transaction.name,
+  date: transaction.createdDate,
+});
 
-const billRepository = genitorDataSource.getRepository(Bill);
-const userRepository = genitorDataSource.getRepository(User);
-const transferRepository = genitorDataSource.getRepository(Transfer);
-const incomeRepository = genitorDataSource.getRepository(Income);
-const expenseRepository = genitorDataSource.getRepository(Expense);
-const currencyRepository = genitorDataSource.getRepository(Currency);
+const processTransactions = (
+  transactions: Income[] | Expense[],
+  billId: string,
+  type: TransactionType,
+  amountMultiplier = 1,
+) =>
+  transactions
+    .filter(tx => tx.bill.id === billId)
+    .map(tx => formatTransaction(tx, type, tx.amount * amountMultiplier));
+
+const getModifiedBills = async (userId: number) => {
+  const [bills, transfers, incomes, expenses] = await Promise.all([
+    repositories.bill.find({ where: { user: { id: userId } } }),
+    repositories.transfer.find({ where: { user: { id: userId } } }),
+    repositories.income.find({ where: { user: { id: userId } } }),
+    repositories.expense.find({ where: { user: { id: userId } } }),
+  ]);
+
+  const incomeMap = new Map();
+  const expenseMap = new Map();
+  const transferMap = new Map();
+
+  incomes.forEach(({ bill, amount }) => incomeMap.set(bill.id, (incomeMap.get(bill.id) || 0) + amount));
+  expenses.forEach(({ bill, amount }) => expenseMap.set(bill.id, (expenseMap.get(bill.id) || 0) + amount));
+
+  transfers.forEach(({ receivingBill, sendingBill, amountReceived, amountSent }) => {
+    transferMap.set(receivingBill.id, {
+      income: (transferMap.get(receivingBill.id)?.income || 0) + amountReceived,
+      outcome: transferMap.get(receivingBill.id)?.outcome || 0,
+    });
+    transferMap.set(sendingBill.id, {
+      income: transferMap.get(sendingBill.id)?.income || 0,
+      outcome: (transferMap.get(sendingBill.id)?.outcome || 0) + amountSent,
+    });
+  });
+
+  return bills.map(bill => {
+    const incomeSum = (incomeMap.get(bill.id) || 0) + (transferMap.get(bill.id)?.income || 0);
+    const outcomeSum = (expenseMap.get(bill.id) || 0) + (transferMap.get(bill.id)?.outcome || 0);
+    return { ...bill, incomeSum, outcomeSum, transSum: incomeSum - outcomeSum, currentAmount: bill.amount + incomeSum - outcomeSum };
+  });
+};
 
 export const fetchBills = async (req: Request, res: Response) => {
-  const accessToken = req.cookies['accessToken'];
-  const userId = await getUserId(accessToken).then((result) => result);
-
-  const bills = await billRepository.find({
-    where: { user: { id: userId } },
-  });
-
-  const userData = await userRepository.findOne({ where: { id: userId } });
-  const userCurrencies = userData?.currencies.map((currency) => currency.code);
-  if (!userCurrencies) {
-    return;
+  try {
+    const userId = await getUserId(req.cookies['accessToken']);
+    res.send({ bills: await getModifiedBills(userId) });
+  } catch (error) {
+    console.error("Error fetching bills:", error);
+    res.status(500).send({ error: "Failed to fetch bills" });
   }
-  const rates = await getCurrencies(userCurrencies)
-    .then((result) => result.reduce((obj, rate) => Object.assign(
-      obj, { [rate.currency.code]: rate.rate }
-    ), {} as Record<string, number> ));
+};
 
-  const transfers = await transferRepository.find({
-    where: { user: { id: userId } },
-  });
+export const fetchBillTransactions = async (req: Request, res: Response) => {
+  try {
+    const userId = await getUserId(req.cookies['accessToken']);
+    const billId = req.params.id;
+    const count = Number(req.query.count) ?? 50;
 
-  const incomes = await incomeRepository.find({
-    where: {
-      user: { id: userId },
-    },
-  });
+    const [transfers, incomes, expenses] = await Promise.all([
+      repositories.transfer.find({ where: { user: { id: userId } } }),
+      repositories.income.find({ where: { user: { id: userId } } }),
+      repositories.expense.find({ where: { user: { id: userId } } }),
+    ]);
 
-  const expenses = await expenseRepository.find({
-    where: { user: { id: userId } },
-  });
+    const transactions = [
+      ...processTransactions(incomes, billId, 'income'),
+      ...processTransactions(expenses, billId, 'expense', -1),
+    ]
+      .sort((a, b) => Number(a.date) - Number(b.date))
+      .slice(0, count);
 
-  const modifiedBills = bills.map((bill) => {
-    const sumInCurrencies = userCurrencies?.reduce((obj, currency) => Object.assign(
-      obj, { [currency]: bill.amount / (rates[bill.currency.code] / rates[currency] ) }
-    ), {} as Record<string, number>);
-    let incomeSum = 0;
-    let outcomeSum = 0;
-    transfers.forEach((transfer) => {
-      if (transfer.receivingBill.id === bill.id) {
-        incomeSum = incomeSum + transfer.amountReceived;
-      }
-      if (transfer.sendingBill.id === bill.id) {
-        outcomeSum = outcomeSum - transfer.amountSent;
-      }
-    });
-    incomes.forEach((income) => {
-      if (income.bill.id === bill.id) {
-        incomeSum = incomeSum + income.amount;
-      }
-    });
-    expenses.forEach((expense) => {
-      if (expense.bill.id === bill.id) {
-        outcomeSum = outcomeSum - expense.amount;
-      }
-    });
-    const modifiedTransfers = transfers.map((transfer) => {
-      if (transfer.receivingBill.id === bill.id || transfer.sendingBill.id === bill.id) {
-        return ({
-          type: transfer.receivingBill.id === bill.id ? 'transferReceived' : 'transferSend',
-          amount: transfer.receivingBill.id === bill.id ? transfer.amountReceived : transfer.amountSent * -1,
-          category: 'Transfer.History.transaction',
-          subcategory: transfer.receivingBill.id === bill.id ? 'Transfer.History.received' : 'Transfer.History.sent',
-          name: transfer.receivingBill.id === bill.id ? 'Transfer.History.from' : 'Transfer.History.to',
-          date: transfer.createdDate,
-        });
-      }
-    });
-    const modifiedIncomes = incomes.map((income) => {
-      if (income.bill.id === bill.id) {
-        return {
-          type: 'income',
-          amount: income.amount,
-          category: `${income.category.emoji} ${income.category.name}`,
-          subcategory: `${income.subcategory.emoji} ${income.subcategory.name}`,
-          name: income.name,
-          date: income.createdDate,
-        }
-      }
-    });
-    const modifiedExpenses = expenses.map((expense) => {
-      if (expense.bill.id === bill.id) {
-        return {
-          type: 'expense',
-          amount: expense.amount * -1,
-          category: `${expense.category.emoji} ${expense.category.name}`,
-          subcategory: `${expense.subcategory.emoji} ${expense.subcategory.name}`,
-          name: expense.name,
-          date: expense.createdDate,
-        }
-      }
-    });
-
-    const transferHistory = [
-      ...modifiedTransfers.filter((item) => item !== undefined),
-      ...modifiedIncomes.filter((item) => item !== undefined),
-      ...modifiedExpenses.filter((item) => item !== undefined),
-    ];
-    transferHistory
-      .filter((transfer) => transfer !== undefined)
-      .slice(0, 10)
-      .sort((a, b) => Number(a?.date) - Number(b?.date));
-    const transSum = incomeSum + outcomeSum;
-    const currentAmount = bill.amount + transSum;
-    return {
-      ...bill,
-      transfers: transferHistory,
-      incomeSum,
-      outcomeSum: Math.abs(outcomeSum),
-      transSum,
-      currentAmount,
-      sumInCurrencies,
-    }
-  });
-
-  function getSumByCurrency (currency: string) {
-    let sum = 0;
-    modifiedBills.forEach((bill) => {
-      if (bill.sumInCurrencies) {
-        sum = sum + bill.sumInCurrencies[currency];
-      }
-    });
-    return sum;
+    res.send({ transactions });
+  } catch (error) {
+    console.error("Error fetching transactions:", error);
+    res.status(500).send({ error: "Failed to fetch transactions" });
   }
+};
 
-  const totals = userCurrencies?.reduce((obj, currency) => Object.assign(
-    obj, { [currency]: getSumByCurrency(currency) }
-  ), {});
+export const fetchTotalBillsAmount = async (req: Request, res: Response) => {
+  try {
+    const userId = await getUserId(req.cookies['accessToken']);
+    const userData = await repositories.user.findOne({ where: { id: userId } });
+    const currentCurrency = req.query.currency ?? userData?.defaultCurrency.code;
 
-  res.send({ bills: modifiedBills, rates, totals });
-}
+    const modifiedBills = await getModifiedBills(userId);
+    const userCurrencies = userData?.currencies.map(currency => currency.code);
+    if (!userCurrencies) return;
+
+    const rates = await getCurrencies(userCurrencies);
+    let totalSum = 0;
+
+    modifiedBills.forEach(bill => {
+      const billRate = rates.find(rate => rate.currency.code === bill.currency.code)?.rate;
+      const currentRate = rates.find(rate => rate.currency.code === currentCurrency)?.rate;
+      if (billRate && currentRate) {
+        totalSum += bill.currentAmount / (billRate / currentRate);
+      }
+    });
+
+    res.send({ total: totalSum });
+  } catch (error) {
+    console.error("Error fetching total sum:", error);
+    res.status(500).send({ error: "Failed to fetch total sum" });
+  }
+};
 
 export const addBill = async (req: Request, res: Response) => {
   const accessToken = req.cookies['accessToken'];
@@ -167,9 +148,19 @@ export const addBill = async (req: Request, res: Response) => {
 
   const { amount, currencyId, name } = req.body;
 
-  const bill = await billRepository.save({ ...req.body, id: randomUUID(), user: { id: userId }, name, amount, currency: { id: currencyId } });
+  const bill = await repositories.bill.save({ ...req.body, id: randomUUID(), user: { id: userId }, name, amount, currency: { id: currencyId } });
 
   res.send(bill);
+}
+
+export const updateBill = async (req: Request, res: Response) => {
+  const id = req.params.id as unknown;
+  const data = req.body;
+
+  await repositories.bill.update(id as string, { ...data });
+  const bill = await repositories.bill.findOne({ where: { id: id as string | undefined } });
+
+  res.send({ bill });
 }
 
 export const uploadBillIcon = async (req: Request, res: Response, next: NextFunction) => {
@@ -185,9 +176,9 @@ export const uploadBillIcon = async (req: Request, res: Response, next: NextFunc
     const customIconUrl = await uploadToS3(req.file, username);
 
     // Обновляем БД
-    await billRepository.update({ id }, { customIcon: customIconUrl });
+    await repositories.bill.update({ id }, { customIcon: customIconUrl });
 
-    const bill = await billRepository.findOne({ where: { id } });
+    const bill = await repositories.bill.findOne({ where: { id } });
 
     res.json({ bill });
   } catch (error) {
@@ -196,41 +187,31 @@ export const uploadBillIcon = async (req: Request, res: Response, next: NextFunc
   }
 }
 
-export const updateBill = async (req: Request, res: Response) => {
-  const id = req.params.id as unknown;
-  const data = req.body;
-
-  await billRepository.update(id as string, { ...data });
-  const bill = await billRepository.findOne({ where: { id: id as string | undefined } });
-
-  res.send({ bill });
-}
-
 export const deleteBill = async (req: Request, res: Response) => {
   const id = req.params.id as unknown;
 
-  const bill = await billRepository.findOne({
+  const bill = await repositories.bill.findOne({
     where: { id: id as string },
     relations: ['sendingTransfers', 'receivingTransfers', 'expenses', 'incomes'],
   });
 
   if (bill?.sendingTransfers.length) {
-    await transferRepository.softRemove(bill?.sendingTransfers);
+    await repositories.transfer.softRemove(bill?.sendingTransfers);
   }
 
   if (bill?.receivingTransfers.length) {
-    await transferRepository.softRemove(bill?.receivingTransfers);
+    await repositories.transfer.softRemove(bill?.receivingTransfers);
   }
 
   if (bill?.expenses.length) {
-    await expenseRepository.softRemove(bill?.expenses);
+    await repositories.expense.softRemove(bill?.expenses);
   }
 
   if (bill?.incomes.length) {
-    await incomeRepository.softRemove(bill?.incomes);
+    await repositories.income.softRemove(bill?.incomes);
   }
 
-  await billRepository.softDelete({ id: id as string });
+  await repositories.bill.softDelete({ id: id as string });
 
   res.send({
     message: 'success'

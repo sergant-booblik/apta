@@ -5,12 +5,12 @@
       class="body__header-action"
       @click="changeCurrentRate"
     >
-      <h2> {{ totalAmount }} </h2>
+      <h2 v-if="!loadingTotal"> {{ toMoney(total, currentCurrency?.code) }} </h2>
       <Icon.ChangeCurrencyIcon />
     </div>
   </div>
   <div
-    v-if="!loading"
+    v-if="!loadingBills"
     class="body__inner"
   >
     <CardComponent
@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from 'vue'
+import { computed, onBeforeMount, ref, watch } from 'vue'
 import { toMoney } from '@/helpers/to-money'
 import { storeToRefs } from 'pinia'
 import { useBillStore } from '@/store/bill'
@@ -82,12 +82,10 @@ function openModal(
 const profileStore = useProfileStore();
 const billStore = useBillStore();
 const { profile } = storeToRefs(profileStore);
-const { bills, totals, loading } = storeToRefs(billStore);
+const { bills, total, loadingBills, loadingTotal } = storeToRefs(billStore);
 
 const currentCurrencyIndex = ref(0);
 const currentCurrency = computed(() => profile.value?.currencies[currentCurrencyIndex.value]);
-
-const totalAmount = computed(() => toMoney(totals.value[currentCurrency.value?.code], currentCurrency.value?.code));
 
 const changeCurrentRate = () => {
   if (currentCurrencyIndex.value === profile.value?.currencies.length - 1) {
@@ -101,6 +99,11 @@ onBeforeMount(() => {
   const billStore = useBillStore();
   if (!billStore.hasBills) {
     billStore.fetchBills();
+    billStore.fetchTotalSum(currentCurrency.value?.code);
   }
+});
+
+watch(currentCurrency, (newCurrency) => {
+  billStore.fetchTotalSum(newCurrency?.code);
 });
 </script>

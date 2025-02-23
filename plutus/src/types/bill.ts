@@ -7,8 +7,6 @@ export interface Bill {
   subtitle: string,
   icon: string,
   currency: Currency,
-  transfers: Transfer[],
-  sumInCurrencies: Record<string, number>,
   currentAmount: number,
   incomeSum: number,
   outcomeSum: number,
@@ -19,7 +17,7 @@ export interface Bill {
   isClosed: boolean,
 }
 
-export interface Transfer {
+export interface Transaction {
   type: 'income' | 'expense' | 'transferReceived' | 'transferSend',
   amount: number,
   category: string,

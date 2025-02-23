@@ -90,47 +90,47 @@
             class="tab__body-item"
           >
             <table
-              v-if="bill.transfers.length > 0"
+              v-if="transactions.length > 0"
               class="tab__transfers"
             >
               <tr
-                v-for="(transfer, index) in bill.transfers"
+                v-for="(transaction, index) in transactions"
                 :key="index"
                 class="transfer__item"
               >
                 <td class="transfer__icon">
-                  <component :is="calculateTransferIcon(transfer.type)" />
+                  <component :is="calculateTransferIcon(transaction.type)" />
                 </td>
                 <td class="transfer__amount">
                   <FormattedAmount
-                    :sum="transfer.amount"
+                    :sum="transaction.amount"
                     :currency-code="bill.currency.code"
                     :sign="Sign.NONE"
                   />
                 </td>
                 <td class="transfer__category">
                   {{
-                    transfer.type === 'transferReceived' || transfer.type === 'transferSend'
-                      ? t(transfer.category)
-                      : transfer.category
+                    transaction.type === 'transferReceived' || transaction.type === 'transferSend'
+                      ? t(transaction.category)
+                      : transaction.category
                   }}
                 </td>
                 <td class="transfer__subcategory">
                   {{
-                    transfer.type === 'transferReceived' || transfer.type === 'transferSend'
-                      ? t(transfer.subcategory)
-                      : transfer.subcategory
+                    transaction.type === 'transferReceived' || transaction.type === 'transferSend'
+                      ? t(transaction.subcategory)
+                      : transaction.subcategory
                   }}
                 </td>
                 <td class="transfer__name">
                   {{
-                    transfer.type === 'transferReceived' || transfer.type === 'transferSend'
-                      ? t(transfer.name)
-                      : transfer.name
+                    transaction.type === 'transferReceived' || transaction.type === 'transferSend'
+                      ? t(transaction.name)
+                      : transaction.name
                   }}
                 </td>
-                <td :title="toDate(transfer.date)" class="transfer__date">
-                  {{ formatTimeAgo(new Date(transfer.date)) }}
+                <td :title="toDate(transaction.date)" class="transfer__date">
+                  {{ formatTimeAgo(new Date(transaction.date)) }}
                 </td>
               </tr>
             </table>
@@ -266,7 +266,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, type Ref, ref } from 'vue'
+import { computed, onMounted, type Ref, ref } from 'vue'
 import { useBillStore } from '@/store/bill'
 import { useModalStore } from '@/store/modal'
 import { storeToRefs } from 'pinia'
@@ -285,8 +285,7 @@ import AlertComponent from '@/components/AlertComponent.vue'
 import { useProfileStore } from '@/store/profile'
 import { formatTimeAgo } from '@vueuse/core'
 import ColorPicker from '@/components/ColorPicker.vue'
-// import { ColorPicker } from "vue3-colorpicker";
-// import "vue3-colorpicker/style.css";
+import { useTransactionStore } from '@/store/transaction'
 
 function useUploadFile(
   bill: Ref<Bill | undefined>,
@@ -376,6 +375,7 @@ const { t } = useI18n();
 const modalStore = useModalStore();
 const billStore = useBillStore();
 const profileStore = useProfileStore();
+const transactionStore = useTransactionStore();
 
 const inputRef = ref<HTMLInputElement>();
 
@@ -384,10 +384,17 @@ const isShowConfirmationClose = ref(false);
 
 const { id } = storeToRefs(modalStore);
 const { profile } = storeToRefs(profileStore);
+const { transactions } = storeToRefs(transactionStore);
 
 const tabItemActiveIndex = ref(0);
 
 const bill = computed(() => billStore.getCertainBill(id.value));
 
 const uploadFile = useUploadFile(bill, inputRef);
+
+onMounted(() => {
+  if (bill.value) {
+    transactionStore.fetchTransaction(bill.value.id, 10);
+  }
+})
 </script>

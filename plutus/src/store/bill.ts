@@ -1,48 +1,60 @@
-import type { Bill, Transfer } from '@/types/bill'
+import type { Bill } from '@/types/bill'
 import { defineStore } from 'pinia';
 import { api } from '@/api';
-import type {AddBillRequest} from "@/api/add-bill";
 import type { UpdateBillResponse } from '@/api/update-bill'
 
 interface BillState {
   bills: Bill[],
-  rates: Record<string, number>,
-  loading: boolean,
-  totals: Record<string, number>,
+  total?: number,
+  loadingBills: boolean,
+  loadingTotal: boolean,
 }
 
 export const useBillStore = defineStore('bill', {
   state: (): BillState => ({
     bills: [],
-    rates: {},
-    loading: false,
-    totals: {},
+    total: undefined,
+    loadingBills: false,
+    loadingTotal: false,
   }),
   getters: {
     hasBills: (state: BillState): boolean => state.bills.length > 0,
     getCertainBill: (state: BillState): (id: string | undefined | number) => Bill | undefined => (id: string | undefined | number): Bill | undefined => state.bills.find((bill) => bill.id === id),
   },
   actions: {
-    fetchBills() {
+    async fetchBills() {
       return new Promise((resolve, reject) => {
-        this.loading = true;
+        this.loadingBills = true;
         api.fetchBills()
           .then((response) => {
             this.bills = response.bills;
-            this.rates = response.rates;
-            this.totals = response.totals;
 
             resolve(response);
           })
           .catch((error) => reject(error))
           .finally(() => {
-            this.loading = false;
+            this.loadingBills = false;
+          });
+      });
+    },
+    async fetchTotalSum(currency?: string) {
+      return new Promise((resolve, reject) => {
+        this.loadingTotal = true;
+        api.fetchTotalSum({ currency })
+          .then((response) => {
+            this.total = response.total;
+
+            resolve(response);
+          })
+          .catch((error) => reject(error))
+          .finally(() => {
+            this.loadingTotal = false;
           });
       });
     },
     async addBill(id: number, bill: Bill) {
       return new Promise((resolve, reject) => {
-        this.loading = true;
+        this.loadingBills = true;
         api.addBill({ id, bill })
           .then((response) => {
             this.fetchBills();
@@ -51,7 +63,7 @@ export const useBillStore = defineStore('bill', {
           })
           .catch((error) => reject(error))
           .finally(() => {
-            this.loading = false;
+            this.loadingBills = false;
           });
       });
     },
