@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { useSidePanelStore } from '@/store/side-panel';
 import HeaderComponent from '@/components/HeaderComponent.vue';
 import SubheaderComponent from '@/components/SubheaderComponent.vue';

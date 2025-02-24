@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { type Component, toRefs } from 'vue'
+import { toRefs } from 'vue'
 import { computed } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
 import { InputType } from '@/types/controllers'

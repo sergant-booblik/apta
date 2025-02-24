@@ -95,7 +95,6 @@ import FormattedAmount from '@/components/elements/FormattedAmount.vue'
 import ButtonComponent from '@/components/ButtonComponent.vue'
 import { useI18n } from 'vue-i18n'
 import { ColorType } from '@/types/colors'
-import Icons from '@/components/icons'
 
 function openModal(
   type: ModalType,
