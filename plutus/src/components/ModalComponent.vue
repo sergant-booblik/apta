@@ -41,6 +41,8 @@ const ModalComponent = computed(() => {
       return Modal.AddBillModal;
     case ModalType.OPEN_BILL:
       return Modal.OpenBillModal;
+    case ModalType.ADD_EXPENSE:
+      return Modal.AddExpenseModal;
     default:
       throw new Error(`Unrecognized ${type.value} modal type`);
   }

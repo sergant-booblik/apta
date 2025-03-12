@@ -3,17 +3,15 @@ import bcryptjs from 'bcryptjs';
 import { genitorDataSource } from '../../ormconfig';
 import { User } from '../entity/user';
 import { sign, verify } from "jsonwebtoken";
-import { ErrorData, validateEmail, validatePassword } from '../helper/credentials-validate'
+import { validateEmail, validatePassword } from '../helper/credentials-validate'
+import { ErrorData } from '../type/error'
 
 const userRepository = genitorDataSource.getRepository(User);
 
 //TODO Add to register instant login
 export const authRegister = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  const errors = {
-    email: [] as ErrorData[],
-    password: [] as ErrorData[],
-  };
+  const errors: ErrorData = {};
 
   errors.email = validateEmail(email);
   errors.password = validatePassword(password);
@@ -44,10 +42,7 @@ export const authRegister = async (req: Request, res: Response) => {
 }
 
 export const authLogin = async (req: Request, res: Response) => {
-  const errors = {
-    email: [] as ErrorData[],
-    password: [] as ErrorData[],
-  }
+  const errors: ErrorData = {};
 
   const { email, password } = req.body;
 
@@ -136,8 +131,6 @@ export const verifyToken = async (req: Request, res: Response) => {
 export const authRefresh = async (req: Request, res: Response) => {
   try {
     const refreshToken = req.cookies['refreshToken'];
-
-    console.log(req.cookies['accessToken']);
 
     const payload: any = verify(refreshToken, 'refresh_token');
 

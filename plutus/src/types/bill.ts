@@ -1,4 +1,5 @@
-import type {Currency} from "@/types/currency";
+import type { Currency } from '@/types/currency';
+import type { CategoryType } from '@/types/category';
 
 export interface Bill {
   id: string,
@@ -18,7 +19,7 @@ export interface Bill {
 }
 
 export interface Transaction {
-  type: 'income' | 'expense' | 'transferReceived' | 'transferSend',
+  type: CategoryType | 'transferReceived' | 'transferSend',
   amount: number,
   category: string,
   subcategory: string,

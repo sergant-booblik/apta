@@ -2,6 +2,8 @@ import { genitorDataSource } from '../../ormconfig';
 import { Expense } from '../entity/expense';
 import { Request, Response } from 'express';
 import { Bill } from '../entity/bill';
+import { getUserId } from '../helper/get-user-id'
+import { ErrorData } from '../type/error'
 
 const expenseRepository = genitorDataSource.getRepository(Expense);
 const billRepository = genitorDataSource.getRepository(Bill);
@@ -14,23 +16,50 @@ export const getExpenses = async (req: Request, res: Response) => {
 }
 
 export const addExpense = async (req: Request, res: Response) => {
-  const userId = req.params.userId as unknown as number;
-  const { name, amount, billId, categoryId, subcategoryId } = req.body;
+  const userId = await getUserId(req.cookies['accessToken']);
+  const { name, amount, createdDate, billId, quantity, unitId, categoryId, subcategoryId } = req.body;
 
-  await genitorDataSource.transaction(async () => {
-    await billRepository.decrement({ id: billId }, 'amount', amount);
+  const errors: ErrorData = {};
 
+  if (!name) {
+    errors.name = [{ label: 'Error.Expense.Add.Name.empty' }];
+  }
+
+  if (!billId) {
+    errors.bill = [{ label: 'Error.Expense.Add.Bill.empty' }];
+  }
+
+  if (!createdDate) {
+    errors.date = [{ label: 'Error.Expense.Add.Date.empty' }];
+  }
+
+  if (!quantity || !unitId) {
+    errors.quantity = [{ label: 'Error.Expense.Add.Quantity.empty' }];
+  }
+
+  if (!amount) {
+    errors.amount = [{ label: 'Error.Expense.Add.Amount.empty' }];
+  }
+
+  if (Object.keys(errors).length > 0) {
+    res.status(400).send({ errors })
+  } else {
     const expense = await expenseRepository.save({
       user: { id: userId },
       bill: { id: billId as string },
       category: { id: categoryId as number },
       subcategory: { id: subcategoryId as number },
+      unit: { id: unitId as number },
+      quantity,
       amount,
+      createdDate,
       name,
     });
 
-    res.send(expense);
-  });
+    res.status(200).send({ expense });
+  }
+
+
 }
 
 export const updateExpense = async (req: Request, res: Response) => {

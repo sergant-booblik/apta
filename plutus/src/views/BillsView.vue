@@ -39,17 +39,7 @@
         color: bill.customFontColor,
       }"
     >
-      <div class="bill-card__top">
-        <div>
-          <p class="flex gap-2 items-center">
-            <Icon.EyeSlashIcon
-              v-if="bill.isClosed"
-              class="hidden-icon"
-            />
-            {{ bill.name }}
-          </p>
-          <p class="text-sm mb-3 opacity-60">{{ bill.subtitle }}</p>
-        </div>
+      <div class="flex items-center gap-2">
         <div
           v-if="bill?.customIcon"
           class="bill-card__icon"
@@ -59,24 +49,32 @@
             alt="icon"
           >
         </div>
-        <component
-          v-else
-          :is="`${bill.icon}-icon`"
+        <div>
+          <p class="flex gap-2 items-center">
+            <Icon.EyeSlashIcon
+              v-if="bill.isClosed"
+              class="hidden-icon"
+            />
+            {{ bill.name }}
+          </p>
+          <p class="text-sm opacity-60">{{ bill.subtitle }}</p>
+        </div>
+      </div>
+      <div class="ms-auto flex flex-col items-end">
+        <h2>{{ toMoney(bill.currentAmount, bill.currency.code) }}</h2>
+        <FormattedAmount
+          :currency-code="bill.currency.code"
+          :sum="bill.transSum"
+          :background-color="bill.customColor"
         />
       </div>
-      <h2>{{ toMoney(bill.currentAmount, bill.currency.code) }}</h2>
-      <FormattedAmount
-        :currency-code="bill.currency.code"
-        :sum="bill.transSum"
-        :background-color="bill.customColor"
-        class="mt-auto"
-      />
     </CardComponent>
     <CardComponent
       class="card bill-card bill-card--add"
       @click="openModal(ModalType.ADD_BILL)"
     >
-      +
+      <Icon.PlusIcon />
+      {{ t('Bills.Controls.add') }}
     </CardComponent>
   </div>
 </template>

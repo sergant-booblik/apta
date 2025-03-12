@@ -155,7 +155,7 @@
                 <td class="transfer__name">
                   {{
                     transaction.type === 'transferReceived' || transaction.type === 'transferSend'
-                      ? t(transaction.name)
+                      ? t(transaction.name, { bill: bill.name })
                       : transaction.name
                   }}
                 </td>
@@ -326,6 +326,7 @@ import { useProfileStore } from '@/store/profile'
 import { formatTimeAgo } from '@vueuse/core'
 import ColorPicker from '@/components/ColorPicker.vue'
 import { useTransactionStore } from '@/store/transaction'
+import type { CategoryType, SubcategoryType } from '@/types/category'
 
 function useUploadFile(
   bill: Ref<Bill | undefined>,
@@ -361,7 +362,7 @@ function triggerFileInput() {
   inputRef.value?.click();
 }
 
-function calculateTransferIcon(type: 'income' | 'expense' | 'transferReceived' | 'transferSend') {
+function calculateTransferIcon(type: CategoryType | SubcategoryType) {
   switch (type) {
     case 'income':
       return Icon.TransferIncomeIcon;

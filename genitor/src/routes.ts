@@ -15,8 +15,11 @@ import {
   uploadBillIcon
 } from './controller/bill';
 import { AddTransfer, DeleteTransfer, GetTransfers, updateTransfer } from './controller/transfer';
-import { addCategory, deleteCategory, getCategories, updateCategory } from './controller/category';
-import { addSubcategory, deleteSubcategory, getSubCategories, updateSubcategory } from './controller/subcategory';
+import {
+  addCategory, addSubcategory,
+  fetchCategories,
+  fetchSubcategories, fetchUnits
+} from './controller/category'
 import { addExpense, deleteExpense, getExpenses, updateExpense } from './controller/expense';
 import { addIncome, deleteIncome, getIncomes, updateIncome } from './controller/income';
 import multer from 'multer';
@@ -57,18 +60,24 @@ export const routes = (router: Router) => {
   router.delete('/api/transfer/:id', DeleteTransfer);
 
 
-  router.get('/api/:userId/category', getCategories);
-  router.post('/api/:userId/category', addCategory);
-  router.put('/api/category/:id', updateCategory);
-  router.delete('/api/category/:id', deleteCategory);
-
-  router.get('/api/subcategory', getSubCategories);
+  router.get('/api/category?:type', fetchCategories);
+  router.get('/api/subcategory?:category', fetchSubcategories);
+  router.get('/api/unit/', fetchUnits);
+  router.post('/api/category', addCategory);
   router.post('/api/subcategory', addSubcategory);
-  router.put('/api/subcategory/:id', updateSubcategory);
-  router.delete('/api/subcategory/:id', deleteSubcategory);
+
+  // router.post('/api/:userId/category', addCategory);
+  // router.put('/api/category/:id', updateCategory);
+  // router.delete('/api/category/:id', deleteCategory);
+  //
+  // router.get('/api/subcategory', getSubCategories);
+  // router.post('/api/subcategory', addSubcategory);
+  // router.put('/api/subcategory/:id', updateSubcategory);
+  // router.delete('/api/subcategory/:id', deleteSubcategory);
+
+  router.post('/api/expense', addExpense);
 
   router.get('/api/:userId/expense', getExpenses);
-  router.post('/api/:userId/expense', addExpense);
   router.put('/api/:userId/expense/:id', updateExpense);
   router.delete('/api/expense/:id', deleteExpense);
 

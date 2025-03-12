@@ -81,6 +81,58 @@
           }
         }
       }
+    },
+    "AddExpense": {
+      "title": "Add Expense",
+      "Name": {
+        "label": "Expense title",
+        "placeholder": "Enter the expense title"
+      },
+      "Bill": {
+        "label": "From bill",
+        "placeholder": "Choose the bill"
+      },
+      "Date": {
+        "label": "Expense date & time",
+        "placeholder": "Enter the expense date"
+      },
+      "Quantity": {
+        "label": "Quantity",
+        "placeholder": "Quantity of items",
+        "toggle": "Calculate total by price"
+      },
+      "Price": {
+        "label": "Price",
+        "placeholder": "Enter the price for single item"
+      },
+      "Amount": {
+        "label": "Total amount",
+        "placeholder": "Enter the total amount"
+      },
+      "Unit": {
+        "placeholder": "unit"
+      },
+      "Category": {
+        "label": "Category",
+        "placeholder": "Choose the category",
+        "button": "Add another category",
+        "new": "New category"
+      },
+      "Subcategory": {
+        "label": "Subcategory",
+        "placeholder": "Choose the subcategory",
+        "button": "Add another subcategory",
+        "new": "New subcategory"
+      },
+      "AddMore": {
+        "button": "Add another"
+      },
+      "AddFinish": {
+        "button": "Add and finish"
+      },
+      "Cancel": {
+        "button": "Cancel"
+      }
     }
   },
   "Alert": {
@@ -112,10 +164,37 @@
       "transaction": "\uD83D\uDCB8 Transaction",
       "received": "\uD83D\uDCE5 Received",
       "sent": "\uD83D\uDCE4 Sent",
-      "from": "From bill",
-      "to": "To bill",
+      "from": "from {bill}",
+      "to": "to {bill}",
       "Footer": {
         "link": "Go to full transaction history"
+      }
+    }
+  },
+  "EmojiPicker": {
+    "placeholder": "Search emoji"
+  },
+  "Error": {
+    "Expense": {
+      "Add": {
+        "Name": {
+          "empty": "Title is mandatory field"
+        },
+        "Bill": {
+          "empty": "Bill is mandatory field"
+        },
+        "Date": {
+          "empty": "Date is mandatory field"
+        },
+        "Quantity": {
+          "empty": "Quantity and unit is mandatory field"
+        },
+        "Amount": {
+          "empty": "Amount is mandatory field"
+        },
+        "Price": {
+          "empty": "Price is mandatory field"
+        }
       }
     }
   }

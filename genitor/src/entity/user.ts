@@ -13,6 +13,7 @@ import { Category } from './category';
 import { Expense } from './expense';
 import { Income } from './income';
 import {Currency} from "./currency";
+import { Unit } from './unit'
 
 @Entity()
 export class User {
@@ -43,6 +44,9 @@ export class User {
 
   @OneToMany(() => Category, (category) => category.user)
   categories: Category[];
+
+  @OneToMany(() => Unit, (unit) => unit.user)
+  units: Unit[];
 
   @OneToMany(() => Expense, (expense) => expense.user)
   expenses: Expense[];

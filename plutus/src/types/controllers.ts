@@ -10,6 +10,9 @@ export enum InputType {
   TEXT = 'text',
   EMAIL = 'email',
   PASSWORD = 'password',
+  DATE = 'date',
+  NUMBER = 'number',
+  DATETIME = 'datetime-local',
 }
 
 export interface AlertControl {

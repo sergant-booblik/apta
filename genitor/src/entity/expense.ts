@@ -11,6 +11,7 @@ import { User } from './user';
 import { Bill } from './bill';
 import { Category } from './category';
 import { Subcategory } from './subcategory';
+import { Unit } from './unit'
 
 @Entity()
 export class Expense {
@@ -22,6 +23,9 @@ export class Expense {
 
   @Column({ type: 'float', default: 0.00 })
   amount: number;
+
+  @Column({ type: 'float', default: 0.00 })
+  quantity: number;
 
   @ManyToOne(() => User, (user) => user.expenses)
   user: User;
@@ -43,6 +47,12 @@ export class Expense {
   })
   @JoinTable()
   subcategory: Subcategory;
+
+  @ManyToOne(() => Unit, (unit) => unit.expenses, {
+    eager: true,
+  })
+  @JoinTable()
+  unit: Unit;
 
   @CreateDateColumn()
   createdDate: Date;

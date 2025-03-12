@@ -1,5 +1,16 @@
 .body__inner {
-	@apply flex flex-wrap gap-6;
+	@apply flex flex-col gap-4;
+
+	.bill-card {
+		@apply flex-row items-center;
+		@apply w-full max-w-full;
+		@apply py-2;
+		@apply aspect-unset;
+	}
+
+	.bill-card__icon img {
+		@apply w-full h-full;
+	}
 }
 
 .bill-card {
@@ -8,6 +19,14 @@
 	@apply max-h-80;
 	@apply aspect-4/2;
 	@apply cursor-pointer;
+
+	&--add {
+		@apply flex flex-col items-center;
+
+		svg {
+			@apply h-20 w-20;
+		}
+	}
 
 	&--hidden {
 		@apply opacity-40;
@@ -25,6 +44,11 @@
 
 .bill-card__icon {
 	@apply w-10 h-10;
+
+	img {
+		@apply rounded-md;
+	}
+
 }
 
 .bill-info {

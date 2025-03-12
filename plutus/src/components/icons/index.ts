@@ -4,6 +4,7 @@ const Icon = {
   VerticalDotsIcon: defineAsyncComponent(() => import('./vertical-dots.svg')),
   CaretIcon: defineAsyncComponent(() => import('./caret.svg')),
   CircleIcon: defineAsyncComponent(() => import('./circle.svg')),
+  CheckIcon: defineAsyncComponent(() => import('./check.svg')),
   CloseIcon: defineAsyncComponent(() => import('./close.svg')),
   ChangeCurrencyIcon: defineAsyncComponent(() => import('./change-currency.svg')),
   EyeIcon: defineAsyncComponent(() => import('./eye.svg')),
@@ -19,6 +20,7 @@ const Icon = {
   TransferOutcomeIcon: defineAsyncComponent(() => import('./transfer-outcome.svg')),
   TransferTransactionSentIcon: defineAsyncComponent(() => import('./transfer-transaction-sent.svg')),
   TransferTransactionReceivedIcon: defineAsyncComponent(() => import('./transfer-transaction-received.svg')),
+  XIcon: defineAsyncComponent(() => import('./x.svg')),
 };
 
 export default Icon;

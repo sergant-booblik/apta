@@ -28,6 +28,22 @@ import type { DeleteBillRequest, DeleteBillResponse } from '@/api/delete-bill';
 import type { UpdateBillRequest, UpdateBillResponse } from '@/api/update-bill';
 import type { FetchBillTransactionsRequest, FetchBillTransactionsResponse } from '@/api/fetch-bill-transactions';
 import type { FetchTotalSumRequest, FetchTotalSumResponse } from '@/api/fetch-total-sum';
+import {
+  createFetchCategoriesFunction,
+  type FetchCategoriesRequest,
+  type FetchCategoriesResponse
+} from '@/api/fetch-categories'
+import {
+  createFetchSubcategoriesFunction,
+  type FetchSubcategoriesRequest,
+  type FetchSubcategoriesResponse
+} from '@/api/fetch-subcategories'
+import { createFetchUnitsFunction, type FetchUnitsResponse } from '@/api/fetch-units'
+import { type AddExpenseRequest, type AddExpenseResponse, createAddExpenseFunction } from '@/api/add-expense'
+import type { AddCategoryRequest, AddCategoryResponse } from '@/api/add-category'
+import type { AddSubcategoryRequest, AddSubcategoryResponse } from '@/api/add-subcategory'
+import { createAddCategoryFunction } from '@/api/add-category'
+import { createAddSubcategoryFunction } from '@/api/add-subcategory'
 
 const userId = ref(0);
 const accessToken = ref('');
@@ -53,9 +69,17 @@ interface Api {
   uploadBillIcon: (request: UploadBillIconRequest) => Promise<UploadBillIconResponse>;
   updateBill: (request: UpdateBillRequest) => Promise<UpdateBillResponse>;
   deleteBill: (request: DeleteBillRequest) => Promise<DeleteBillResponse>;
+  addExpense: (request: AddExpenseRequest) => Promise<AddExpenseResponse>;
 
   fetchBillTransaction: (request: FetchBillTransactionsRequest) => Promise<FetchBillTransactionsResponse>;
   fetchTotalSum: (request: FetchTotalSumRequest) => Promise<FetchTotalSumResponse>;
+
+  fetchCategories: (request: FetchCategoriesRequest) => Promise<FetchCategoriesResponse>;
+  fetchSubcategories: (request: FetchSubcategoriesRequest) => Promise<FetchSubcategoriesResponse>;
+  addCategory: (request: AddCategoryRequest) => Promise<AddCategoryResponse>;
+  addSubcategory: (request: AddSubcategoryRequest) => Promise<AddSubcategoryResponse>;
+
+  fetchUnits: () => Promise<FetchUnitsResponse>;
 }
 function createApi(): Api {
   const apiUrl = 'http://localhost:8000/api';
@@ -82,8 +106,17 @@ function createApi(): Api {
     updateBill: createUpdateBillFunction(apiUrl),
     deleteBill: createDeleteBillFunction(apiUrl),
 
+    addExpense: createAddExpenseFunction(apiUrl),
+
     fetchBillTransaction: createFetchBillTransactionFunction(apiUrl),
     fetchTotalSum: createFetchTotalSumFunction(apiUrl),
+
+    fetchCategories: createFetchCategoriesFunction(apiUrl),
+    fetchSubcategories: createFetchSubcategoriesFunction(apiUrl),
+    addCategory: createAddCategoryFunction(apiUrl),
+    addSubcategory: createAddSubcategoryFunction(apiUrl),
+
+    fetchUnits: createFetchUnitsFunction(apiUrl),
   };
 }
 

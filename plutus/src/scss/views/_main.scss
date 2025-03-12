@@ -3,7 +3,7 @@
 		@apply z-10;
 		@apply bg-black opacity-60;
 		@apply h-screen w-screen;
-		@apply absolute;
+		@apply fixed;
 		content: "";
 	}
 }
@@ -30,4 +30,8 @@
 .body__controls {
 	@apply flex gap-3 justify-end;
 	@apply mb-4;
+}
+
+.full-line {
+	@apply border-b border-b-slate-700;
 }

@@ -9,8 +9,6 @@ import { Expense } from '../entity/expense';
 import ShortUniqueId from 'short-unique-id';
 import uploadToS3 from '../middleware/upload';
 import { getCurrencies } from './rate';
-import { Currency } from '../entity/currency';
-import { Not } from 'typeorm'
 type TransactionType = 'income' | 'expense';
 type TransferType = 'transferReceived' | 'transferSend';
 
@@ -35,6 +33,18 @@ const formatTransaction = (
   date: transaction.createdDate,
 });
 
+const formatTransfer = (
+  transfer: Transfer,
+  billId: string,
+) => ({
+  type: transfer.sendingBill.id === billId ? 'transferSend' : 'transferReceived' as TransferType,
+  amount: transfer.sendingBill.id === billId ? transfer.amountSent * -1 : transfer.amountReceived,
+  category: 'Transfer.History.transaction',
+  subcategory: transfer.sendingBill.id === billId ? 'Transfer.History.sent' : 'Transfer.History.received',
+  name: transfer.sendingBill.id === billId ? 'Transfer.History.to' : 'Transfer.History.from',
+  date: transfer.createdDate,
+})
+
 const processTransactions = (
   transactions: Income[] | Expense[],
   billId: string,
@@ -44,6 +54,12 @@ const processTransactions = (
   transactions
     .filter(tx => tx.bill.id === billId)
     .map(tx => formatTransaction(tx, type, tx.amount * amountMultiplier));
+
+const processTransfers = (
+  transfers: Transfer[],
+  billId: string,
+) => transfers.filter((ts) => ts.receivingBill.id === billId || ts.sendingBill.id === billId)
+  .map((ts) => formatTransfer(ts, billId));
 
 const getModifiedBills = async (userId: number, isShowClosed: boolean) => {
   const [bills, transfers, incomes, expenses] = await Promise.all([
@@ -70,6 +86,7 @@ const getModifiedBills = async (userId: number, isShowClosed: boolean) => {
       outcome: (transferMap.get(sendingBill.id)?.outcome || 0) + amountSent,
     });
   });
+
 
   return bills.map(bill => {
     const incomeSum = (incomeMap.get(bill.id) || 0) + (transferMap.get(bill.id)?.income || 0);
@@ -104,8 +121,9 @@ export const fetchBillTransactions = async (req: Request, res: Response) => {
     const transactions = [
       ...processTransactions(incomes, billId, 'income'),
       ...processTransactions(expenses, billId, 'expense', -1),
+      ...processTransfers(transfers, billId),
     ]
-      .sort((a, b) => Number(a.date) - Number(b.date))
+      .sort((a, b) => Number(b.date) - Number(a.date))
       .slice(0, count);
 
     res.send({ transactions });

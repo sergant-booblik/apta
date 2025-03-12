@@ -20,6 +20,7 @@ export default {
     aspectRatio: {
       square: '1/ 1',
       '4/2': '4 / 2',
+      unset: 'unset',
     },
     extend: {},
   },
