@@ -4,7 +4,6 @@ import { createPinia } from 'pinia';
 import App from './App.vue';
 import router from './router';
 import i18n from '@/logic/i18n';
-import { useAuthStore } from '@/store/auth';
 import { setupRouterGuard } from '@/logic/setup-router-guard';
 
 const app = createApp(App);
