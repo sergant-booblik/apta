@@ -16,13 +16,22 @@ export function createLoginFunction(
   apiUrl: string,
 ): (request: LoginRequest) => Promise<LoginResponse> {
   const url = new URL(`${apiUrl}/auth/login`);
-  return (request: LoginRequest): Promise<LoginResponse> => fetch(url.toString(), {
-    method: 'POST',
-    body: JSON.stringify(request),
-    credentials: 'include',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then((resp) => resp.json())
-    .then((resp: LoginResponse) => resp);
+  return async (request: LoginRequest): Promise<LoginResponse> => {
+    const resp = await fetch(url.toString(), {
+      method: 'POST',
+      body: JSON.stringify(request),
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const data = await resp.json();
+
+    if (!resp.ok) {
+      throw { error: data.errors };
+    }
+
+    return data;
+  }
 }

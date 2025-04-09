@@ -1,31 +1,38 @@
 import type { Router } from 'vue-router';
+import type { Pinia } from 'pinia';
 import { useAuthStore } from '@/store/auth';
 import { RouteName } from '@/router';
 
-export function setupRouterGuard(router: Router) {
-  router.beforeEach((to, from, next) => {
-    const authStore = useAuthStore();
+export function setupRouterGuard(router: Router, pinia: Pinia) {
+  router.beforeEach(async (to, from, next) => {
+    const authStore = useAuthStore(pinia);
 
     if (to.matched.some((record) => record.meta.auth)) {
-      authStore.verifyToken()
-        .then((result) => {
-          if (!result.success) {
-            return authStore.refreshToken();
-          }
-        })
-        .then(() => {
-          if (to.name === RouteName.LOGIN || to.name === RouteName.REGISTER) {
-            next({ name: RouteName.HOME });
-          } else {
-            next();
-          }
-        })
-        .catch(() => {
-          authStore.logout();
-          next({ name: RouteName.LOGIN });
-        });
+      try {
+        const verifyResult = await authStore.verifyToken();
+
+        if (verifyResult.success) {
+          return next();
+        }
+
+        const refreshResult = await authStore.refreshToken();
+        if (refreshResult.success) {
+          return next();
+        }
+
+        await authStore.logout(router);
+        return next({ name: RouteName.LOGIN });
+
+      } catch {
+        await authStore.logout(router);
+        return next({ name: RouteName.LOGIN });
+      }
     } else {
-      next();
+      const verifyResult = await authStore.verifyToken();
+      if (verifyResult.success && (to.name === RouteName.LOGIN || to.name === RouteName.REGISTER)) {
+        return next({ name: RouteName.HOME });
+      }
+      return next();
     }
   });
 }

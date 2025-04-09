@@ -14,9 +14,5 @@ app.use(pinia);
 app.use(i18n);
 app.use(router);
 
-const authStore = useAuthStore();
-
-authStore.initialize().finally(() => {
-  setupRouterGuard(router);
-  app.mount('#app');
-})
+setupRouterGuard(router, pinia);
+app.mount('#app');

@@ -1,8 +1,11 @@
 import { defineStore } from 'pinia';
 import { useProfileStore } from '@/store/profile'
 import { api } from '@/api';
-import type { VerifyTokenResponse } from '@/api/auth'
+import type { RefreshTokenResponse, VerifyTokenResponse } from '@/api/auth'
 import type { ErrorData } from '@/types/error';
+import { RouteName } from '@/router';
+import type { LoginResponse } from '@/api/login'
+import type { Router } from 'vue-router'
 
 
 interface AuthState {
@@ -18,71 +21,50 @@ export const useAuthStore = defineStore('auth', {
     loading: false,
   }),
   actions: {
-    initialize() {
-      const profileStore = useProfileStore();
-
-      return new Promise((resolve, reject) => {
-        this.verifyToken()
-          .then((result: VerifyTokenResponse) => {
-            if (result?.success) {
-              return resolve(profileStore.fetchUser());
-            } else {
-              return resolve(this.refreshToken().then(() => profileStore.fetchUser()));
-            }
-          }).catch((error) => {
-          this.logout();
-          return reject(error);
-        });
-      });
-    },
     async verifyToken(): Promise<VerifyTokenResponse> {
-      return new Promise((resolve, reject) => {
-        this.loading = true;
-        api.verifyToken()
-          .then((response: VerifyTokenResponse) => {
-            this.isAuth = response.success;
-            resolve(response);
-          }).catch((error) => reject(error))
-          .finally(() => {
-            this.loading = false;
-          });
-      });
+      this.loading = true;
+      try {
+        const response = await api.verifyToken();
+        this.isAuth = response.success;
+        return response;
+      } finally {
+        this.loading = false;
+      }
     },
-    async refreshToken() {
-      return new Promise((resolve, reject) => {
-        this.loading = true;
-        api.refreshToken()
-          .then((result) => resolve(result))
-          .catch((error) => reject(error));
-      });
+    async refreshToken(): Promise<RefreshTokenResponse> {
+      this.loading = true;
+      try {
+        const response = await api.refreshToken();
+        this.isAuth = response.success;
+        return response;
+      } finally {
+        this.loading = false;
+      }
     },
-    async login(email: string, password: string) {
-      return new Promise((resolve, reject) => {
-        this.loading = true;
-        api.login({ email, password })
-          .then((response) => {
-            this.isAuth = true;
-
-            resolve(response);
-          })
-          .catch((response) => {
-            this.errors = response.error;
-            reject(response);
-          })
-          .finally(() => {
-            this.loading = false;
-          });
-      });
+    async login(email: string, password: string): Promise<LoginResponse> {
+      this.loading = true;
+      try {
+        const response = await api.login({ email, password });
+        this.isAuth = true;
+        return response;
+      } catch (error) {
+        this.errors = (error as { error: Record<string, ErrorData[]> }).error;
+        throw error;
+      } finally {
+        this.loading = false;
+      }
     },
-    async logout() {
+    async logout(router: Router) {
       const profileStore = useProfileStore();
-      return new Promise((resolve) => {
-        api.logout().then(() => {
-          this.isAuth = false;
-          profileStore.clearUser();
-        });
-        resolve(true);
-      });
+      try {
+        await api.logout();
+      } catch (e) {
+        console.error('Logout error', e);
+      } finally {
+        this.isAuth = false;
+        profileStore.clearUser();
+        router.push({ name: RouteName.LOGIN });
+      }
     },
     clearError() {
       this.errors = undefined;
