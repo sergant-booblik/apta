@@ -10,7 +10,7 @@ import type { Router } from 'vue-router'
 
 interface AuthState {
   isAuth: boolean,
-  errors: Record<string, ErrorData[]> | undefined;
+  errors: ErrorData | undefined;
   loading: boolean,
 }
 
@@ -48,7 +48,7 @@ export const useAuthStore = defineStore('auth', {
         this.isAuth = true;
         return response;
       } catch (error) {
-        this.errors = (error as { error: Record<string, ErrorData[]> }).error;
+        this.errors = (error as { error: ErrorData }).error;
         throw error;
       } finally {
         this.loading = false;

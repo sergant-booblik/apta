@@ -14,17 +14,16 @@
             v-model="email"
             :type="InputType.EMAIL"
             :placeholder="t('Auth.SignIn.Email.placeholder')"
+            :errors="errors?.email"
             class="mb-4"
           />
           <InputComponent
             v-model="password"
             :type="InputType.PASSWORD"
             :placeholder="t('Auth.SignIn.Password.placeholder')"
+            :errors="errors?.password"
             class="mb-4"
           />
-          <p class="auth-card__error mb-4" v-if="error">
-            {{ $t(error) }}
-          </p>
         </div>
         <ButtonComponent
           :label="$t('Auth.SignIn.Submit.button')"
@@ -58,7 +57,7 @@ import { useI18n } from 'vue-i18n'
 
 const router = useRouter();
 const authStore = useAuthStore();
-const { error } = storeToRefs(authStore);
+const { errors } = storeToRefs(authStore);
 
 const { t } = useI18n();
 

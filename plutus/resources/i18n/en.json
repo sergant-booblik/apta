@@ -175,6 +175,33 @@
     "placeholder": "Search emoji"
   },
   "Error": {
+    "Auth": {
+      "Email": {
+        "Validate": {
+          "empty": "Email address cannot be empty.",
+          "space": "Email address must not contain spaces.",
+          "at": "Email address must contain the '@' symbol.",
+          "localPart": "Email address is missing the part before '@'.",
+          "domainPart": "Email address is missing the domain after '@'.",
+          "point": "Domain must contain at least one dot (e.g. '.com').",
+          "empties": "Domain cannot contain multiple dots in a row.",
+          "highLevelDomain": "Email must have a valid top-level domain (e.g. '.com', '.org').",
+          "notExist": "No account found with this email address."
+        }
+      },
+      "Password": {
+        "Validate": {
+          "empty": "Password cannot be empty.",
+          "length": "Password must be at least 8 characters long.",
+          "uppercase": "Password must contain at least one uppercase letter.",
+          "lowercase": "Password must contain at least one lowercase letter.",
+          "digit": "Password must contain at least one digit.",
+          "char": "Password must contain at least one special character (e.g. @, #, $, etc.).",
+          "space": "Password must not contain spaces.",
+          "invalid": "Incorrect password. Please try again."
+        }
+      }
+    },
     "Expense": {
       "Add": {
         "Name": {
