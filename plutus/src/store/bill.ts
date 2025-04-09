@@ -2,7 +2,7 @@ import type { Bill } from '@/types/bill'
 import { defineStore } from 'pinia';
 import { api } from '@/api';
 import type { UpdateBillResponse } from '@/api/update-bill'
-import type { Currency } from '@/types/currency'
+import type { ReorderBillsResponse } from '@/api/reorder-biils'
 
 interface BillState {
   bills: Bill[],
@@ -85,12 +85,17 @@ export const useBillStore = defineStore('bill', {
       });
     },
     async updateBill(bill: Partial<Bill>) {
-      return new Promise<UpdateBillResponse>((resolve, reject) => {
+      return new Promise<UpdateBillResponse>(() => {
         api.updateBill({ bill })
           .then((response) => {
             const billIndex = this.bills.indexOf(response.bill);
             this.bills[billIndex] = response.bill;
           })
+      })
+    },
+    reorderBills: async function(id: number, order: number) {
+      return new Promise<ReorderBillsResponse>(() => {
+        api.reorderBills({ id, order })
       })
     },
     async deleteBill(bill: Bill) {

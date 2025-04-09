@@ -44,6 +44,11 @@ import type { AddCategoryRequest, AddCategoryResponse } from '@/api/add-category
 import type { AddSubcategoryRequest, AddSubcategoryResponse } from '@/api/add-subcategory'
 import { createAddCategoryFunction } from '@/api/add-category'
 import { createAddSubcategoryFunction } from '@/api/add-subcategory'
+import {
+  createReorderBillsFunction,
+  type ReorderBillsRequest,
+  type ReorderBillsResponse,
+} from '@/api/reorder-biils'
 
 const userId = ref(0);
 const accessToken = ref('');
@@ -68,6 +73,7 @@ interface Api {
   addBill: (request: AddBillRequest) => Promise<AddBillResponse>;
   uploadBillIcon: (request: UploadBillIconRequest) => Promise<UploadBillIconResponse>;
   updateBill: (request: UpdateBillRequest) => Promise<UpdateBillResponse>;
+  reorderBills: (request: ReorderBillsRequest) => Promise<ReorderBillsResponse>;
   deleteBill: (request: DeleteBillRequest) => Promise<DeleteBillResponse>;
   addExpense: (request: AddExpenseRequest) => Promise<AddExpenseResponse>;
 
@@ -104,6 +110,7 @@ function createApi(): Api {
     addBill: createAddBillFunction(apiUrl),
     uploadBillIcon: createUploadBillIconFunction(apiUrl),
     updateBill: createUpdateBillFunction(apiUrl),
+    reorderBills: createReorderBillsFunction(apiUrl),
     deleteBill: createDeleteBillFunction(apiUrl),
 
     addExpense: createAddExpenseFunction(apiUrl),

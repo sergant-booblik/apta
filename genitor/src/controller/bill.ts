@@ -63,7 +63,10 @@ const processTransfers = (
 
 const getModifiedBills = async (userId: number, isShowClosed: boolean) => {
   const [bills, transfers, incomes, expenses] = await Promise.all([
-    repositories.bill.find({ where: { user: { id: userId }, ...(isShowClosed ? {} : { isClosed: false }) } }),
+    repositories.bill.find({
+      where: { user: { id: userId }, ...(isShowClosed ? {} : { isClosed: false }) },
+      order: { order: 'ASC' },
+    }),
     repositories.transfer.find({ where: { user: { id: userId } } }),
     repositories.income.find({ where: { user: { id: userId } } }),
     repositories.expense.find({ where: { user: { id: userId } } }),
@@ -182,6 +185,34 @@ export const updateBill = async (req: Request, res: Response) => {
   const bill = await repositories.bill.findOne({ where: { id: id as string | undefined } });
 
   res.send({ bill });
+}
+
+export const reorderBills = async (req: Request, res: Response) => {
+  const accessToken = req.cookies['accessToken'];
+  const userId = await getUserId(accessToken).then((result) => result);
+  const billId = req.body.id;
+  const newOrder = req.body.order;
+  const bills = await repositories.bill.find({
+    where: { user: { id: userId }, ...{ isClosed: false } },
+    order: { order: 'ASC' },
+  });
+
+  const movingBill = bills.find((bill) => bill.id === billId);
+  if (!movingBill) {
+    throw new Error('Bill not found');
+  }
+
+  const filtered = bills.filter((bill) => bill.id !== billId);
+  filtered.splice(newOrder - 1, 0, movingBill);
+
+  for (let i = 0; i < filtered.length; i++) {
+    const bill = filtered[i];
+    bill.order = i + 1;
+  }
+
+  await repositories.bill.save(filtered);
+
+  res.send({ filtered });
 }
 
 export const uploadBillIcon = async (req: Request, res: Response, next: NextFunction) => {

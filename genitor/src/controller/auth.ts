@@ -53,6 +53,7 @@ export const authLogin = async (req: Request, res: Response) => {
     .getOne();
 
   errors.email = validateEmail(email);
+  errors.password = [];
   if (!password) {
     errors.password.push({ label: 'Error.Auth.Password.Validate.empty' });
   }

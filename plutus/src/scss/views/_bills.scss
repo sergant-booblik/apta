@@ -34,6 +34,14 @@
 	}
 }
 
+.drag-icon {
+	@apply cursor-grab;
+
+	&--grabbing {
+		@apply cursor-grabbing;
+	}
+}
+
 .bill-card__top {
 	@apply flex justify-between;
 

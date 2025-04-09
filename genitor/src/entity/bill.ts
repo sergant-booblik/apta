@@ -1,12 +1,10 @@
 import {
-  BeforeInsert,
   Column,
   DeleteDateColumn,
   Entity,
   JoinTable,
   ManyToOne,
   OneToMany, PrimaryColumn,
-  PrimaryGeneratedColumn
 } from 'typeorm'
 import { User } from './user';
 import { Currency } from './currency';
@@ -43,6 +41,9 @@ export class Bill {
 
   @Column({ default: null })
   customFontColor: string;
+
+  @Column()
+  order: number;
 
   @Column({ default: false })
   isClosed: boolean;

@@ -22,9 +22,12 @@
       :color="ColorType.PRIMARY"
     />
   </div>
-  <div
+  <draggable
     v-if="!loadingBills"
+    :list="bills"
+    handle=".drag-icon"
     class="body__inner"
+    @change="(event) => setNewOrder(event.moved.element.id, event.moved.newIndex + 1)"
   >
     <CardComponent
       v-for="bill in bills"
@@ -34,12 +37,18 @@
         { 'bill-card--hidden': bill.isClosed },
       ]"
       @click="openModal(ModalType.OPEN_BILL, bill.id)"
+      @mousedown="isIconGrabbing = true"
+      @mouseup="isIconGrabbing = false"
       :style="{
         backgroundColor: bill.customColor,
         color: bill.customFontColor,
       }"
     >
       <div class="flex items-center gap-2">
+        <Icon.ListIcon
+          class="drag-icon"
+          :class="{ 'drag-icon--grabbing': isIconGrabbing }"
+        />
         <div
           v-if="bill?.customIcon"
           class="bill-card__icon"
@@ -76,7 +85,7 @@
       <Icon.PlusIcon />
       {{ t('Bills.Controls.add') }}
     </CardComponent>
-  </div>
+  </draggable>
 </template>
 
 <script setup lang="ts">
@@ -87,6 +96,7 @@ import { useBillStore } from '@/store/bill'
 import { useProfileStore } from '@/store/profile'
 import { useModalStore } from '@/store/modal'
 import { ModalType } from '@/types/modal'
+import { VueDraggableNext as draggable } from 'vue-draggable-next';
 import Icon from '@/components/icons'
 import CardComponent from '@/components/CardComponent.vue'
 import FormattedAmount from '@/components/elements/FormattedAmount.vue'
@@ -106,6 +116,13 @@ function toggleClosedAccounts(): void {
   isShowClosedAccounts.value = !isShowClosedAccounts.value;
 }
 
+function setNewOrder(billId: number, newOrder: number): void {
+  billStore.reorderBills(
+    billId,
+    newOrder,
+  );
+}
+
 const { t } = useI18n();
 
 const profileStore = useProfileStore();
@@ -115,6 +132,7 @@ const { bills, total, loadingBills, loadingTotal } = storeToRefs(billStore);
 
 const isShowClosedAccounts = ref(false);
 const currentCurrencyIndex = ref(0);
+const isIconGrabbing = ref(false);
 const currentCurrency = computed(() => {
   if (profile.value?.currencies) {
     return profile.value?.currencies[currentCurrencyIndex.value];
