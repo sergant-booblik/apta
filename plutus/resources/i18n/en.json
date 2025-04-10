@@ -15,6 +15,25 @@
       "Submit": {
         "button": "Sign In"
       }
+    },
+    "SignUp": {
+      "title": "Join to  Pluton",
+      "Subline": {
+        "text": "Already a member?",
+        "link": "Sign In"
+      },
+      "Email": {
+        "placeholder": "Email"
+      },
+      "Password": {
+        "placeholder": "Password"
+      },
+      "Name": {
+        "placeholder": "Your name"
+      },
+      "Submit": {
+        "button": "Sign Up"
+      }
     }
   },
   "Header": {
@@ -199,6 +218,11 @@
           "char": "Password must contain at least one special character (e.g. @, #, $, etc.).",
           "space": "Password must not contain spaces.",
           "invalid": "Incorrect password. Please try again."
+        }
+      },
+      "Name": {
+        "Validate": {
+          "empty": "Name cannot be empty."
         }
       }
     },

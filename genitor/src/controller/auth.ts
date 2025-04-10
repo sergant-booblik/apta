@@ -3,18 +3,21 @@ import bcryptjs from 'bcryptjs';
 import { genitorDataSource } from '../../ormconfig';
 import { User } from '../entity/user';
 import { sign, verify } from "jsonwebtoken";
-import { validateEmail, validatePassword } from '../helper/credentials-validate'
-import { ErrorData } from '../type/error'
+import { validateEmail, validateName, validatePassword } from '../helper/credentials-validate'
+import { ErrorData, ErrorDetail } from '../type/error'
+import { calculateDefaultCurrency } from '../helper/calculate-default-currency'
 
 const userRepository = genitorDataSource.getRepository(User);
 
 //TODO Add to register instant login
 export const authRegister = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, name, locale } = req.body;
   const errors: ErrorData = {};
 
+  errors.name = validateName(name);
   errors.email = validateEmail(email);
   errors.password = validatePassword(password);
+  errors.general = [] as ErrorDetail[];
 
   const isUserExist = await userRepository.findOne({
     where: { email: email }
@@ -31,9 +34,41 @@ export const authRegister = async (req: Request, res: Response) => {
     });
   }
 
-  await userRepository.save({
+  const defaultCurrency = await calculateDefaultCurrency(locale);
+
+  if (!defaultCurrency) {
+    return res.status(503).send({
+      message: 'Can\'t set default currency',
+      errors,
+    })
+  }
+
+  const user = await userRepository.save({
+    name,
     email,
-    password: await bcryptjs.hash(password, 12)
+    password: await bcryptjs.hash(password, 12),
+    locale,
+    defaultCurrency,
+  });
+
+  const accessToken = sign({
+    id: user.id
+  }, 'access_token', {expiresIn: 24 * 60 * 60});
+
+  const refreshToken = sign({
+    id: user.id
+  }, 'refresh_token', {expiresIn: 30 * 24 * 60 * 60 });
+
+  res.cookie('accessToken', accessToken, {
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000,
+    path: '/',
+  });
+
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    path: '/',
   });
 
   res.status(200).send({

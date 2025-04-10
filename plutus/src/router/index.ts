@@ -1,15 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { useAuthStore } from '@/store/auth';
 import type { RouteRecordRaw } from 'vue-router';
 import DashboardView from '@/views/DashboardView.vue';
 import LoginView from '@/views/LoginView.vue';
 import BillsView from '@/views/BillsView.vue';
 import SettingsView from '@/views/SettingsView.vue';
 import ExpensesView from '@/views/ExpensesView.vue';
-interface RouteMeta {
-  auth?: boolean,
-  layout: string,
-}
+import RegisterView from '@/views/RegisterView.vue';
 
 export enum RouteName {
   HOME = 'HOME',
@@ -37,6 +33,12 @@ const routes: Array<RouteRecordRaw> = [
     name: RouteName.LOGIN,
     meta: { auth: false, layout: Layout.EMPTY },
     component: LoginView
+  },
+  {
+    path: '/register',
+    name: RouteName.REGISTER,
+    meta: { auth: false, layout: Layout.EMPTY },
+    component: RegisterView,
   },
   {
     path: '/accounts',

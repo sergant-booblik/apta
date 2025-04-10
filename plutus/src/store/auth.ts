@@ -6,6 +6,7 @@ import type { ErrorData } from '@/types/error';
 import { RouteName } from '@/router';
 import type { LoginResponse } from '@/api/login'
 import type { Router } from 'vue-router'
+import type { RegisterResponse } from '@/api/register'
 
 
 interface AuthState {
@@ -37,6 +38,19 @@ export const useAuthStore = defineStore('auth', {
         const response = await api.refreshToken();
         this.isAuth = response.success;
         return response;
+      } finally {
+        this.loading = false;
+      }
+    },
+    async register(email: string, password: string, name: string, locale: string): Promise<RegisterResponse> {
+      this.loading = true;
+      try {
+        const response = await api.register({ email, password, name, locale });
+        this.isAuth = true;
+        return response;
+      } catch (error) {
+        this.errors = (error as { error: ErrorData }).error;
+        throw error;
       } finally {
         this.loading = false;
       }

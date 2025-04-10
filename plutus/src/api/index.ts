@@ -49,6 +49,11 @@ import {
   type ReorderBillsRequest,
   type ReorderBillsResponse,
 } from '@/api/reorder-biils'
+import {
+  createRegisterFunction,
+  type RegisterRequest,
+  type RegisterResponse,
+} from '@/api/register'
 
 const userId = ref(0);
 const accessToken = ref('');
@@ -58,6 +63,7 @@ interface Api {
   accessToken: Ref<string | undefined>;
 
   login: (request: LoginRequest) => Promise<LoginResponse>;
+  register: (request: RegisterRequest) => Promise<RegisterResponse>;
   verifyToken: () => Promise<VerifyTokenResponse>;
   refreshToken: () => Promise<RefreshTokenResponse>;
   logout: () => Promise<LogoutResponse>;
@@ -95,6 +101,7 @@ function createApi(): Api {
     accessToken,
 
     login: createLoginFunction(apiUrl),
+    register: createRegisterFunction(apiUrl),
     verifyToken: createVerifyTokenFunction(apiUrl),
     refreshToken: createRefreshTokenFunction(apiUrl),
     logout: createLogoutFunction(apiUrl),

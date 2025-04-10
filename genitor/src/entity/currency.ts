@@ -1,4 +1,4 @@
-import {Column, Entity, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
+import {Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
 import {Bill} from "./bill";
 import {User} from "./user";
 import {Rate} from "./rate";
@@ -13,6 +13,9 @@ export class Currency {
 
   @Column()
   num!: string;
+
+  @Column('simple-array')
+  locale: string[];
 
   @Column()
   flag: string;

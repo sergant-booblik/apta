@@ -34,7 +34,7 @@ export function validateEmail(email: string): ErrorDetail[] {
       emailErrors.push({ label: 'Error.Auth.Email.Validate.point' });
     } else {
       const domainParts = domainPart.split('.');
-      if (domainParts.some(part => part.length === 0)) {
+      if (domainParts.some(part => part.length === 0) && domainParts.length > 2) {
         emailErrors.push({ label: 'Error.Auth.Email.Validate.empties' });
       }
       const tld = domainParts[domainParts.length - 1];
@@ -80,4 +80,14 @@ export function validatePassword(password: string): ErrorDetail[] {
   }
 
   return passwordErrors;
+}
+
+export function validateName(name: string) {
+  const nameErrors: ErrorDetail[] = [];
+
+  if (!name) {
+    nameErrors.push({ label: 'Error.Auth.Name.Validate.empty' });
+  }
+
+  return nameErrors;
 }

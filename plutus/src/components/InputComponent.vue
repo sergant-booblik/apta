@@ -4,7 +4,7 @@
       :class="[
       'input-group',
       { 'input-group--flex': flex },
-      { 'input-group--invalid': errors || invalid },
+      { 'input-group--invalid': errors?.length || invalid },
     ]"
     >
       <label
@@ -36,7 +36,7 @@
     </div>
     <div
       v-if="errors"
-      class="mb-3 flex justify-end"
+      class="mb-3 flex flex-col justify-end"
     >
       <span
         v-for="(error, index) in errors"

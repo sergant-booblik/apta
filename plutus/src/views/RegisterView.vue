@@ -3,40 +3,47 @@
     <div class="auth-card">
       <div class="auth-title">
         <Icon.LogoIcon />
-        <h2 class="text-center">{{ $t('Auth.SignIn.title') }}</h2>
+        <h2 class="text-center">{{ $t('Auth.SignUp.title') }}</h2>
       </div>
       <form
         class="auth-card__form"
-        @submit.prevent="login"
+        @submit.prevent="register"
       >
         <div class="auth-card__inputs">
           <InputComponent
+            v-model="name"
+            :type="InputType.TEXT"
+            :placeholder="t('Auth.SignUp.Name.placeholder')"
+            :errors="errors?.name"
+            class="mb-4"
+          />
+          <InputComponent
             v-model="email"
             :type="InputType.TEXT"
-            :placeholder="t('Auth.SignIn.Email.placeholder')"
+            :placeholder="t('Auth.SignUp.Email.placeholder')"
             :errors="errors?.email"
             class="mb-4"
           />
           <InputComponent
             v-model="password"
             :type="InputType.PASSWORD"
-            :placeholder="t('Auth.SignIn.Password.placeholder')"
+            :placeholder="t('Auth.SignUp.Password.placeholder')"
             :errors="errors?.password"
             class="mb-4"
           />
         </div>
         <ButtonComponent
-          :label="$t('Auth.SignIn.Submit.button')"
+          :label="$t('Auth.SignUp.Submit.button')"
           flex
           :type="ButtonType.SUBMIT"
         />
       </form>
       <div class="auth-subline">
         <p>
-          {{ $t('Auth.SignIn.Subline.text') }}
+          {{ $t('Auth.SignUp.Subline.text') }}
         </p>
-        <router-link :to="{ name: RouteName.REGISTER }">
-          {{ $t('Auth.SignIn.Subline.link') }}
+        <router-link :to="{ name: RouteName.LOGIN }">
+          {{ $t('Auth.SignUp.Subline.link') }}
         </router-link>
       </div>
     </div>
@@ -44,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, ref, watch } from 'vue'
+import { computed, onUnmounted, ref, watch } from 'vue'
 import { useAuthStore } from '@/store/auth';
 import InputComponent from '@/components/InputComponent.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
@@ -63,15 +70,17 @@ const { t } = useI18n();
 
 const email = ref('');
 const password = ref('');
+const name = ref('');
+const locale = computed(() => window.navigator.language);
 
-const login = () => {
-  authStore.login(email.value, password.value)
+const register = () => {
+  authStore.register(email.value, password.value, name.value, locale.value)
     .then(() => {
       router.push({ name: RouteName.HOME });
     });
 };
 
-watch([email, password], () => {
+watch([email, password, name], () => {
   authStore.clearError();
 });
 
