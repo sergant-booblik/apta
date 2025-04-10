@@ -1,7 +1,7 @@
 .side-panel {
 	@apply bg-slate-800;
-	@apply absolute h-full top-0 right-0 w-80 z-20;
-	@apply p-6;
+	@apply absolute h-full top-0 right-0 min-w-80 z-20;
+	@apply py-8 ps-6 pe-10;
 	@apply overflow-scroll;
 
 	animation: appear 300ms;
@@ -9,7 +9,7 @@
 
 .side-panel__close {
 	position: absolute;
-	@apply m-6;
+	@apply m-3;
 	@apply top-0 right-0;
 }
 

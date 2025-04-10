@@ -1,10 +1,10 @@
 import type { Currency } from '@/types/currency'
 
 export interface Profile {
-  id: number | undefined,
-  email: string | undefined,
+  id: number,
+  email: string,
   name: string | undefined,
-  locale: string | undefined,
+  locale: string,
   currencies: Currency[] | undefined,
-  defaultCurrency: Currency | undefined,
+  defaultCurrency: Currency,
 }

@@ -154,6 +154,16 @@
       }
     }
   },
+  "SidePanel": {
+    "Currency": {
+      "title": "Currency Management",
+      "subtitle": "Click on a currency to add or remove it from your list.",
+      "tooltip": "You can't delete your default currency",
+      "user": "Users Currencies",
+      "pinned": "Popular Currencies",
+      "all": "All Currencies"
+    }
+  },
   "Alert": {
     "DeleteBill": {
       "text": "This action cannot be undone!\nAre you sure you want to delete bill?",
