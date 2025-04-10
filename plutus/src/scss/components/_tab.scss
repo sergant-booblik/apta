@@ -22,6 +22,10 @@
 		@apply text-white;
 		@apply border-white;
 	}
+
+	svg {
+		@apply w-4 h-4;
+	}
 }
 
 .tab__body {

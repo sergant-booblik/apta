@@ -6,14 +6,20 @@ import BillsView from '@/views/BillsView.vue';
 import SettingsView from '@/views/SettingsView.vue';
 import ExpensesView from '@/views/ExpensesView.vue';
 import RegisterView from '@/views/RegisterView.vue';
+import ProfileView from '@/views/ProfileView.vue'
 
 export enum RouteName {
   HOME = 'HOME',
+
   LOGIN = 'LOGIN',
   REGISTER = 'REGISTER',
+
+  SETTINGS = 'SETTINGS',
+  PROFILE = 'PROFILE',
+
   BILLS = 'BILLS',
   EXPENSES = 'EXPENSES',
-  SETTINGS = 'SETTINGS',
+
 }
 
 export enum Layout {
@@ -57,6 +63,12 @@ const routes: Array<RouteRecordRaw> = [
     name: RouteName.SETTINGS,
     meta: { auth: true, layout: Layout.MAIN },
     component: SettingsView,
+  },
+  {
+    path: '/profile',
+    name: RouteName.PROFILE,
+    meta: { auth: true, layout: Layout.MAIN },
+    component: ProfileView,
   },
 ];
 

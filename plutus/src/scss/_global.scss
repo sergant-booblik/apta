@@ -24,7 +24,7 @@ h2 {
 }
 
 a {
-	text-decoration: underline;
+	@apply underline underline-offset-2;
 }
 
 .format {

@@ -1,6 +1,5 @@
 <template>
-  Settings
-  <br />
+  <h1>{{ $t('SETTINGS') }}</h1>
   <a
     role="button"
     @click="openSideMenu(SidePanelType.CURRENCIES)"
