@@ -16,9 +16,9 @@
 <script setup lang="ts">
 import { computed, toRefs } from 'vue'
 import { toMoney } from '@/helpers/to-money'
-import FormattedAmountIcon from '@/components/icons/amount-format'
 import { Sign } from '@/types/currency'
 import { getContrastAmountClass } from '@/helpers/contrast-amount-class'
+import Icon from '@/components/icons'
 
 function useCalculateSign(sign: Sign | undefined): (amount: number | undefined) => Sign {
   function calculateSign(amount: number | undefined): Sign {
@@ -49,11 +49,11 @@ const calculateSign = useCalculateSign(sign.value);
 const signComponent = computed(() => {
   switch (calculateSign(sum.value)) {
     case Sign.NEUTRAL:
-      return FormattedAmountIcon.SignNeutralIcon;
+      return Icon.Dot;
     case Sign.POSITIVE:
-      return FormattedAmountIcon.SignPositiveIcon;
+      return Icon.CaretUp;
     case Sign.NEGATIVE:
-      return FormattedAmountIcon.SignNegativeIcon;
+      return Icon.CaretDown;
     default:
       return Sign.NEUTRAL;
   }

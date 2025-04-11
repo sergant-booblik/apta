@@ -3,7 +3,7 @@
     ref="sidePanelRef"
     class="side-panel"
   >
-    <Icon.CloseIcon
+    <BIconXLg
       role="button"
       class="side-panel__close"
       @click="closeSidePanel()"
@@ -19,7 +19,7 @@ import { computed, ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { useSidePanelStore } from '@/store/side-panel'
-import Icon from '@/components/icons'
+import { BIconXLg } from 'bootstrap-icons-vue';
 import { SidePanelType } from '@/types/side-panel'
 import SidePanel from '@/components/side-panel'
 

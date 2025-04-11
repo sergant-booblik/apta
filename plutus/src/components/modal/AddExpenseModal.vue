@@ -129,12 +129,12 @@
           />
           <ButtonComponent
             :color="ColorType.SECONDARY"
-            :append-icon="Icon.CheckIcon"
+            :append-icon="BIconCheck"
             @click="addNewCategory"
           />
           <ButtonComponent
             :color="ColorType.SECONDARY"
-            :append-icon="Icon.XIcon"
+            :append-icon="BIconX"
             @click="toggleAddCategory()"
           />
         </div>
@@ -169,12 +169,12 @@
           />
           <ButtonComponent
             :color="ColorType.SECONDARY"
-            :append-icon="Icon.CheckIcon"
+            :append-icon="BIconCheck"
             @click="addNewSubcategory"
           />
           <ButtonComponent
             :color="ColorType.SECONDARY"
-            :append-icon="Icon.XIcon"
+            :append-icon="BIconX"
             @click="toggleAddSubcategory()"
           />
         </div>
@@ -223,7 +223,6 @@ import SelectComponent from '@/components/SelectComponent.vue'
 import type { Choice } from '@/types/choice'
 import { useI18n } from 'vue-i18n'
 import ToggleComponent from '@/components/ToggleComponent.vue'
-import Icon from '@/components/icons'
 import { ColorType } from '@/types/colors'
 import type { Category, Subcategory } from '@/types/category'
 import EmojiPickerComponent from '@/components/EmojiPickerComponent.vue'
@@ -231,6 +230,7 @@ import { useModalStore } from '@/store/modal'
 import { formatDateForInput } from '@/helpers/format-date'
 import type { AddExpenseResponse } from '@/api/add-expense'
 import type { ErrorDetail } from '@/types/error'
+import { BIconCheck, BIconX } from 'bootstrap-icons-vue'
 
 function updateSubcategories(): void {
   if (expense.value.categoryId) {

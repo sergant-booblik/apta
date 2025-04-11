@@ -19,6 +19,12 @@
 	@apply px-6 py-3.5 flex justify-center items-center;
 }
 
+.settings-button {
+	svg {
+		@apply w-5 h-5;
+	}
+}
+
 .settings-menu {
 	@apply bg-slate-800;
 

@@ -4,7 +4,7 @@
       ref="modalRef"
       class="modal"
     >
-      <Icon.CloseIcon
+      <BIconXLg
         role="button"
         class="modal__close"
         @click="closeModal()"
@@ -21,7 +21,7 @@ import { computed, ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import { useModalStore } from '@/store/modal'
-import Icon from '@/components/icons'
+import { BIconXLg } from 'bootstrap-icons-vue';
 import Modal from '@/components/modal'
 import { ModalType } from '@/types/modal'
 

@@ -6,19 +6,19 @@
       @click="changeCurrentRate"
     >
       <h2 v-if="!loadingTotal"> {{ toMoney(total?.amount, total?.currencyCode) }} </h2>
-      <Icon.ChangeCurrencyIcon />
+      <BIconCurrencyExchange />
     </div>
   </div>
   <div class="body__controls">
     <ButtonComponent
       :label=" isShowClosedAccounts ? t('Bills.Controls.hide') : t('Bills.Controls.show')"
-      :append-icon="isShowClosedAccounts ? Icon.EyeIcon : Icon.EyeSlashIcon"
+      :append-icon="isShowClosedAccounts ? BIconEye : BIconEyeSlash"
       :color="ColorType.SECONDARY"
       @click="toggleClosedAccounts"
     />
     <ButtonComponent
       :label="t('Bills.Controls.add')"
-      :append-icon="Icon.PlusIcon"
+      :append-icon="BIconPlus"
       :color="ColorType.PRIMARY"
     />
   </div>
@@ -44,8 +44,8 @@
         color: bill.customFontColor,
       }"
     >
-      <div class="flex items-center gap-2">
-        <Icon.ListIcon
+      <div class="flex items-center gap-4">
+        <BIconList
           class="drag-icon"
           :class="{ 'drag-icon--grabbing': isIconGrabbing }"
         />
@@ -60,7 +60,7 @@
         </div>
         <div>
           <p class="flex gap-2 items-center">
-            <Icon.EyeSlashIcon
+            <BIconEyeSlash
               v-if="bill.isClosed"
               class="hidden-icon"
             />
@@ -82,7 +82,7 @@
       class="card bill-card bill-card--add"
       @click="openModal(ModalType.ADD_BILL)"
     >
-      <Icon.PlusIcon />
+      <BIconPlus />
       {{ t('Bills.Controls.add') }}
     </CardComponent>
   </draggable>
@@ -97,7 +97,7 @@ import { useProfileStore } from '@/store/profile'
 import { useModalStore } from '@/store/modal'
 import { ModalType } from '@/types/modal'
 import { VueDraggableNext as draggable } from 'vue-draggable-next';
-import Icon from '@/components/icons'
+import { BIconCurrencyExchange, BIconEye, BIconEyeSlash, BIconList, BIconPlus } from 'bootstrap-icons-vue'
 import CardComponent from '@/components/CardComponent.vue'
 import FormattedAmount from '@/components/elements/FormattedAmount.vue'
 import ButtonComponent from '@/components/ButtonComponent.vue'

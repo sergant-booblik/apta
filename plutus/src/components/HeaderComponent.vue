@@ -13,8 +13,11 @@
         float="end"
       >
         <template #button>
-          <div role="button">
-            <Icon.VerticalDotsIcon />
+          <div
+            role="button"
+            class="settings-button"
+          >
+            <BIconThreeDotsVertical />
           </div>
         </template>
         <template #content>
@@ -25,7 +28,7 @@
                 class="menu-item"
               >
                 <div class="menu-item__icon">
-                  <Icon.PersonCircleIcon />
+                  <BIconPersonCircle />
                 </div>
                 <div class="menu-item__text">
                   {{ $t('Header.Settings.Menu.profile') }}
@@ -36,7 +39,7 @@
                 class="menu-item"
               >
                 <div class="menu-item__icon">
-                  <Icon.GearIcon />
+                  <BIconGear />
                 </div>
                 <div class="menu-item__text">
                   {{ $t('Header.Settings.Menu.account-settings') }}
@@ -47,7 +50,7 @@
                 @click="authStore.logout(router)"
               >
                 <div class="menu-item__icon">
-                  <Icon.DoorOpenIcon />
+                  <BIconDoorOpen />
                 </div>
                 <div class="menu-item__text">
                   {{ $t('Header.Settings.Menu.logout') }}
@@ -66,6 +69,9 @@ import Icon from "@/components/icons";
 import DropdownComponent from '@/components/DropdownComponent.vue'
 import router, { RouteName } from '@/router';
 import { useAuthStore } from '@/store/auth'
+import { BIconThreeDotsVertical, BIconDoorOpen, BIconGear, BIconPersonCircle } from 'bootstrap-icons-vue'
+
+
 
 const authStore = useAuthStore();
 </script>

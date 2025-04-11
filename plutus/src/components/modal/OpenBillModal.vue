@@ -4,7 +4,7 @@
       <div class="bill-info">
         <div class="bill-info__title">
           <h2 class="flex gap-2 items-center">
-            <Icon.EyeSlashIcon
+            <BIconEyeSlash
               v-if="bill.isClosed"
             />
             {{ bill.name }}
@@ -87,7 +87,7 @@
             ]"
             @click="tabItemActiveIndex = 0"
           >
-            <Icon.ListIcon />
+            <BIconListNested />
             {{ t(`Modal.OpenBill.Tab.transactions.title`) }}
           </div>
           <div
@@ -99,7 +99,7 @@
             ]"
             @click="tabItemActiveIndex = 1"
           >
-            <Icon.PaletteIcon />
+            <BIconPalette />
             {{ t(`Modal.OpenBill.Tab.customize.title`) }}
           </div>
           <div
@@ -110,7 +110,7 @@
             ]"
             @click="tabItemActiveIndex = 2"
           >
-            <Icon.GearIcon />
+            <BIconGear />
             {{ t(`Modal.OpenBill.Tab.settings.title`) }}
           </div>
         </div>
@@ -178,7 +178,7 @@
               class="mt-4 font-extralight float-end text-sm flex gap-2 items-center hover:opacity-80"
             >
               {{ t('Transfer.History.Footer.link') }}
-              <Icon.ExternalLinkIcon />
+              <BIconBoxArrowUpRight />
             </router-link>
           </div>
           <div
@@ -283,7 +283,7 @@
             </div>
             <AlertComponent
               v-show="isShowConfirmationDelete"
-              :icon="Icon.ExclamationCircleIcon"
+              :icon="BIconExclamationCircle"
               :text="t('Alert.DeleteBill.text')"
               :controls="[
                 { label: t('Alert.DeleteBill.control.cancel'), onClick: toggleConfirmationDelete },
@@ -292,7 +292,7 @@
             />
             <AlertComponent
               v-show="isShowConfirmationClose"
-              :icon="Icon.ExclamationCircleIcon"
+              :icon="BIconExclamationCircle"
               :text="t('Alert.CloseBill.text')"
               :controls="[
                 { label: t('Alert.CloseBill.control.cancel'), onClick: toggleConfirmationClose },
@@ -315,6 +315,7 @@ import type { Bill } from '@/types/bill'
 import { toMoney } from '@/helpers/to-money'
 import CardComponent from '@/components/CardComponent.vue'
 import Icon from '@/components/icons'
+import { BIconExclamationCircle, BIconEyeSlash, BIconBoxArrowUpRight, BIconGear, BIconListNested, BIconPalette } from 'bootstrap-icons-vue'
 import FormattedAmount from '@/components/elements/FormattedAmount.vue'
 import { Sign } from '@/types/currency'
 import { useI18n } from 'vue-i18n'

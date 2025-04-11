@@ -27,7 +27,7 @@
           outline
           role="button"
           :label="`${currency?.code} ${currency?.flag}`"
-          :control="{ color: ColorType.DANGER, icon: Icon.XIcon }"
+          :control="{ color: ColorType.DANGER, icon: BIconX }"
           :color="ColorType.PRIMARY"
           @click="removeCurrency(currency?.id)"
         />
@@ -47,7 +47,7 @@
             outline
             role="button"
             :label="`${currency.code} ${currency.flag}`"
-            :control="{ color: ColorType.SUCCESS, icon: Icon.PlusIcon }"
+            :control="{ color: ColorType.SUCCESS, icon: BIconPlus }"
             :color="ColorType.PRIMARY"
             @click="addCurrency(currency)"
           />
@@ -67,7 +67,7 @@
           <PillComponent
             outline
             role="button"
-            :control="{ color: ColorType.SUCCESS, icon: Icon.PlusIcon }"
+            :control="{ color: ColorType.SUCCESS, icon: BIconPlus }"
             :color="ColorType.PRIMARY"
             :label="`${currency.code} ${currency.flag}`"
             @click="addCurrency(currency)"
@@ -86,7 +86,8 @@ import { useProfileStore } from '@/store/profile'
 import type { Currency } from '@/types/currency'
 import PillComponent from '@/components/PillComponent.vue'
 import { ColorType } from '@/types/colors'
-import Icon from '@/components/icons'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { BIconPlus, BIconX } from 'bootstrap-icons-vue';
 
 function useAddCurrency(): (currency: Currency) => void {
   const profileStore = useProfileStore();

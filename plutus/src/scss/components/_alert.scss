@@ -5,7 +5,9 @@
 	@apply rounded-md;
 
 	.alert__icon {
-		@apply w-6 h-6;
+		svg {
+			@apply w-6 h-6;
+		}
 	}
 
 	.alert__text {

@@ -7,10 +7,7 @@
     ]"
     @click="toggleDropdown"
   >
-    <slot
-      name="button"
-      class="w-full"
-    />
+    <slot name="button" />
     <div
       v-if="isDropdownOpen"
       class="dropdown__inner"
