@@ -12,7 +12,7 @@
       >
         <PillComponent
           role="button"
-          :label="`${defaultCurrency?.code} ${defaultCurrency?.flag}`"
+          :label="`${defaultCurrency?.flag} ${$t(`Currency.Name.${defaultCurrency?.code}`)}`"
           :title="$t('SidePanel.Currency.tooltip')"
           :color="ColorType.SECONDARY"
         />
@@ -26,7 +26,7 @@
           v-if="currency"
           outline
           role="button"
-          :label="`${currency?.code} ${currency?.flag}`"
+          :label="`${currency?.flag} ${$t(`Currency.Name.${currency?.code}`)}`"
           :control="{ color: ColorType.DANGER, icon: BIconX }"
           :color="ColorType.PRIMARY"
           @click="removeCurrency(currency?.id)"
@@ -46,7 +46,7 @@
           <PillComponent
             outline
             role="button"
-            :label="`${currency.code} ${currency.flag}`"
+            :label="`${currency?.flag} ${$t(`Currency.Name.${currency?.code}`)}`"
             :control="{ color: ColorType.SUCCESS, icon: BIconPlus }"
             :color="ColorType.PRIMARY"
             @click="addCurrency(currency)"
@@ -69,7 +69,7 @@
             role="button"
             :control="{ color: ColorType.SUCCESS, icon: BIconPlus }"
             :color="ColorType.PRIMARY"
-            :label="`${currency.code} ${currency.flag}`"
+            :label="`${currency?.flag} ${$t(`Currency.Name.${currency?.code}`)}`"
             @click="addCurrency(currency)"
           />
         </li>
@@ -138,7 +138,7 @@ const { pinnedCurrencies, unpinnedCurrencies } = storeToRefs(currenciesStore);
 const { profile } = storeToRefs(profileStore);
 
 const defaultCurrency = computed(() => profile.value?.defaultCurrency);
-const userCurrencies = computed(() => profile.value?.currencies);
+const userCurrencies = computed(() => profile.value?.currencies?.filter((currency) => currency.id !== defaultCurrency.value?.id));
 const addedCurrencies = computed(() => [defaultCurrency.value].concat(userCurrencies.value));
 
 const otherPinnedCurrencies = computed(() => {

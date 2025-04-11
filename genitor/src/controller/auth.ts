@@ -49,6 +49,7 @@ export const authRegister = async (req: Request, res: Response) => {
     password: await bcryptjs.hash(password, 12),
     locale,
     defaultCurrency,
+    currencies: [defaultCurrency],
   });
 
   const accessToken = sign({
