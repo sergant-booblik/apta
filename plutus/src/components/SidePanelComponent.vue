@@ -48,7 +48,7 @@ onClickOutside(sidePanelRef, () => sidePanelStore.removeSidePanel());
 <style scoped lang="scss">
 .side-panel {
   @apply bg-slate-800;
-  @apply absolute h-full top-0 right-0 min-w-80 max-w-screen-sm z-20;
+  @apply absolute h-full top-0 right-0 min-w-80 max-w-[calc(100%-20rem)] z-20;
   @apply py-8 ps-6 pe-10;
   @apply overflow-scroll;
 

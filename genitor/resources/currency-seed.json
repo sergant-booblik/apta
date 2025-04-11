@@ -1,0 +1,583 @@
+[
+  {
+    "code": "RUB",
+    "num": 643,
+    "flag": "🇷🇺",
+    "pinned": 1,
+    "locale": "ru-RU"
+  },
+  {
+    "code": "USD",
+    "num": 840,
+    "flag": "🇺🇸",
+    "pinned": 1,
+    "locale": "en-US"
+  },
+  {
+    "code": "EUR",
+    "num": 978,
+    "flag": "🇪🇺",
+    "pinned": 1,
+    "locale": "de-AT,fr-BE,nl-BE,hr-HR,cy-CY,et-EE,fi-FI,fr-FR,de-DE,el-GR,ga-IE,it-IT,lv-LV,lt-LT,mt-MT,nl-NL,pt-PT,sk-SK,sl-SI,es-ES,fr-LU,de-LU,lb-LU"
+  },
+  {
+    "code": "GEL",
+    "num": 981,
+    "flag": "🇬🇪",
+    "pinned": 0,
+    "locale": "ka-GE"
+  },
+  {
+    "code": "GBP",
+    "num": 826,
+    "flag": "🇬🇧",
+    "pinned": 1,
+    "locale": "en-GB"
+  },
+  {
+    "code": "JPY",
+    "num": 392,
+    "flag": "🇯🇵",
+    "pinned": 1,
+    "locale": "ja-JP"
+  },
+  {
+    "code": "CNY",
+    "num": 156,
+    "flag": "🇨🇳",
+    "pinned": 1,
+    "locale": "zh-CN"
+  },
+  {
+    "code": "CHF",
+    "num": 756,
+    "flag": "🇨🇭",
+    "pinned": 1,
+    "locale": "de-CH, fr-CH, it-CH"
+  },
+  {
+    "code": "CAD",
+    "num": 124,
+    "flag": "🇨🇦",
+    "pinned": 1,
+    "locale": "en-CA, fr-CA"
+  },
+  {
+    "code": "AUD",
+    "num": "036",
+    "flag": "🇦🇺",
+    "pinned": 1,
+    "locale": "en-AU"
+  },
+  {
+    "code": "KRW",
+    "num": 410,
+    "flag": "🇰🇷",
+    "pinned": 1,
+    "locale": "ko-KR"
+  },
+  {
+    "code": "SGD",
+    "num": 702,
+    "flag": "🇸🇬",
+    "pinned": 1,
+    "locale": "en-SG"
+  },
+  {
+    "code": "ILS",
+    "num": 376,
+    "flag": "🇮🇱",
+    "pinned": 0,
+    "locale": "he-IL"
+  },
+  {
+    "code": "TRY",
+    "num": 949,
+    "flag": "🇹🇷",
+    "pinned": 0,
+    "locale": "tr-TR"
+  },
+  {
+    "code": "INR",
+    "num": 356,
+    "flag": "🇮🇳",
+    "pinned": 0,
+    "locale": "hi-IN, en-IN"
+  },
+  {
+    "code": "BRL",
+    "num": 986,
+    "flag": "🇧🇷",
+    "pinned": 0,
+    "locale": "pt-BR"
+  },
+  {
+    "code": "MXN",
+    "num": 484,
+    "flag": "🇲🇽",
+    "pinned": 0,
+    "locale": "es-MX"
+  },
+  {
+    "code": "ZAR",
+    "num": 710,
+    "flag": "🇿🇦",
+    "pinned": 0,
+    "locale": "en-ZA, af-ZA"
+  },
+  {
+    "code": "SAR",
+    "num": 682,
+    "flag": "🇸🇦",
+    "pinned": 0,
+    "locale": "ar-SA"
+  },
+  {
+    "code": "NOK",
+    "num": 578,
+    "flag": "🇳🇴",
+    "pinned": 0,
+    "locale": "nb-NO"
+  },
+  {
+    "code": "SEK",
+    "num": 752,
+    "flag": "🇸🇪",
+    "pinned": 0,
+    "locale": "sv-SE"
+  },
+  {
+    "code": "DKK",
+    "num": 208,
+    "flag": "🇩🇰",
+    "pinned": 0,
+    "locale": "da-DK"
+  },
+  {
+    "code": "PLN",
+    "num": 985,
+    "flag": "🇵🇱",
+    "pinned": 0,
+    "locale": "pl-PL"
+  },
+  {
+    "code": "CZK",
+    "num": 203,
+    "flag": "🇨🇿",
+    "pinned": 0,
+    "locale": "cs-CZ"
+  },
+  {
+    "code": "HUF",
+    "num": 348,
+    "flag": "🇭🇺",
+    "pinned": 0,
+    "locale": "hu-HU"
+  },
+  {
+    "code": "RON",
+    "num": 946,
+    "flag": "🇷🇴",
+    "pinned": 0,
+    "locale": "ro-RO"
+  },
+  {
+    "code": "UAH",
+    "num": 980,
+    "flag": "🇺🇦",
+    "pinned": 0,
+    "locale": "uk-UA"
+  },
+  {
+    "code": "AMD",
+    "num": "051",
+    "flag": "🇦🇲",
+    "pinned": 0,
+    "locale": "hy-AM"
+  },
+  {
+    "code": "AZN",
+    "num": 944,
+    "flag": "🇦🇿",
+    "pinned": 0,
+    "locale": "az-AZ"
+  },
+  {
+    "code": "KZT",
+    "num": 398,
+    "flag": "🇰🇿",
+    "pinned": 0,
+    "locale": "kk-KZ, ru-KZ"
+  },
+  {
+    "code": "UZS",
+    "num": 860,
+    "flag": "🇺🇿",
+    "pinned": 0,
+    "locale": "uz-UZ, ru-UZ"
+  },
+  {
+    "code": "EGP",
+    "num": 818,
+    "flag": "🇪🇬",
+    "pinned": 0,
+    "locale": "ar-EG"
+  },
+  {
+    "code": "IDR",
+    "num": 360,
+    "flag": "🇮🇩",
+    "pinned": 0,
+    "locale": "id-ID"
+  },
+  {
+    "code": "MYR",
+    "num": 458,
+    "flag": "🇲🇾",
+    "pinned": 0,
+    "locale": "ms-MY"
+  },
+  {
+    "code": "PHP",
+    "num": 608,
+    "flag": "🇵🇭",
+    "pinned": 0,
+    "locale": "en-PH"
+  },
+  {
+    "code": "THB",
+    "num": 764,
+    "flag": "🇹🇭",
+    "pinned": 0,
+    "locale": "th-TH"
+  },
+  {
+    "code": "VND",
+    "num": 704,
+    "flag": "🇻🇳",
+    "pinned": 0,
+    "locale": "vi-VN"
+  },
+  {
+    "code": "ARS",
+    "num": "032",
+    "flag": "🇦🇷",
+    "pinned": 0,
+    "locale": "es-AR"
+  },
+  {
+    "code": "CLP",
+    "num": 152,
+    "flag": "🇨🇱",
+    "pinned": 0,
+    "locale": "es-CL"
+  },
+  {
+    "code": "COP",
+    "num": 170,
+    "flag": "🇨🇴",
+    "pinned": 0,
+    "locale": "es-CO"
+  },
+  {
+    "code": "PEN",
+    "num": 604,
+    "flag": "🇵🇪",
+    "pinned": 0,
+    "locale": "es-PE"
+  },
+  {
+    "code": "BGN",
+    "num": 975,
+    "flag": "🇧🇬",
+    "pinned": 0,
+    "locale": "bg-BG"
+  },
+  {
+    "code": "HRK",
+    "num": 191,
+    "flag": "🇭🇷",
+    "pinned": 0,
+    "locale": "hr-HR"
+  },
+  {
+    "code": "RSD",
+    "num": 941,
+    "flag": "🇷🇸",
+    "pinned": 0,
+    "locale": "sr-RS"
+  },
+  {
+    "code": "BYN",
+    "num": 933,
+    "flag": "🇧🇾",
+    "pinned": 0,
+    "locale": "be-BY, ru-BY"
+  },
+  {
+    "code": "IRR",
+    "num": 364,
+    "flag": "🇮🇷",
+    "pinned": 0,
+    "locale": "fa-IR"
+  },
+  {
+    "code": "PKR",
+    "num": 586,
+    "flag": "🇵🇰",
+    "pinned": 0,
+    "locale": "ur-PK, en-PK"
+  },
+  {
+    "code": "LKR",
+    "num": 144,
+    "flag": "🇱🇰",
+    "pinned": 0,
+    "locale": "si-LK, ta-LK"
+  },
+  {
+    "code": "BDT",
+    "num": "050",
+    "flag": "🇧🇩",
+    "pinned": 0,
+    "locale": "bn-BD"
+  },
+  {
+    "code": "NGN",
+    "num": 566,
+    "flag": "🇳🇬",
+    "pinned": 0,
+    "locale": "en-NG"
+  },
+  {
+    "code": "KES",
+    "num": 404,
+    "flag": "🇰🇪",
+    "pinned": 0,
+    "locale": "en-KE, sw-KE"
+  },
+  {
+    "code": "TZS",
+    "num": 834,
+    "flag": "🇹🇿",
+    "pinned": 0,
+    "locale": "sw-TZ, en-TZ"
+  },
+  {
+    "code": "UGX",
+    "num": 800,
+    "flag": "🇺🇬",
+    "pinned": 0,
+    "locale": "en-UG, sw-UG"
+  },
+  {
+    "code": "MAD",
+    "num": 504,
+    "flag": "🇲🇦",
+    "pinned": 0,
+    "locale": "ar-MA, fr-MA"
+  },
+  {
+    "code": "DZD",
+    "num": "012",
+    "flag": "🇩🇿",
+    "pinned": 0,
+    "locale": "ar-DZ"
+  },
+  {
+    "code": "TND",
+    "num": 788,
+    "flag": "🇹🇳",
+    "pinned": 0,
+    "locale": "ar-TN"
+  },
+  {
+    "code": "AED",
+    "num": 784,
+    "flag": "🇦🇪",
+    "pinned": 0,
+    "locale": "ar-AE"
+  },
+  {
+    "code": "KWD",
+    "num": 414,
+    "flag": "🇰🇼",
+    "pinned": 0,
+    "locale": "ar-KW"
+  },
+  {
+    "code": "QAR",
+    "num": 634,
+    "flag": "🇶🇦",
+    "pinned": 0,
+    "locale": "ar-QA"
+  },
+  {
+    "code": "BHD",
+    "num": "048",
+    "flag": "🇧🇭",
+    "pinned": 0,
+    "locale": "ar-BH"
+  },
+  {
+    "code": "OMR",
+    "num": 512,
+    "flag": "🇴🇲",
+    "pinned": 0,
+    "locale": "ar-OM"
+  },
+  {
+    "code": "JOD",
+    "num": 400,
+    "flag": "🇯🇴",
+    "pinned": 0,
+    "locale": "ar-JO"
+  },
+  {
+    "code": "LBP",
+    "num": 422,
+    "flag": "🇱🇧",
+    "pinned": 0,
+    "locale": "ar-LB"
+  },
+  {
+    "code": "SYP",
+    "num": 760,
+    "flag": "🇸🇾",
+    "pinned": 0,
+    "locale": "ar-SY"
+  },
+  {
+    "code": "IQD",
+    "num": 368,
+    "flag": "🇮🇶",
+    "pinned": 0,
+    "locale": "ar-IQ"
+  },
+  {
+    "code": "HKD",
+    "num": 344,
+    "flag": "🇭🇰",
+    "pinned": 1,
+    "locale": "zh-HK, en-HK"
+  },
+  {
+    "code": "TWD",
+    "num": 901,
+    "flag": "🇹🇼",
+    "pinned": 1,
+    "locale": "zh-TW"
+  },
+  {
+    "code": "XAF",
+    "num": 950,
+    "flag": "🇨🇲🇬🇦🇨🇫🇹🇩🇨🇬🇬🇶",
+    "pinned": 0,
+    "locale": "fr-CM, fr-GA, fr-CF, fr-TD, fr-CG, fr-GQ"
+  },
+  {
+    "code": "XOF",
+    "num": 952,
+    "flag": "🇸🇳🇨🇮🇧🇫🇹🇬🇧🇯🇳🇪🇲🇱🇬🇼",
+    "pinned": 0,
+    "locale": "fr-SN, fr-CI, fr-BF, fr-TG, fr-BJ, fr-NE, fr-ML, pt-GW"
+  },
+  {
+    "code": "XCD",
+    "num": 951,
+    "flag": "🇰🇳🇱🇨🇩🇲🇦🇬🇻🇨🇬🇩🇲🇸",
+    "pinned": 0,
+    "locale": "en-KN, en-LC, en-DM, en-AG, en-VC, en-GD, en-MS"
+  },
+  {
+    "code": "MUR",
+    "num": 480,
+    "flag": "🇲🇺",
+    "pinned": 0,
+    "locale": "en-MU, fr-MU"
+  },
+  {
+    "code": "MNT",
+    "num": 496,
+    "flag": "🇲🇳",
+    "pinned": 0,
+    "locale": "mn-MN"
+  },
+  {
+    "code": "NPR",
+    "num": 524,
+    "flag": "🇳🇵",
+    "pinned": 0,
+    "locale": "ne-NP"
+  },
+  {
+    "code": "MMK",
+    "num": 104,
+    "flag": "🇲🇲",
+    "pinned": 0,
+    "locale": "my-MM"
+  },
+  {
+    "code": "LAK",
+    "num": 418,
+    "flag": "🇱🇦",
+    "pinned": 0,
+    "locale": "lo-LA"
+  },
+  {
+    "code": "MOP",
+    "num": 446,
+    "flag": "🇲🇴",
+    "pinned": 0,
+    "locale": "zh-MO, pt-MO"
+  },
+  {
+    "code": "BOB",
+    "num": "068",
+    "flag": "🇧🇴",
+    "pinned": 0,
+    "locale": "es-BO"
+  },
+  {
+    "code": "PYG",
+    "num": 600,
+    "flag": "🇵🇾",
+    "pinned": 0,
+    "locale": "es-PY, gn-PY"
+  },
+  {
+    "code": "UYU",
+    "num": 858,
+    "flag": "🇺🇾",
+    "pinned": 0,
+    "locale": "es-UY"
+  },
+  {
+    "code": "GTQ",
+    "num": 320,
+    "flag": "🇬🇹",
+    "pinned": 0,
+    "locale": "es-GT"
+  },
+  {
+    "code": "HNL",
+    "num": 340,
+    "flag": "🇭🇳",
+    "pinned": 0,
+    "locale": "es-HN"
+  },
+  {
+    "code": "DOP",
+    "num": 214,
+    "flag": "🇩🇴",
+    "pinned": 0,
+    "locale": "es-DO"
+  },
+  {
+    "code": "JMD",
+    "num": 388,
+    "flag": "🇯🇲",
+    "pinned": 0,
+    "locale": "en-JM"
+  }
+]

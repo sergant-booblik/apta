@@ -4,6 +4,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "CommonJS",
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

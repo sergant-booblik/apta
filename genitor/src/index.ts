@@ -3,11 +3,16 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { genitorDataSource } from '../ormconfig';
 import { routes } from './routes';
+import { seedCurrenciesIfNeeded } from './utils/seed-currencies'
+import { fixRateCurrency } from './utils/fix-rate-currency'
 
 export const PORT = 8000;
 
-genitorDataSource.initialize().then(() => {
+genitorDataSource.initialize().then(async (dataSource) => {
   const app = express();
+  await seedCurrenciesIfNeeded(dataSource).then(() => {
+    fixRateCurrency(dataSource).catch(console.error);
+  });
 
   app.use(express.json());
   app.use(cookieParser());

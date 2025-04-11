@@ -13,25 +13,16 @@ export const useCurrenciesStore = defineStore('currencies-store', {
     unpinnedCurrencies: [],
   }),
   actions: {
-    async fetchPinnedCurrencies() {
+    async fetchCurrencies() {
       return new Promise((resolve, reject) => {
-        api.fetchCurrencies({ isPinnedCurrencies: true })
+        api.fetchCurrencies()
           .then((response) => {
-            this.pinnedCurrencies = response.currencies;
+            this.pinnedCurrencies = response.currencies.filter((currency) => currency.pinned);
+            this.unpinnedCurrencies = response.currencies.filter((currency) => !currency.pinned);
 
             resolve(response);
           }).catch((error) => reject(error));
       });
     },
-    async fetchUnpinnedCurrencies() {
-      return new Promise((resolve, reject) => {
-        api.fetchCurrencies({ isPinnedCurrencies: false })
-          .then((response) => {
-            this.unpinnedCurrencies = response.currencies;
-
-            resolve(response);
-          }).catch((error) => reject(error));
-      });
-    }
   },
 });

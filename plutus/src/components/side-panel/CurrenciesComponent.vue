@@ -79,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { useCurrenciesStore } from '@/store/currencies'
 import { storeToRefs } from 'pinia'
 import { useProfileStore } from '@/store/profile'
@@ -137,6 +137,8 @@ const profileStore = useProfileStore();
 const { pinnedCurrencies, unpinnedCurrencies } = storeToRefs(currenciesStore);
 const { profile } = storeToRefs(profileStore);
 
+const filter = ref('');
+
 const defaultCurrency = computed(() => profile.value?.defaultCurrency);
 const userCurrencies = computed(() => profile.value?.currencies?.filter((currency) => currency.id !== defaultCurrency.value?.id));
 const addedCurrencies = computed(() => [defaultCurrency.value].concat(userCurrencies.value));
@@ -154,8 +156,7 @@ const removeCurrency = useRemoveCurrency();
 
 onBeforeMount(() => {
   const currenciesStore = useCurrenciesStore();
-  currenciesStore.fetchPinnedCurrencies();
-  currenciesStore.fetchUnpinnedCurrencies();
+  currenciesStore.fetchCurrencies();
 });
 </script>
 

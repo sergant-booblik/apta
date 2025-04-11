@@ -18,7 +18,7 @@ import type { VerifyTokenResponse, RefreshTokenResponse } from '@/api/auth';
 import type { FetchTranslationRequest, FetchTranslationResponse } from '@/api/translation';
 import type { LoginRequest, LoginResponse } from '@/api/login';
 import type { FetchBillsResponse, FetchBillRequest } from '@/api/fetch-bills';
-import type { FetchCurrenciesResponse, FetchCurrenciesRequest } from '@/api/fetch-currencies';
+import type { FetchCurrenciesResponse } from '@/api/fetch-currencies';
 import type { AddBillRequest, AddBillResponse } from '@/api/add-bill';
 import type { UploadBillIconRequest, UploadBillIconResponse } from '@/api/upload-bill-icon';
 import type { UpdateProfileRequest, UpdateProfileResponse } from '@/api/update-profile'
@@ -73,7 +73,7 @@ interface Api {
 
   fetchTranslation: (request: FetchTranslationRequest) => Promise<FetchTranslationResponse>;
 
-  fetchCurrencies: (request: FetchCurrenciesRequest) => Promise<FetchCurrenciesResponse>;
+  fetchCurrencies: () => Promise<FetchCurrenciesResponse>;
 
   fetchBills: (request: FetchBillRequest) => Promise<FetchBillsResponse>;
   addBill: (request: AddBillRequest) => Promise<AddBillResponse>;

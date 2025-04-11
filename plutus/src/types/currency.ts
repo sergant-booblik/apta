@@ -10,4 +10,5 @@ export interface Currency {
   code: string,
   num: string,
   flag: string,
+  pinned: boolean,
 }
