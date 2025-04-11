@@ -1,8 +1,19 @@
 <template>
-  <h2>{{ $t('SidePanel.Currency.title') }}</h2>
-  <p class="text-gray-400 text-sm mt-1 mb-5">
-    {{ $t('SidePanel.Currency.subtitle') }}
-  </p>
+  <div class="currency__header">
+    <div class="currency__title">
+      <h2>{{ $t('SidePanel.Currency.title') }}</h2>
+      <p class="text-gray-400 text-sm mt-1 mb-5">
+        {{ $t('SidePanel.Currency.subtitle') }}
+      </p>
+    </div>
+    <div class="currency__controls">
+      <InputComponent
+        v-model="filter"
+        :placeholder="t('Currency.Search.placeholder')"
+        :append-icon="BIconSearch"
+      />
+    </div>
+  </div>
   <h3>{{ $t('SidePanel.Currency.user') }}</h3>
   <ul class="mt-1 mb-3 flex flex-wrap currencies-list">
     <TransitionGroup name="list">
@@ -86,8 +97,9 @@ import { useProfileStore } from '@/store/profile'
 import type { Currency } from '@/types/currency'
 import PillComponent from '@/components/PillComponent.vue'
 import { ColorType } from '@/types/colors'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { BIconPlus, BIconX } from 'bootstrap-icons-vue';
+import { BIconPlus, BIconSearch, BIconX } from 'bootstrap-icons-vue'
+import InputComponent from '@/components/InputComponent.vue'
+import { useI18n } from 'vue-i18n'
 
 function useAddCurrency(): (currency: Currency) => void {
   const profileStore = useProfileStore();
@@ -131,6 +143,19 @@ function useRemoveCurrency(): (id: number) => void {
   return removeCurrency;
 }
 
+function matchCurrency(currency: Currency): boolean {
+  const search = filter.value.toLowerCase().trim();
+  if (!search) return true;
+
+  const name = t(`Currency.Name.${currency.code}`).toLowerCase();
+  const code = currency.code.toLowerCase();
+  const num = currency.num;
+
+  return name.includes(search) || code.includes(search) || num.includes(search);
+}
+
+const { t } = useI18n();
+
 const currenciesStore = useCurrenciesStore();
 const profileStore = useProfileStore();
 
@@ -144,11 +169,15 @@ const userCurrencies = computed(() => profile.value?.currencies?.filter((currenc
 const addedCurrencies = computed(() => [defaultCurrency.value].concat(userCurrencies.value));
 
 const otherPinnedCurrencies = computed(() => {
-  return pinnedCurrencies.value.filter((currency) => !addedCurrencies.value?.some((addedCurrency) => addedCurrency?.id === currency.id));
+  return pinnedCurrencies.value
+    .filter((currency) => !addedCurrencies.value?.some((addedCurrency) => addedCurrency?.id === currency.id))
+    .filter(matchCurrency);
 });
 
 const otherUnpinnedCurrencies = computed(() => {
-  return unpinnedCurrencies.value.filter((currency) => !addedCurrencies.value?.some((addedCurrency) => addedCurrency?.id === currency.id));
+  return unpinnedCurrencies.value
+    .filter((currency) => !addedCurrencies.value?.some((addedCurrency) => addedCurrency?.id === currency.id))
+    .filter(matchCurrency);
 });
 
 const addCurrency = useAddCurrency();
@@ -161,6 +190,15 @@ onBeforeMount(() => {
 </script>
 
 <style scoped lang="scss">
+.currency__header {
+  @apply mb-8;
+
+  .currency__controls {
+    @apply max-w-80;
+    @apply grow shrink-0;
+  }
+}
+
 .currencies-list {
   .list-enter-active,
   .list-leave-active {

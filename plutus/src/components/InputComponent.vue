@@ -28,6 +28,12 @@
         @input="debouncedInput"
       >
       <div
+        v-if="appendIcon"
+        class="input-icon input-icon--append"
+      >
+        <component :is="appendIcon" />
+      </div>
+      <div
         v-if="appendText"
         class="input-text input-text--append"
       >
@@ -50,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRefs } from 'vue'
+import { type Component, computed, toRefs } from 'vue'
 import { useDebounceFn } from '@vueuse/core'
 import { InputType } from '@/types/controllers'
 import type { ErrorDetail } from '@/types/error'
@@ -65,6 +71,7 @@ interface Props {
   toFixed?: boolean,
   prependText?: string,
   appendText?: string,
+  appendIcon?: Component,
   disabled?: boolean,
   errors?: ErrorDetail[],
   invalid?: boolean,
@@ -92,6 +99,8 @@ const debouncedInput = useDebounceFn(() => {
 
 <style scoped lang="scss">
 .input-group {
+  @apply relative;
+
   &:has(input:disabled) {
     @apply opacity-40;
 
@@ -103,6 +112,12 @@ const debouncedInput = useDebounceFn(() => {
   &:has(.input-text--append) {
     input {
       @apply rounded-e-none;
+    }
+  }
+
+  &:has(.input-icon--append) {
+    input {
+      @apply pe-10;
     }
   }
 
@@ -146,6 +161,14 @@ const debouncedInput = useDebounceFn(() => {
       @apply -top-px;
       @apply h-9;
       @apply rounded-e;
+    }
+  }
+
+  .input-icon {
+    @apply absolute top-2.5;
+
+    &--append {
+      @apply right-2.5;
     }
   }
 }

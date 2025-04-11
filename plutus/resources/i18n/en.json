@@ -214,6 +214,9 @@
     }
   },
   "Currency": {
+    "Search": {
+      "placeholder": "Search currency by name or code"
+    },
     "Name": {
       "RUB": "Russian Ruble",
       "USD": "US Dollar",
