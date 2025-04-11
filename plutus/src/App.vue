@@ -36,4 +36,4 @@ onBeforeMount(() => {
 });
 </script>
 
-<style lang="scss" src="@/scss/style.scss" />
+<style lang="scss" src="scss/style.scss" />

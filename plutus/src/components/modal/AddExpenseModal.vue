@@ -354,3 +354,10 @@ onMounted(() => {
   billStore.fetchBills();
 });
 </script>
+
+<style scoped lang="scss">
+.full-line {
+  @apply mt-6 mb-4;
+  @apply border-b border-b-slate-700;
+}
+</style>

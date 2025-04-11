@@ -1,24 +1,24 @@
 <template>
   <div class="subheader">
     <div class="subheader-inner">
-      <div class="menu">
-        <div class="menu-item">
+      <div class="subheader-menu">
+        <div class="subheader-menu-item">
           <router-link
             :to="{ name: RouteName.BILLS }"
             exact
-            exact-active-class="menu-item-link--active"
-            class="menu-item-link"
+            exact-active-class="subheader-menu-item-link--active"
+            class="subheader-menu-item-link"
           >
             <component :is="BIconWallet2" />
             {{ t(`Header.Subheader.Menu.accounts`) }}
           </router-link>
         </div>
-        <div class="menu-item">
+        <div class="subheader-menu-item">
           <router-link
             :to="{ name: RouteName.EXPENSES }"
             exact
-            exact-active-class="menu-item-link--active"
-            class="menu-item-link"
+            exact-active-class="subheader-menu-item-link--active"
+            class="subheader-menu-item-link"
           >
             <component :is="Icon.Expenses" />
             {{ t(`Header.Subheader.Menu.expenses`) }}
@@ -37,3 +37,27 @@ import Icon from "./icons";
 
 const { t } = useI18n();
 </script>
+
+<style scoped lang="scss">
+.subheader {
+  @apply bg-slate-800;
+
+  .subheader-inner {
+    @apply px-6 py-3.5 flex justify-center items-center;
+
+    .subheader-menu {
+      @apply flex gap-8;
+
+      .subheader-menu-item-link {
+        @apply flex items-center gap-2;
+        @apply text-slate-400 hover:text-slate-200;
+        @apply no-underline;
+
+        &--active {
+          @apply text-slate-200;
+        }
+      }
+    }
+  }
+}
+</style>

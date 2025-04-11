@@ -1,0 +1,14 @@
+.main-layout {
+	&--overlay::before {
+		@apply z-10;
+		@apply bg-black opacity-60;
+		@apply h-screen w-screen;
+		@apply fixed;
+		content: "";
+	}
+}
+
+.body {
+	@apply px-6 py-6;
+	@apply relative;
+}

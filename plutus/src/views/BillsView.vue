@@ -79,7 +79,7 @@
       </div>
     </CardComponent>
     <CardComponent
-      class="card bill-card bill-card--add"
+      class="bill-card bill-card--add"
       @click="openModal(ModalType.ADD_BILL)"
     >
       <BIconPlus />
@@ -164,3 +164,86 @@ watch(isShowClosedAccounts, (newValue) => {
   billStore.fetchTotalSum(currentCurrency.value?.code, newValue);
 });
 </script>
+
+<style scoped lang="scss">
+.body__header {
+  @apply flex items-center justify-between;
+  @apply mb-8;
+}
+
+.body__header-action {
+  @apply flex gap-3 items-center;
+  @apply cursor-pointer;
+
+  svg {
+    @apply text-slate-500;
+    @apply w-8 h-8;
+  }
+}
+
+.body__inner {
+  @apply flex flex-col gap-4;
+
+  .bill-card {
+    @apply flex-row items-center;
+    @apply w-full max-w-full;
+    @apply py-2;
+    @apply aspect-unset;
+  }
+
+  .bill-card__icon img {
+    @apply w-full h-full;
+  }
+}
+
+.body__controls {
+  @apply flex gap-3 justify-end;
+  @apply mb-4;
+}
+
+.bill-card {
+  @apply flex flex-col grow shrink;
+  @apply min-w-72 max-w-80;
+  @apply max-h-80;
+  @apply aspect-4/2;
+  @apply cursor-pointer;
+
+  &--add {
+    @apply flex flex-col items-center;
+
+    svg {
+      @apply h-20 w-20;
+    }
+  }
+
+  &--hidden {
+    @apply opacity-40;
+    @apply grayscale;
+  }
+}
+
+.drag-icon {
+  @apply cursor-grab;
+
+  &--grabbing {
+    @apply cursor-grabbing;
+  }
+}
+
+.bill-card__top {
+  @apply flex justify-between;
+
+  .hidden-icon {
+    @apply w-3 h-3;
+  }
+}
+
+.bill-card__icon {
+  @apply w-10 h-10;
+
+  img {
+    @apply rounded-md;
+  }
+
+}
+</style>

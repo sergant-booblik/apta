@@ -79,3 +79,5 @@ onUnmounted(() => {
   authStore.clearError();
 });
 </script>
+
+<style scoped lang="scss" src="scss/views/auth.scss" />

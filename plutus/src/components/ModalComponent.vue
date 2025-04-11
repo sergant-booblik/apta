@@ -50,3 +50,27 @@ const ModalComponent = computed(() => {
 
 onClickOutside(modalRef, () => modalStore.removeModal());
 </script>
+
+<style scoped lang="scss">
+.modal__wrapper {
+  @apply fixed;
+  @apply w-screen h-screen;
+  @apply top-0 left-0 z-30;
+  @apply flex items-center justify-center;
+}
+
+.modal {
+  @apply relative;
+  @apply bg-slate-800;
+  @apply p-8;
+  @apply min-w-96 max-w-full;
+  @apply min-h-96 max-h-screen;
+}
+
+.modal__close {
+  @apply absolute;
+  @apply m-3;
+  @apply top-0 right-0;
+}
+
+</style>

@@ -71,7 +71,50 @@ import router, { RouteName } from '@/router';
 import { useAuthStore } from '@/store/auth'
 import { BIconThreeDotsVertical, BIconDoorOpen, BIconGear, BIconPersonCircle } from 'bootstrap-icons-vue'
 
-
-
 const authStore = useAuthStore();
 </script>
+
+<style scoped lang="scss">
+.header {
+  @apply bg-slate-700;
+
+  .header-inner {
+    @apply px-8 py-7 flex justify-between items-center;
+
+    .header-title {
+      @apply flex gap-2;
+      @apply no-underline;
+    }
+  }
+}
+
+.settings-button {
+  svg {
+    @apply w-5 h-5;
+  }
+}
+
+.settings-menu {
+  @apply bg-slate-800;
+
+  .menu-item {
+    @apply flex items-center gap-2;
+    @apply py-2.5 px-4;
+    @apply whitespace-nowrap;
+    @apply no-underline;
+    @apply cursor-pointer;
+
+    &:hover {
+      @apply bg-slate-600;
+    }
+
+    .menu-item__icon {
+      @apply opacity-60;
+
+      svg {
+        @apply w-4 h-4;
+      }
+    }
+  }
+}
+</style>

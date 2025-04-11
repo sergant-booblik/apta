@@ -18,3 +18,10 @@ const { t } = useI18n();
 
 const modalStore = useModalStore();
 </script>
+
+<style scoped lang="scss">
+.body__header {
+  @apply flex items-center justify-between;
+  @apply mb-8;
+}
+</style>

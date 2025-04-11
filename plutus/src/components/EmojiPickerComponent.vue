@@ -73,4 +73,21 @@ const isShowEmojiPicker = ref(false);
 onClickOutside(emojiPickerRef, () => closeEmojiPicker());
 </script>
 
-<style scoped lang="scss" src="src/scss/components/controls/emoji-picker.scss" />
+<style scoped lang="scss">
+.emoji-picker {
+  @apply relative;
+
+  .v3-emoji-picker.v3-color-theme-dark {
+    @apply bg-slate-700;
+    @apply text-slate-100;
+  }
+
+  :deep(.v3-emoji-picker .v3-search input)  {
+    @apply bg-slate-600;
+  }
+
+  :deep(.v3-emoji-picker .v3-footer) {
+    @apply hidden;
+  }
+}
+</style>

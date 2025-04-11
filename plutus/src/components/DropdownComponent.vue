@@ -53,4 +53,28 @@ onClickOutside(dropdownRef, () => {
   closeDropdown();
 });
 </script>
-<style scoped lang="scss" src="src/scss/components/dropdown.scss" />
+
+<style scoped lang="scss">
+.dropdown {
+  @apply relative;
+  @apply z-10;
+
+  &--start {
+    .dropdown__inner {
+      @apply left-0;
+    }
+  }
+
+  &--end {
+    .dropdown__inner {
+      @apply right-0;
+      @apply shadow-sm shadow-slate-500;
+    }
+  }
+}
+
+.dropdown__inner {
+  @apply absolute top-full;
+  @apply mt-3;
+}
+</style>

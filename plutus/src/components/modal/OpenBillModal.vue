@@ -40,7 +40,7 @@
       </div>
       <CardComponent
         :class="[
-          'card bill-card',
+          'bill-card',
           { 'bill-card--hidden': bill.isClosed }
         ]"
         :style="{
@@ -185,7 +185,7 @@
             v-if="tabItemActiveIndex === 1"
             class="tab__body-item"
           >
-            <div class="tab__body-item item--customize">
+            <div class="tab__customize">
               <div class="customize__icon">
                 <h3 class="mb-2">{{ t('Modal.OpenBill.Tab.customize.Icon.title') }}</h3>
                 <div class="image-upload">
@@ -231,74 +231,76 @@
           </div>
           <div
             v-if="tabItemActiveIndex === 2"
-            class="tab__body-item item--settings"
+            class="tab__body-item tab__settings"
           >
-            <InputComponent
-              v-model="bill.name"
-              flex
-              :disabled="bill.isClosed"
-              :label="t('Modal.OpenBill.Tab.settings.Input.name.label')"
-              class="mb-3"
-            />
-            <InputComponent
-              v-model="bill.subtitle"
-              flex
-              :disabled="bill.isClosed"
-              :label="t('Modal.OpenBill.Tab.settings.Input.subtitle.label')"
-              class="mb-3"
-            />
-            <InputComponent
-              v-model="bill.amount"
-              flex
-              to-fixed
-              :disabled="bill.isClosed"
-              :append-text="bill.currency.code"
-              :label="t('Modal.OpenBill.Tab.settings.Input.initial.label')"
-              class="mb-3"
-            />
-            <div
-              v-show="!isShowConfirmationDelete && !isShowConfirmationClose"
-              class="flex gap-4 justify-end"
-            >
-              <ButtonComponent
-                v-if="!bill.isClosed"
-                class="self-end mt-4"
-                :label="t('Modal.OpenBill.Tab.settings.Button.close.label')"
-                :color="ColorType.PRIMARY"
-                @click="toggleConfirmationClose"
+            <div class="tab__settings">
+              <InputComponent
+                v-model="bill.name"
+                flex
+                :disabled="bill.isClosed"
+                :label="t('Modal.OpenBill.Tab.settings.Input.name.label')"
+                class="mb-3"
               />
-              <ButtonComponent
-                v-else
-                class="self-end mt-4"
-                :label="t('Modal.OpenBill.Tab.settings.Button.open.label')"
-                :color="ColorType.PRIMARY"
-                @click="openBill"
+              <InputComponent
+                v-model="bill.subtitle"
+                flex
+                :disabled="bill.isClosed"
+                :label="t('Modal.OpenBill.Tab.settings.Input.subtitle.label')"
+                class="mb-3"
               />
-              <ButtonComponent
-                class="self-end mt-4"
-                :label="t('Modal.OpenBill.Tab.settings.Button.delete.label')"
-                :color="ColorType.DANGER"
-                @click="toggleConfirmationDelete"
+              <InputComponent
+                v-model="bill.amount"
+                flex
+                to-fixed
+                :disabled="bill.isClosed"
+                :append-text="bill.currency.code"
+                :label="t('Modal.OpenBill.Tab.settings.Input.initial.label')"
+                class="mb-3"
               />
-            </div>
-            <AlertComponent
-              v-show="isShowConfirmationDelete"
-              :icon="BIconExclamationCircle"
-              :text="t('Alert.DeleteBill.text')"
-              :controls="[
+              <div
+                v-show="!isShowConfirmationDelete && !isShowConfirmationClose"
+                class="flex gap-4 justify-end"
+              >
+                <ButtonComponent
+                  v-if="!bill.isClosed"
+                  class="self-end mt-4"
+                  :label="t('Modal.OpenBill.Tab.settings.Button.close.label')"
+                  :color="ColorType.PRIMARY"
+                  @click="toggleConfirmationClose"
+                />
+                <ButtonComponent
+                  v-else
+                  class="self-end mt-4"
+                  :label="t('Modal.OpenBill.Tab.settings.Button.open.label')"
+                  :color="ColorType.PRIMARY"
+                  @click="openBill"
+                />
+                <ButtonComponent
+                  class="self-end mt-4"
+                  :label="t('Modal.OpenBill.Tab.settings.Button.delete.label')"
+                  :color="ColorType.DANGER"
+                  @click="toggleConfirmationDelete"
+                />
+              </div>
+              <AlertComponent
+                v-show="isShowConfirmationDelete"
+                :icon="BIconExclamationCircle"
+                :text="t('Alert.DeleteBill.text')"
+                :controls="[
                 { label: t('Alert.DeleteBill.control.cancel'), onClick: toggleConfirmationDelete },
                 { label: t('Alert.DeleteBill.control.delete'), onClick: deleteBill, color: ColorType.DANGER },
               ]"
-            />
-            <AlertComponent
-              v-show="isShowConfirmationClose"
-              :icon="BIconExclamationCircle"
-              :text="t('Alert.CloseBill.text')"
-              :controls="[
+              />
+              <AlertComponent
+                v-show="isShowConfirmationClose"
+                :icon="BIconExclamationCircle"
+                :text="t('Alert.CloseBill.text')"
+                :controls="[
                 { label: t('Alert.CloseBill.control.cancel'), onClick: toggleConfirmationClose },
                 { label: t('Alert.CloseBill.control.close'), onClick: closeBill, color: ColorType.DANGER },
               ]"
-            />
+              />
+            </div>
           </div>
         </div>
       </nav>
@@ -438,3 +440,189 @@ onMounted(() => {
   }
 })
 </script>
+
+<style scoped lang="scss">
+.tab {
+  @apply relative;
+
+  .tab__header {
+    @apply flex justify-between gap-6;
+    @apply border-b border-white/30;
+
+    .tab__item {
+      @apply flex items-center gap-2;
+      @apply pb-4;
+      @apply text-white/30;
+      @apply border-b border-white/0;
+      @apply transition-all;
+
+      &:hover {
+        @apply text-white;
+      }
+
+      &--active {
+        @apply text-white;
+        @apply border-white;
+      }
+
+      svg {
+        @apply w-4 h-4;
+      }
+    }
+  }
+
+  .tab__body {
+    @apply overflow-hidden;
+    @apply flex;
+    @apply w-full;
+
+    .tab__body-item {
+      @apply grow-0 shrink-0 basis-full;
+      @apply h-full w-min;
+      @apply mt-4;
+      @apply transition-all;
+    }
+  }
+
+  .tab__transfers {
+    @apply w-full;
+
+    &--empty {
+      @apply flex flex-col items-center;
+      @apply w-full h-full;
+      @apply text-center;
+    }
+
+    .transfer__item {
+      @apply w-full h-full;
+
+      td {
+        @apply pb-2;
+        @apply whitespace-nowrap;
+
+        &:not(:last-child) {
+          @apply pe-6;
+        }
+      }
+
+      .transfer__amount,
+      .transfer__date {
+        @apply float-end;
+      }
+
+      .transfer__name {
+        @apply font-light;
+        @apply italic;
+      }
+
+      .transfer__date {
+        @apply float-end;
+      }
+    }
+  }
+
+  .tab__customize {
+    @apply flex gap-14;
+    @apply w-fit;
+
+    .image-upload {
+      @apply flex items-center gap-2;
+
+      input {
+        @apply hidden;
+        @apply w-0 h-0;
+      }
+
+      .preview-container {
+        @apply aspect-square;
+        @apply w-10 h-10;
+
+        &--empty {
+          @apply bg-slate-600;
+        }
+
+        img {
+          @apply flex justify-center items-center;
+          @apply object-contain;
+          @apply w-10 h-10;
+        }
+      }
+
+      .button-group {
+        @apply grow shrink-0;
+      }
+    }
+  }
+
+  .tab__settings {
+    @apply flex flex-col;
+  }
+}
+
+.open-bill-modal__header {
+  @apply flex gap-8 justify-between;
+
+  .bill-info {
+    @apply grow shrink-0;
+
+    .bill-info__title {
+      @apply flex flex-col gap-2;
+
+      p {
+        @apply text-slate-400;
+      }
+
+      svg {
+        @apply h-5 w-5;
+      }
+    }
+
+    .bill-info__balances {
+      @apply mt-6;
+    }
+
+    .bill-info-balance {
+      @apply flex gap-3;
+
+      span {
+        @apply basis-1/2;
+      }
+    }
+  }
+
+  .bill-card {
+    @apply flex flex-col grow shrink;
+    @apply w-full;
+    @apply min-w-72 max-w-80;
+    @apply py-4;
+    @apply aspect-unset;
+    @apply cursor-default;
+
+    &:hover {
+      @apply translate-y-0;
+      @apply bg-transparent;
+    }
+
+    .bill-card__top {
+      @apply flex justify-between gap-8;
+
+      .bill-card__icon {
+        @apply flex justify-end items-center;
+        @apply w-10 h-10;
+
+        img {
+          @apply rounded-md;
+        }
+      }
+
+      .hidden-icon {
+        @apply w-3 h-3;
+      }
+    }
+  }
+}
+
+.open-bill-modal__body {
+  @apply mt-8;
+}
+</style>

@@ -32,3 +32,5 @@ const isModalOpen = computed(() => modalStore.type !== undefined);
 
 const isOverlay = computed(() => isSidePanelOpen.value || isModalOpen.value);
 </script>
+
+<style scoped lang="scss" src="scss/views/layout.scss" />

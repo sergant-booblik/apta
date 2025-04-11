@@ -71,7 +71,3 @@ onClickOutside(colorPickerRef, () => {
   closeColorPicker();
 });
 </script>
-
-<style lang="scss">
-
-</style>

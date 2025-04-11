@@ -44,3 +44,29 @@ const SidePanelComponent = computed(() => {
 
 onClickOutside(sidePanelRef, () => sidePanelStore.removeSidePanel());
 </script>
+
+<style scoped lang="scss">
+.side-panel {
+  @apply bg-slate-800;
+  @apply absolute h-full top-0 right-0 min-w-80 z-20;
+  @apply py-8 ps-6 pe-10;
+  @apply overflow-scroll;
+
+  animation: appear 300ms;
+}
+
+.side-panel__close {
+  position: absolute;
+  @apply m-3;
+  @apply top-0 right-0;
+}
+
+@keyframes appear {
+  0% {
+    @apply -right-80;
+  }
+  100% {
+    @apply right-0;
+  }
+}
+</style>

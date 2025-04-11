@@ -35,5 +35,49 @@ defineProps<Props>();
 </script>
 
 <style scoped lang="scss">
+.alert {
+  @apply flex items-center gap-4;
+  @apply px-4 py-3;
+  @apply border;
+  @apply rounded-md;
 
+  .alert__icon {
+    svg {
+      @apply w-6 h-6;
+    }
+  }
+
+  .alert__text {
+    @apply whitespace-pre-line;
+  }
+
+  .alert__controls {
+    @apply ms-auto;
+    @apply flex gap-3;
+  }
+
+  .alert__control {
+    @apply border-b;
+    @apply cursor-pointer;
+
+    &:hover {
+      @apply opacity-80;
+    }
+
+    &--primary {
+      @apply text-blue-600;
+      @apply border-blue-600;
+    }
+
+    &--secondary {
+      @apply text-slate-600;
+      @apply border-slate-600;
+    }
+
+    &--danger {
+      @apply text-red-400;
+      @apply border-red-400;
+    }
+  }
+}
 </style>

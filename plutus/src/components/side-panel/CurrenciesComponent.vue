@@ -158,3 +158,19 @@ onBeforeMount(() => {
   currenciesStore.fetchUnpinnedCurrencies();
 });
 </script>
+
+<style scoped lang="scss">
+.currencies-list {
+  .list-enter-active,
+  .list-leave-active {
+    @apply scale-100;
+    @apply transition-transform;
+  }
+
+  .list-enter-from,
+  .list-leave-to {
+    @apply scale-110;
+  }
+}
+
+</style>
