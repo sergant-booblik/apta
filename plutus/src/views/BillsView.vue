@@ -5,7 +5,14 @@
       class="body__header-action"
       @click="changeCurrentRate"
     >
-      <h2 v-if="!loadingTotal"> {{ toMoney(total?.amount, total?.currencyCode) }} </h2>
+      <LoaderElement
+        v-if="loadingTotal"
+      />
+      <h2
+        :class="{ 'loading': loadingTotal }"
+      >
+        {{ toMoney(total?.amount, total?.currencyCode) }}
+      </h2>
       <BIconCurrencyExchange />
     </div>
   </div>
@@ -103,6 +110,7 @@ import FormattedAmount from '@/components/elements/FormattedAmount.vue'
 import ButtonComponent from '@/components/ButtonComponent.vue'
 import { useI18n } from 'vue-i18n'
 import { ColorType } from '@/types/colors'
+import LoaderElement from '@/components/elements/LoaderElement.vue'
 
 function openModal(
   type: ModalType,
@@ -151,7 +159,9 @@ onBeforeMount(() => {
   const billStore = useBillStore();
   if (!billStore.hasBills) {
     billStore.fetchBills();
-    billStore.fetchTotalSum(currentCurrency.value?.code);
+    if (!billStore.total?.amount) {
+      billStore.fetchTotalSum(currentCurrency.value?.code);
+    }
   }
 });
 
@@ -245,5 +255,9 @@ watch(isShowClosedAccounts, (newValue) => {
     @apply rounded-md;
   }
 
+}
+
+.loading {
+  @apply opacity-25;
 }
 </style>
