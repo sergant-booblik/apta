@@ -195,6 +195,10 @@
   },
   "Bills": {
     "title": "Accounts",
+    "Empty": {
+      "title": "✨ Your accounts will appear here",
+      "description": "This is where your financial story begins. Add your first account to start keeping everything in one place."
+    },
     "Controls": {
       "show": "Show closed accounts",
       "hide": "Hide closed accounts",
@@ -318,6 +322,7 @@
           "point": "Domain must contain at least one dot (e.g. '.com').",
           "empties": "Domain cannot contain multiple dots in a row.",
           "highLevelDomain": "Email must have a valid top-level domain (e.g. '.com', '.org').",
+          "exist": "Account with this email already exist",
           "notExist": "No account found with this email address."
         }
       },

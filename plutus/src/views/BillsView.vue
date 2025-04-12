@@ -16,7 +16,10 @@
       <BIconCurrencyExchange />
     </div>
   </div>
-  <div class="body__controls">
+  <div
+    v-if="bills.length > 0"
+    class="body__controls"
+  >
     <ButtonComponent
       :label=" isShowClosedAccounts ? t('Bills.Controls.hide') : t('Bills.Controls.show')"
       :append-icon="isShowClosedAccounts ? BIconEye : BIconEyeSlash"
@@ -27,10 +30,31 @@
       :label="t('Bills.Controls.add')"
       :append-icon="BIconPlus"
       :color="ColorType.PRIMARY"
+      @click="openModal(ModalType.ADD_BILL)"
+    />
+  </div>
+  <div
+    v-if="loadingBills"
+    class="flex justify-center w-full mt-32"
+  >
+    <LoaderElement
+      :size="LoaderSize.LARGE"
+    />
+  </div>
+  <div
+    v-if="!loadingBills && bills.length === 0"
+    class="flex flex-col mx-auto text-center w-full mt-32 max-w-96"
+  >
+    <h3 class="text-xl">{{ t('Bills.Empty.title') }}</h3>
+    <p class="text-sm text-slate-400 mt-2 mb-4">{{ t('Bills.Empty.description') }}</p>
+    <ButtonComponent
+      :label="t('Bills.Controls.add')"
+      class="mx-auto"
+      @click="openModal(ModalType.ADD_BILL)"
     />
   </div>
   <draggable
-    v-if="!loadingBills"
+    v-if="!loadingBills && bills.length > 0"
     :list="bills"
     handle=".drag-icon"
     class="body__inner"
@@ -89,7 +113,7 @@
       class="bill-card bill-card--add"
       @click="openModal(ModalType.ADD_BILL)"
     >
-      <BIconPlus />
+      <BIconPlusCircle />
       {{ t('Bills.Controls.add') }}
     </CardComponent>
   </draggable>
@@ -103,14 +127,15 @@ import { useBillStore } from '@/store/bill'
 import { useProfileStore } from '@/store/profile'
 import { useModalStore } from '@/store/modal'
 import { ModalType } from '@/types/modal'
-import { VueDraggableNext as draggable } from 'vue-draggable-next';
-import { BIconCurrencyExchange, BIconEye, BIconEyeSlash, BIconList, BIconPlus } from 'bootstrap-icons-vue'
+import { VueDraggableNext as draggable } from 'vue-draggable-next'
+import { BIconCurrencyExchange, BIconEye, BIconEyeSlash, BIconList, BIconPlus, BIconPlusCircle } from 'bootstrap-icons-vue'
 import CardComponent from '@/components/CardComponent.vue'
 import FormattedAmount from '@/components/elements/FormattedAmount.vue'
 import ButtonComponent from '@/components/ButtonComponent.vue'
 import { useI18n } from 'vue-i18n'
 import { ColorType } from '@/types/colors'
 import LoaderElement from '@/components/elements/LoaderElement.vue'
+import { LoaderSize } from '@/types/loader'
 
 function openModal(
   type: ModalType,
@@ -195,10 +220,29 @@ watch(isShowClosedAccounts, (newValue) => {
   @apply flex flex-col gap-4;
 
   .bill-card {
-    @apply flex-row items-center;
+    @apply flex flex-row items-center;
     @apply w-full max-w-full;
     @apply py-2;
-    @apply aspect-unset;
+    @apply cursor-pointer;
+
+    &--add {
+      @apply flex items-center gap-4;
+      @apply py-6;
+      @apply bg-slate-600;
+
+      &:hover {
+        @apply bg-slate-500;
+      }
+
+      svg {
+        @apply h-6 w-6;
+      }
+    }
+
+    &--hidden {
+      @apply opacity-40;
+      @apply grayscale;
+    }
   }
 
   .bill-card__icon img {
@@ -209,27 +253,6 @@ watch(isShowClosedAccounts, (newValue) => {
 .body__controls {
   @apply flex gap-3 justify-end;
   @apply mb-4;
-}
-
-.bill-card {
-  @apply flex flex-col grow shrink;
-  @apply min-w-72 max-w-80;
-  @apply max-h-80;
-  @apply aspect-4/2;
-  @apply cursor-pointer;
-
-  &--add {
-    @apply flex flex-col items-center;
-
-    svg {
-      @apply h-20 w-20;
-    }
-  }
-
-  &--hidden {
-    @apply opacity-40;
-    @apply grayscale;
-  }
 }
 
 .drag-icon {
