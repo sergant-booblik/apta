@@ -24,5 +24,9 @@ export const useCurrenciesStore = defineStore('currencies-store', {
           }).catch((error) => reject(error));
       });
     },
+    clearCurrencies() {
+      this.pinnedCurrencies = [];
+      this.unpinnedCurrencies = [];
+    },
   },
 });

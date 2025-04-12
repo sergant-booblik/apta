@@ -7,12 +7,33 @@ import { RouteName } from '@/router';
 import type { LoginResponse } from '@/api/login'
 import type { Router } from 'vue-router'
 import type { RegisterResponse } from '@/api/register'
+import { useBillStore } from '@/store/bill'
+import { useCurrenciesStore } from '@/store/currencies'
+import { useCategoryStore } from '@/store/category'
+import { useExpenseStore } from '@/store/expense'
+import { useTransactionStore } from '@/store/transaction'
 
 
 interface AuthState {
   isAuth: boolean,
   errors: ErrorData | undefined;
   loading: boolean,
+}
+
+function clearStores(): void {
+  const billStore = useBillStore();
+  const categoryStore = useCategoryStore();
+  const currencyStore = useCurrenciesStore();
+  const expenseStore = useExpenseStore();
+  const profileStore = useProfileStore();
+  const transactionStore = useTransactionStore();
+
+  profileStore.clearUser();
+  billStore.clearBills();
+  currencyStore.clearCurrencies();
+  expenseStore.clearExpenses();
+  transactionStore.clearTransactions();
+  categoryStore.clearCategories();
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -69,15 +90,14 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     async logout(router: Router) {
-      const profileStore = useProfileStore();
       try {
         await api.logout();
       } catch (e) {
         console.error('Logout error', e);
       } finally {
         this.isAuth = false;
-        profileStore.clearUser();
-        router.push({ name: RouteName.LOGIN });
+        clearStores();
+        await router.push({ name: RouteName.LOGIN });
       }
     },
     clearError() {

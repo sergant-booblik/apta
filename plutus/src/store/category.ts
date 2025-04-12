@@ -65,5 +65,10 @@ export const useCategoryStore = defineStore('category', {
           })
       });
     },
+    clearCategories() {
+      this.categories = [];
+      this.subcategories = [];
+      this.units = [];
+    },
   },
 })

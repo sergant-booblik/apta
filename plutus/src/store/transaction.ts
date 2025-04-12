@@ -20,6 +20,9 @@ export const useTransactionStore = defineStore('transaction', {
             resolve(response);
           }).catch((error) => reject(error));
       });
-    }
+    },
+    clearTransactions() {
+      this.transactions = [];
+    },
   }
 });

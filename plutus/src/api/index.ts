@@ -1,7 +1,6 @@
 import { ref } from 'vue';
 import type { Ref } from 'vue';
 import { createRefreshTokenFunction, createVerifyTokenFunction } from '@/api/auth';
-import { createFetchTranslationFunction } from '@/api/translation';
 import { createFetchCurrenciesFunction } from '@/api/fetch-currencies';
 import { createLoginFunction } from '@/api/login';
 import { createFetchBillsFunction } from '@/api/fetch-bills'
@@ -15,7 +14,6 @@ import { createUpdateBillFunction } from '@/api/update-bill';
 import { createFetchBillTransactionFunction } from '@/api/fetch-bill-transactions';
 import { createFetchTotalSumFunction } from '@/api/fetch-total-sum';
 import type { VerifyTokenResponse, RefreshTokenResponse } from '@/api/auth';
-import type { FetchTranslationRequest, FetchTranslationResponse } from '@/api/translation';
 import type { LoginRequest, LoginResponse } from '@/api/login';
 import type { FetchBillsResponse, FetchBillRequest } from '@/api/fetch-bills';
 import type { FetchCurrenciesResponse } from '@/api/fetch-currencies';
@@ -71,8 +69,6 @@ interface Api {
   fetchUser: () => Promise<FetchUserResponse>;
   updateProfile: (request: UpdateProfileRequest) => Promise<UpdateProfileResponse>;
 
-  fetchTranslation: (request: FetchTranslationRequest) => Promise<FetchTranslationResponse>;
-
   fetchCurrencies: () => Promise<FetchCurrenciesResponse>;
 
   fetchBills: (request: FetchBillRequest) => Promise<FetchBillsResponse>;
@@ -108,8 +104,6 @@ function createApi(): Api {
 
     fetchUser: createFetchUserFunction(apiUrl),
     updateProfile: createUpdateProfileFunction(apiUrl),
-
-    fetchTranslation: createFetchTranslationFunction(apiUrl),
 
     fetchCurrencies: createFetchCurrenciesFunction(apiUrl),
 

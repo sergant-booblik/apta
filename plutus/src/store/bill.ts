@@ -93,11 +93,6 @@ export const useBillStore = defineStore('bill', {
           })
       })
     },
-    reorderBills: async function(id: number, order: number) {
-      return new Promise<ReorderBillsResponse>(() => {
-        api.reorderBills({ id, order })
-      })
-    },
     async deleteBill(bill: Bill) {
       return new Promise((resolve, reject) => {
         api.deleteBill({ id: bill.id })
@@ -105,6 +100,15 @@ export const useBillStore = defineStore('bill', {
             resolve(response);
           }).catch((error) => reject(error))
       })
+    },
+    reorderBills: async function(id: number, order: number) {
+      return new Promise<ReorderBillsResponse>(() => {
+        api.reorderBills({ id, order })
+      })
+    },
+    clearBills() {
+      this.bills = [];
+      this.total = undefined;
     },
   }
 });

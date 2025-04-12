@@ -35,5 +35,10 @@ export const useExpenseStore = defineStore('expense', {
         });
       });
     },
+    clearExpenses() {
+      this.expenses = [];
+      this.currentExpense = undefined;
+      this.errors = {};
+    },
   },
 })
