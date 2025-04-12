@@ -48,7 +48,7 @@
       @mouseup="isIconGrabbing = false"
       :style="{
         backgroundColor: bill.customColor,
-        color: bill.customFontColor,
+        color: bill.customFontColor
       }"
     >
       <div class="flex items-center gap-4">

@@ -14,6 +14,7 @@
             v-model="name"
             :type="InputType.TEXT"
             :placeholder="t('Auth.SignUp.Name.placeholder')"
+            :disabled="loading"
             :errors="errors?.name"
             class="mb-4"
           />
@@ -21,6 +22,7 @@
             v-model="email"
             :type="InputType.TEXT"
             :placeholder="t('Auth.SignUp.Email.placeholder')"
+            :disabled="loading"
             :errors="errors?.email"
             class="mb-4"
           />
@@ -28,6 +30,7 @@
             v-model="password"
             :type="InputType.PASSWORD"
             :placeholder="t('Auth.SignUp.Password.placeholder')"
+            :disabled="loading"
             :errors="errors?.password"
             class="mb-4"
           />
@@ -35,6 +38,8 @@
         <ButtonComponent
           :label="$t('Auth.SignUp.Submit.button')"
           flex
+          :disabled="loading"
+          :append-icon="loading ? LoaderElement : undefined"
           :type="ButtonType.SUBMIT"
         />
       </form>
@@ -61,10 +66,11 @@ import Icon from '@/components/icons';
 import { useRouter } from 'vue-router';
 import { ButtonType, InputType } from '@/types/controllers';
 import { useI18n } from 'vue-i18n'
+import LoaderElement from '@/components/elements/LoaderElement.vue'
 
 const router = useRouter();
 const authStore = useAuthStore();
-const { errors } = storeToRefs(authStore);
+const { errors, loading } = storeToRefs(authStore);
 
 const { t } = useI18n();
 
@@ -88,3 +94,5 @@ onUnmounted(() => {
   authStore.clearError();
 });
 </script>
+
+<style scoped lang="scss" src="scss/views/auth.scss" />

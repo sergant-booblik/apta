@@ -10,6 +10,7 @@
   @apply w-5 h-5;
   @apply rounded-full;
   @apply border-t-2 border-t-slate-500;
+  @apply border-inherit;
   @apply border-r-2 border-r-transparent;
   @apply animate-spin;
 }

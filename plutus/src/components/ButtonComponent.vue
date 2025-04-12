@@ -2,6 +2,7 @@
   <div class="button-group">
     <button
       :type="type"
+      :disabled="disabled"
       :class="[
         'button',
         `button--${color}`,
@@ -27,6 +28,7 @@ interface Props {
   outline?: boolean,
   type?: ButtonType,
   appendIcon?: Component,
+  disabled?: boolean,
 }
 
 withDefaults(defineProps<Props>(), {
@@ -40,6 +42,11 @@ withDefaults(defineProps<Props>(), {
   .button {
     @apply py-1.5 px-2 flex gap-2 items-center;
     @apply rounded;
+
+    &:disabled {
+      @apply opacity-25;
+      @apply cursor-not-allowed;
+    }
 
     &--primary {
       @apply bg-blue-600;
