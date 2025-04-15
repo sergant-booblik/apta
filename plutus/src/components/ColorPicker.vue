@@ -62,7 +62,7 @@ const closeColorPicker = () => {
 };
 
 const localValue = computed({
-  get: () => props.modelValue,
+  get: () => props.modelValue ?? props.defaultColor,
   set: (v) => {
     emit('update', v);
     return v;

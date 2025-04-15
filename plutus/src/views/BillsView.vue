@@ -190,8 +190,8 @@ onBeforeMount(() => {
   }
 });
 
-watch(currentCurrency, (newCurrency) => {
-  billStore.fetchTotalSum(newCurrency?.code);
+watch(() => currentCurrency.value?.code, (newCurrencyCode) => {
+  billStore.fetchTotalSum(newCurrencyCode);
 });
 
 watch(isShowClosedAccounts, (newValue) => {

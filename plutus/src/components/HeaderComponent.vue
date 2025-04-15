@@ -47,6 +47,18 @@
               </router-link>
               <div
                 class="menu-item"
+                @click="toggleTheme"
+              >
+                <div class="menu-item__icon">
+                  <BIconSun v-if="profile?.theme === 'light'" />
+                  <BIconMoon v-else />
+                </div>
+                <div class="menu-item__text">
+                  {{ $t('Header.Settings.Menu.color-theme') }}
+                </div>
+              </div>
+              <div
+                class="menu-item"
                 @click="authStore.logout(router)"
               >
                 <div class="menu-item__icon">
@@ -69,9 +81,16 @@ import Icon from "@/components/icons";
 import DropdownComponent from '@/components/DropdownComponent.vue'
 import router, { RouteName } from '@/router';
 import { useAuthStore } from '@/store/auth'
-import { BIconThreeDotsVertical, BIconDoorOpen, BIconGear, BIconPersonCircle } from 'bootstrap-icons-vue'
+import { BIconThreeDotsVertical, BIconDoorOpen, BIconGear, BIconPersonCircle, BIconSun, BIconMoon } from 'bootstrap-icons-vue'
+import { useTheme } from '@/composable/useTheme'
+import { useProfileStore } from '@/store/profile'
+import { storeToRefs } from 'pinia'
 
 const authStore = useAuthStore();
+const profileStore = useProfileStore();
+
+const { toggleTheme } = useTheme();
+const { profile } = storeToRefs(profileStore);
 </script>
 
 <style scoped lang="scss">

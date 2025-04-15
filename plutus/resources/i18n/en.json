@@ -41,6 +41,7 @@
       "Menu": {
         "profile": "Profile",
         "account-settings": "Account Settings",
+        "color-theme": "Change theme",
         "logout": "Logout"
       }
     },

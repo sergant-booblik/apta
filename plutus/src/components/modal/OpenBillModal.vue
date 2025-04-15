@@ -453,7 +453,7 @@ onMounted(() => {
 
   .tab__header {
     @apply flex justify-between gap-6;
-    @apply border-b border-slate-400 dark:border-slate-500;
+    @apply border-b border-slate-300 dark:border-slate-500;
 
     .tab__item {
       @apply flex items-center gap-2;

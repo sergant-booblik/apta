@@ -69,7 +69,6 @@
           :append-text="currency"
           :label="t('Modal.AddExpense.Price.label')"
           :placeholder="t('Modal.AddExpense.Price.placeholder')"
-          :errors="priceError"
           class="mb-3"
           @change="calculateTotalAmountByPrice"
         />
@@ -296,12 +295,6 @@ const isCalculateTotalByPrice = ref(false);
 const isShowAddCategory = ref(false);
 const isShowAddSubcategory = ref(false);
 const price = ref(0);
-
-const priceError = computed(() => {
-  if (isCalculateTotalByPrice.value && !price.value) {
-    return [{ label: 'Error.Expense.Add.Price.empty' }] as ErrorDetail[];
-  }
-});
 
 const categoryChoices = computed(() => categories.value.map((category) => ({
   key: category.id,

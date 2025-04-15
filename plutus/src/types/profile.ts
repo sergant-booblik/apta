@@ -5,6 +5,7 @@ export interface Profile {
   email: string,
   name: string | undefined,
   locale: string,
+  theme: 'light' | 'dark';
   currencies: Currency[] | undefined,
   defaultCurrency: Currency,
 }

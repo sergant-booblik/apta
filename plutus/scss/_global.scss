@@ -5,6 +5,7 @@
 body {
 	@apply bg-slate-200 dark:bg-slate-900;
 	@apply text-slate-600 dark:text-slate-100;
+	@apply transition-theme duration-500;
 
 	&:has(.main-layout--overlay) {
 		@apply overflow-hidden;

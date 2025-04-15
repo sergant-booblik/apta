@@ -71,7 +71,7 @@ defineProps<Props>();
 
     &--secondary {
       @apply text-slate-400 dark:text-slate-600;
-      @apply border-slate-400 dark:border-slate-600;
+      @apply border-slate-300 dark:border-slate-600;
     }
 
     &--danger {

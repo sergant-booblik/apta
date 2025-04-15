@@ -47,7 +47,7 @@
       <span
         v-for="(error, index) in errors"
         :key="index"
-        class="text-xs text-red-400"
+        class="text-xs text-red-600 dark:text-red-400"
       >
         {{ t(error.label) }}
       </span>
@@ -125,10 +125,10 @@ const debouncedInput = useDebounceFn(() => {
     @apply px-2 py-1;
     @apply h-9;
     @apply bg-slate-100 dark:bg-slate-900;
-    @apply border rounded  border-slate-400 dark:border-slate-700;
+    @apply border rounded  border-slate-300 dark:border-slate-700;
 
     &::-webkit-calendar-picker-indicator {
-      @apply invert;
+      @apply opacity-60 dark:invert;
     }
   }
 
@@ -154,11 +154,11 @@ const debouncedInput = useDebounceFn(() => {
 
   .input-text {
     @apply px-2 py-1;
-    @apply bg-slate-200 dark:bg-slate-700 border border-slate-400 dark:border-slate-700;
+    @apply bg-slate-300 dark:bg-slate-700 border border-slate-300 dark:border-slate-700;
 
     &--append {
       @apply relative;
-      @apply -top-px;
+      @apply -top-[1.5px];
       @apply h-9;
       @apply rounded-e;
     }

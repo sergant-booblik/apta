@@ -98,7 +98,7 @@ const selectValue = computed({
     @apply px-2 py-1;
     @apply h-9;
     @apply bg-slate-100 dark:bg-slate-900;
-    @apply border rounded border-slate-400 dark:border-slate-700;
+    @apply border rounded border-slate-300 dark:border-slate-700;
     @apply text-slate-950 dark:text-slate-50;
 
     &:has(option:disabled) {

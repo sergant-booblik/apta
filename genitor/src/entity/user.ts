@@ -67,6 +67,9 @@ export class User {
   @Column({default: 'en-US'})
   locale: string;
 
+  @Column({default: 'light'})
+  theme: string;
+
   @CreateDateColumn()
   createdDate: Date;
 

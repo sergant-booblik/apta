@@ -23,8 +23,7 @@ withDefaults(defineProps<Props>(), {
 .loader {
   @apply inline-block;
   @apply rounded-full;
-  @apply border-t-2 border-t-slate-600 dark:border-t-slate-500;
-  @apply border-inherit;
+  @apply border-t-2 border-t-slate-400 dark:border-t-slate-500;
   @apply border-r-2 border-r-transparent;
   @apply animate-spin;
 

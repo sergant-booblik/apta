@@ -22,7 +22,11 @@ export default {
       '4/2': '4 / 2',
       unset: 'unset',
     },
-    extend: {},
+    extend: {
+      transitionProperty: {
+        'theme': 'background-color, color, border-color, fill, stroke',
+      },
+    },
   },
   plugins: [],
 } satisfies Config;
