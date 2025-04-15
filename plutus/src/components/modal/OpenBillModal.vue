@@ -216,12 +216,14 @@
                   <ColorPicker
                     v-model="bill.customColor"
                     :label="t('Modal.OpenBill.Tab.customize.Colors.background')"
+                    :default-color="defaultBgColor"
                     container=".modal__wrapper"
                     @update="(v) => changeCustomColor(v)"
                   />
                   <ColorPicker
                     v-model="bill.customFontColor"
                     :label="t('Modal.OpenBill.Tab.customize.Colors.font')"
+                    :default-color="defaultFontColor"
                     container=".modal__wrapper"
                     @update="(v) => changeCustomFontColor(v)"
                   />
@@ -323,7 +325,7 @@ import { Sign } from '@/types/currency'
 import { useI18n } from 'vue-i18n'
 import InputComponent from '@/components/InputComponent.vue'
 import ButtonComponent from '@/components/ButtonComponent.vue'
-import { ColorType } from '@/types/colors'
+import { ColorType, DEFAULT_BG_COLOR, DEFAULT_FONT_COLOR } from '@/types/colors'
 import AlertComponent from '@/components/AlertComponent.vue'
 import { useProfileStore } from '@/store/profile'
 import { formatTimeAgo } from '@vueuse/core'
@@ -419,6 +421,10 @@ const billStore = useBillStore();
 const profileStore = useProfileStore();
 const transactionStore = useTransactionStore();
 
+const theme = localStorage.getItem('theme') ?? 'light';
+const defaultBgColor = theme === 'light' ? DEFAULT_BG_COLOR.LIGHT : DEFAULT_BG_COLOR.DARK;
+const defaultFontColor = theme === 'light' ? DEFAULT_FONT_COLOR.LIGHT : DEFAULT_FONT_COLOR.DARK;
+
 const inputRef = ref<HTMLInputElement>();
 
 const isShowConfirmationDelete = ref(false);
@@ -447,22 +453,22 @@ onMounted(() => {
 
   .tab__header {
     @apply flex justify-between gap-6;
-    @apply border-b border-white/30;
+    @apply border-b border-slate-400 dark:border-slate-500;
 
     .tab__item {
       @apply flex items-center gap-2;
-      @apply pb-4;
-      @apply text-white/30;
-      @apply border-b border-white/0;
+      @apply pb-4 pe-2;
+      @apply text-slate-500;
+      @apply border-b border-slate-950/0 dark:border-slate-50/0;
       @apply transition-all;
 
       &:hover {
-        @apply text-white;
+        @apply text-slate-950 dark:text-slate-50;
       }
 
       &--active {
-        @apply text-white;
-        @apply border-white;
+        @apply text-slate-950 dark:text-slate-50;
+        @apply border-slate-950 dark:border-slate-50;
       }
 
       svg {
@@ -538,7 +544,7 @@ onMounted(() => {
         @apply w-10 h-10;
 
         &--empty {
-          @apply bg-slate-600;
+          @apply bg-slate-400 dark:bg-slate-600;
         }
 
         img {
@@ -569,7 +575,7 @@ onMounted(() => {
       @apply flex flex-col gap-2;
 
       p {
-        @apply text-slate-400;
+        @apply text-slate-600 dark:text-slate-400;
       }
 
       svg {

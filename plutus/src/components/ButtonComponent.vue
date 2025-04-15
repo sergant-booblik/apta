@@ -41,6 +41,7 @@ withDefaults(defineProps<Props>(), {
 .button-group {
   .button {
     @apply py-1.5 px-4 flex gap-2 items-center;
+    @apply text-slate-50;
     @apply rounded;
 
     &:disabled {
@@ -53,15 +54,15 @@ withDefaults(defineProps<Props>(), {
     }
 
     &--primary {
-      @apply bg-blue-600;
+      @apply  bg-blue-500 dark:bg-blue-600;
     }
 
     &--secondary {
-      @apply bg-slate-600;
+      @apply bg-slate-500 dark:bg-slate-600;
     }
 
     &--danger {
-      @apply bg-red-800;
+      @apply bg-red-600 dark:bg-red-800;
     }
 
     &--flex {
@@ -77,5 +78,4 @@ withDefaults(defineProps<Props>(), {
     }
   }
 }
-
 </style>

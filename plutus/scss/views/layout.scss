@@ -1,10 +1,10 @@
 .main-layout {
 	&--overlay::before {
+		@apply content-[""];
 		@apply z-10;
-		@apply bg-black opacity-60;
+		@apply bg-white dark:bg-black opacity-60;
 		@apply h-screen w-screen;
 		@apply fixed;
-		content: "";
 	}
 }
 

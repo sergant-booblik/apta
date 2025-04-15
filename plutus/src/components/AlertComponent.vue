@@ -38,7 +38,7 @@ defineProps<Props>();
 .alert {
   @apply flex items-center gap-4;
   @apply px-4 py-3;
-  @apply border;
+  @apply border border-slate-700 dark:border-slate-300;
   @apply rounded-md;
 
   .alert__icon {
@@ -65,18 +65,18 @@ defineProps<Props>();
     }
 
     &--primary {
-      @apply text-blue-600;
-      @apply border-blue-600;
+      @apply text-blue-500 dark:text-blue-600;
+      @apply border-blue-500 dark:border-blue-600;
     }
 
     &--secondary {
-      @apply text-slate-600;
-      @apply border-slate-600;
+      @apply text-slate-400 dark:text-slate-600;
+      @apply border-slate-400 dark:border-slate-600;
     }
 
     &--danger {
-      @apply text-red-400;
-      @apply border-red-400;
+      @apply text-red-600 dark:text-red-400;
+      @apply border-red-600 dark:border-red-400;
     }
   }
 }

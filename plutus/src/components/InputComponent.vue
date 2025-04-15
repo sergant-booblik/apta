@@ -124,8 +124,8 @@ const debouncedInput = useDebounceFn(() => {
   input {
     @apply px-2 py-1;
     @apply h-9;
-    @apply bg-slate-900;
-    @apply border rounded border-slate-700;
+    @apply bg-slate-100 dark:bg-slate-900;
+    @apply border rounded  border-slate-400 dark:border-slate-700;
 
     &::-webkit-calendar-picker-indicator {
       @apply invert;
@@ -144,17 +144,17 @@ const debouncedInput = useDebounceFn(() => {
 
   &--invalid {
     label {
-      @apply text-red-400;
+      @apply text-red-600 dark:text-red-400;
     }
 
     input {
-      @apply border-red-400;
+      @apply border-red-600 dark:border-red-400;
     }
   }
 
   .input-text {
     @apply px-2 py-1;
-    @apply bg-slate-700 border border-slate-700;
+    @apply bg-slate-200 dark:bg-slate-700 border border-slate-400 dark:border-slate-700;
 
     &--append {
       @apply relative;

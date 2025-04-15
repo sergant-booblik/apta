@@ -42,7 +42,7 @@
       <span
         v-for="(error, index) in errors"
         :key="index"
-        class="text-xs text-red-400"
+        class="text-xs error "
       >
         {{ t(error.label) }}
       </span>
@@ -97,9 +97,9 @@ const selectValue = computed({
   select {
     @apply px-2 py-1;
     @apply h-9;
-    @apply bg-slate-900;
-    @apply border rounded border-slate-700;
-    @apply text-white;
+    @apply bg-slate-100 dark:bg-slate-900;
+    @apply border rounded border-slate-400 dark:border-slate-700;
+    @apply text-slate-950 dark:text-slate-50;
 
     &:has(option:disabled) {
       @apply text-opacity-50;
@@ -126,13 +126,17 @@ const selectValue = computed({
 
   &--invalid {
     select {
-      @apply border-red-400;
+      @apply border-red-600 dark:border-red-400;
     }
 
     label {
-      @apply text-red-400;
+      @apply text-red-600 dark:text-red-400;
     }
   }
+}
+
+.error {
+  @apply text-red-600 dark:text-red-400;
 }
 </style>
 

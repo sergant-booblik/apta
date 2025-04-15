@@ -39,7 +39,7 @@ const localValue = computed({
     @apply hidden;
 
     &:checked + .slider {
-      @apply bg-blue-600;
+      @apply bg-blue-500 dark:bg-blue-600;
 
       &:before {
         @apply translate-x-3;
@@ -50,14 +50,14 @@ const localValue = computed({
   .slider {
     @apply relative;
     @apply w-9 h-6;
-    @apply bg-gray-400 rounded-xl;
+    @apply bg-slate-600 dark:bg-slate-400 rounded-xl;
     @apply transition-colors;
 
     &::before {
       @apply content-[""];
       @apply absolute left-1 top-1;
       @apply w-4 h-4;
-      @apply bg-white;
+      @apply bg-slate-50;
       @apply rounded-full;
       @apply transition-transform;
     }

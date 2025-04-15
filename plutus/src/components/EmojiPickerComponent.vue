@@ -9,7 +9,7 @@
       hide-group-names
       :text="localEmoji"
       :static-texts="{ placeholder: t('EmojiPicker.placeholder')}"
-      theme="dark"
+      :theme="theme"
       class="absolute bottom-0 left-full"
       @select="selectEmoji"
     />
@@ -70,20 +70,23 @@ const emojiPickerRef = ref<HTMLElement>();
 
 const isShowEmojiPicker = ref(false);
 
+const theme = localStorage.getItem('theme');
+
 onClickOutside(emojiPickerRef, () => closeEmojiPicker());
 </script>
 
 <style scoped lang="scss">
 .emoji-picker {
+  @apply z-10;
   @apply relative;
 
   .v3-emoji-picker.v3-color-theme-dark {
-    @apply bg-slate-700;
-    @apply text-slate-100;
+    @apply bg-slate-300 dark:bg-slate-700;
+    @apply text-slate-900 dark:text-slate-100;
   }
 
   :deep(.v3-emoji-picker .v3-search input)  {
-    @apply bg-slate-600;
+    @apply bg-slate-100 dark:bg-slate-600;
   }
 
   :deep(.v3-emoji-picker .v3-footer) {

@@ -358,6 +358,6 @@ onMounted(() => {
 <style scoped lang="scss">
 .full-line {
   @apply mt-6 mb-4;
-  @apply border-b border-b-slate-700;
+  @apply border-b border-b-slate-400 dark:border-b-slate-700;
 }
 </style>

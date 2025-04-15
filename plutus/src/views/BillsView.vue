@@ -228,10 +228,10 @@ watch(isShowClosedAccounts, (newValue) => {
     &--add {
       @apply flex items-center gap-4;
       @apply py-6;
-      @apply bg-slate-600;
+      @apply bg-slate-300 dark:bg-slate-600;
 
       &:hover {
-        @apply bg-slate-500;
+        @apply bg-slate-400 dark:bg-slate-500;
       }
 
       svg {

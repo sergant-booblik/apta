@@ -1,8 +1,12 @@
 import { Sign } from '@/types/currency'
+import { DEFAULT_BG_COLOR } from '@/types/colors'
 
-export function getContrastAmountClass(backgroundColor: string = '#1E293B', sign: Sign = Sign.NEUTRAL): string {
+const theme = localStorage.getItem('theme') ?? 'light';
+const defaultBgColor = theme === 'light' ? DEFAULT_BG_COLOR.LIGHT : DEFAULT_BG_COLOR.DARK;
 
-  const localColor = backgroundColor ?? '#1E293B'
+export function getContrastAmountClass(backgroundColor: string = defaultBgColor, sign: Sign = Sign.NEUTRAL): string {
+
+  const localColor = backgroundColor ?? defaultBgColor;
 
   const r = parseInt(localColor.substring(1, 3), 16) / 255;
   const g = parseInt(localColor.substring(3, 5), 16) / 255;

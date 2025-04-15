@@ -40,7 +40,7 @@ const { t } = useI18n();
 
 <style scoped lang="scss">
 .subheader {
-  @apply bg-slate-800;
+  @apply  bg-slate-300 dark:bg-slate-800;
 
   .subheader-inner {
     @apply px-6 py-3.5 flex justify-center items-center;
@@ -50,11 +50,11 @@ const { t } = useI18n();
 
       .subheader-menu-item-link {
         @apply flex items-center gap-2;
-        @apply text-slate-400 hover:text-slate-200;
+        @apply text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-400;
         @apply no-underline;
 
         &--active {
-          @apply text-slate-200;
+          @apply text-slate-800 dark:text-slate-200;
         }
       }
     }

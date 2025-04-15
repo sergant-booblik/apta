@@ -2,7 +2,7 @@
   <div class="currency__header">
     <div class="currency__title">
       <h2>{{ $t('SidePanel.Currency.title') }}</h2>
-      <p class="text-gray-400 text-sm mt-1 mb-5">
+      <p class="currency__subtitle text-sm mt-1 mb-5">
         {{ $t('SidePanel.Currency.subtitle') }}
       </p>
     </div>
@@ -196,6 +196,10 @@ onBeforeMount(() => {
   .currency__controls {
     @apply max-w-80;
     @apply grow shrink-0;
+  }
+
+  .currency__subtitle {
+    @apply text-slate-500 dark:text-slate-400;
   }
 }
 

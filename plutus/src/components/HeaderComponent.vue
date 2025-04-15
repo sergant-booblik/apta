@@ -76,7 +76,7 @@ const authStore = useAuthStore();
 
 <style scoped lang="scss">
 .header {
-  @apply bg-slate-700;
+  @apply bg-slate-400 dark:bg-slate-700;
 
   .header-inner {
     @apply px-8 py-7 flex justify-between items-center;
@@ -95,7 +95,7 @@ const authStore = useAuthStore();
 }
 
 .settings-menu {
-  @apply bg-slate-800;
+  @apply bg-slate-200 dark:bg-slate-800;
 
   .menu-item {
     @apply flex items-center gap-2;
@@ -105,7 +105,7 @@ const authStore = useAuthStore();
     @apply cursor-pointer;
 
     &:hover {
-      @apply bg-slate-600;
+      @apply bg-slate-300 dark:bg-slate-600;
     }
 
     .menu-item__icon {

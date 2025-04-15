@@ -61,7 +61,7 @@ onClickOutside(modalRef, () => modalStore.removeModal());
 
 .modal {
   @apply relative;
-  @apply bg-slate-800;
+  @apply bg-slate-200 dark:bg-slate-800;
   @apply p-8;
   @apply min-w-96 max-w-full;
   @apply min-h-96 max-h-screen;

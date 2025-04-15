@@ -3,7 +3,8 @@
 }
 
 .auth-card {
-	@apply border border-slate-800 rounded-xl;
+	@apply border border-slate-300 dark:border-slate-700 rounded-xl;
+	@apply bg-slate-100 dark:bg-slate-800;
 	@apply m-auto py-12 px-6;
 	min-width: 400px;
 }
@@ -21,7 +22,7 @@
 }
 
 .auth-card__error {
-	@apply text-red-400;
+	@apply text-red-600 dark:text-red-400;
 }
 
 .auth-subline {

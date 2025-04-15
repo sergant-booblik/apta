@@ -6,8 +6,8 @@
       @click="openColorPicker"
     >
       <span
-        class="w-5 h-5 rounded-full ms-1"
-        :style="{ backgroundColor: localValue ?? '#FFFFFF' }"
+        class="w-5 h-5 rounded-full ms-1 border border-slate-300 dark:border-slate-700"
+        :style="{ backgroundColor: localValue ?? defaultBgColor }"
       />
       <span class="me-1">
         {{ label }}
@@ -37,11 +37,13 @@ import { ColorPicker } from 'vue3-colorpicker';
 import "vue3-colorpicker/style.css";
 import { computed, ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
+import { DEFAULT_BG_COLOR } from '@/types/colors'
 
 interface Props {
   modelValue: string,
   label?: string,
   container?: string,
+  defaultColor?: string,
 }
 
 const props = defineProps<Props>();
