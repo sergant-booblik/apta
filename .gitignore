@@ -1,5 +1,6 @@
 /genitor/.env.local
 /genitor/.uploads/
 /genitor/node_modules/
+/genitor/dist/
 /genitor/.env
 /node_modules/
