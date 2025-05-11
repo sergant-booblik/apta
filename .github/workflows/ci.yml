@@ -5,33 +5,78 @@ on:
   pull_request:
 
 jobs:
-  build:
+  install:
     runs-on: ubuntu-latest
-
+    outputs:
+      cache-hit: ${{ steps.cache.outputs.cache-hit }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Node
+      - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
-        working-directory: plutus
 
-      - name: Lint
-        run: npm run lint
-        working-directory: plutus
+    lint:
+      needs: install
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - name: Use Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: 20
+        - name: Install dependencies
+          run: npm ci
 
-      - name: Type check
-        run: npm run type-check
-        working-directory: plutus
+        - name: Run ESLint
+          run: npm run lint
 
-      - name: Run tests
-        run: npm run test:unit
-        working-directory: plutus
+    type-check:
+      needs: install
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - name: Use Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: 20
+        - name: Install dependencies
+          run: npm ci
 
-      - name: Build
-        run: npm run build
-        working-directory: plutus
+        - name: Run type-check
+          run: npm run type-check
+
+    test:
+      needs: [ lint, type-check ]
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - name: Use Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: 20
+        - name: Install dependencies
+          run: npm ci
+
+        - name: Run tests
+          run: npm run test:unit
+
+    build:
+      needs: [ lint, type-check ]
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v4
+        - name: Use Node.js
+          uses: actions/setup-node@v4
+          with:
+            node-version: 20
+        - name: Install dependencies
+          run: npm ci
+
+        - name: Build app
+          run: npm run build
