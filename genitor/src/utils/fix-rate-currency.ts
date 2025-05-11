@@ -18,23 +18,5 @@ export async function fixRateCurrency(dataSource: DataSource) {
     }
   });
 
-  console.log(ratesToUpdate.length);
-
   await rateRepository.save(ratesToUpdate);
-
-  // for (const rate of rates) {
-  //   const code = rate.currency?.code;
-  //
-  //   if (!rate.currency.id && code && currencyMap.has(code)) {
-  //     rate.currency.id = currencyMap.get(code)!;
-  //     ratesToUpdate.push(rate);
-  //   }
-  //
-  //   if (ratesToUpdate.length) {
-  //     await rateRepository.save(ratesToUpdate);
-  //     console.log(`Updated ${ratesToUpdate.length} rate(s).`);
-  //   } else {
-  //     console.log('No rates needed updating.');
-  //   }
-  // }
 }

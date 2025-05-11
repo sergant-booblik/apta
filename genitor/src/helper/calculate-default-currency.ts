@@ -15,7 +15,5 @@ export async function calculateDefaultCurrency(userLocale: string): Promise<Curr
     .where('FIND_IN_SET(:locale, currency.locale)', { locale: userLocale })
     .getOne();
 
-  console.log(currencyByLocale, defaultCurrency);
-
   return currencyByLocale ?? defaultCurrency;
 }

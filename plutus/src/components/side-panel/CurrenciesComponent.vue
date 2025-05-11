@@ -129,9 +129,7 @@ function useRemoveCurrency(): (id: number) => void {
   function removeCurrency(id: number) {
     const index = userCurrencies?.findIndex((currency) => currency.id === id);
     if (!profileStore.profile?.id || index == undefined) return;
-    console.log(userCurrencies);
     userCurrencies?.splice(index, 1);
-    console.log(userCurrencies);
     profileStore.updateProfile(
       {
         ...profileStore.profile,
