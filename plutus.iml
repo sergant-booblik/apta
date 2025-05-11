@@ -4,6 +4,7 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$/plutus">
       <sourceFolder url="file://$MODULE_DIR$/plutus/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/plutus/tests" isTestSource="true" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

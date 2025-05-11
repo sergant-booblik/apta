@@ -54,4 +54,13 @@ module.exports = {
     'no-debugger': 'warn',
     'no-alert': 'error',
   },
+  overrides: [
+    {
+      files: ['tests/**/*.test.ts'],
+      rules: {
+        '@typescript-eslint/explicit-function-return-type': 'off',
+        'no-restricted-imports': 'off',
+      },
+    },
+  ],
 };
