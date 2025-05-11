@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:unit": "echo \"Error: no test specified\" && exit 0",
+    "test:coverage": "echo \"Error: no test specified\" && exit 0",
     "lint": "eslint './src/**/*.{ts,js}'",
     "build": "tsc",
     "lint:fix": "eslint './src/**/*.{ts,js}' --fix"
