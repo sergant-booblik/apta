@@ -15,10 +15,10 @@ export function createAddSubcategoryFunction(apiUrl: string): (request: AddSubca
       method: 'POST',
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(request.subcategory)
+      body: JSON.stringify(request.subcategory),
     }).then((resp) => resp.json())
-      .then((resp: AddSubcategoryResponse) => resp)
-  }
+      .then((resp: AddSubcategoryResponse) => resp);
+  };
 }

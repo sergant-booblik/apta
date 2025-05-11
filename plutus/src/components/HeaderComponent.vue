@@ -77,14 +77,16 @@
 </template>
 
 <script setup lang="ts">
-import Icon from "@/components/icons";
-import DropdownComponent from '@/components/DropdownComponent.vue'
+import Icon from '@/components/icons';
+import DropdownComponent from '@/components/DropdownComponent.vue';
 import router, { RouteName } from '@/router';
-import { useAuthStore } from '@/store/auth'
-import { BIconThreeDotsVertical, BIconDoorOpen, BIconGear, BIconPersonCircle, BIconSun, BIconMoon } from 'bootstrap-icons-vue'
-import { useTheme } from '@/composable/useTheme'
-import { useProfileStore } from '@/store/profile'
-import { storeToRefs } from 'pinia'
+import { useAuthStore } from '@/store/auth';
+import {
+  BIconThreeDotsVertical, BIconDoorOpen, BIconGear, BIconPersonCircle, BIconSun, BIconMoon,
+} from 'bootstrap-icons-vue';
+import { useTheme } from '@/composable/useTheme';
+import { useProfileStore } from '@/store/profile';
+import { storeToRefs } from 'pinia';
 
 const authStore = useAuthStore();
 const profileStore = useProfileStore();

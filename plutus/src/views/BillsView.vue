@@ -45,8 +45,12 @@
     v-if="!loadingBills && bills.length === 0"
     class="flex flex-col mx-auto text-center w-full mt-32 max-w-96"
   >
-    <h3 class="text-xl">{{ t('Bills.Empty.title') }}</h3>
-    <p class="text-sm text-slate-400 mt-2 mb-4">{{ t('Bills.Empty.description') }}</p>
+    <h3 class="text-xl">
+      {{ t('Bills.Empty.title') }}
+    </h3>
+    <p class="text-sm text-slate-400 mt-2 mb-4">
+      {{ t('Bills.Empty.description') }}
+    </p>
     <ButtonComponent
       :label="t('Bills.Controls.add')"
       class="mx-auto"
@@ -97,7 +101,9 @@
             />
             {{ bill.name }}
           </p>
-          <p class="text-sm opacity-60">{{ bill.subtitle }}</p>
+          <p class="text-sm opacity-60">
+            {{ bill.subtitle }}
+          </p>
         </div>
       </div>
       <div class="ms-auto flex flex-col items-end">
@@ -120,22 +126,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref, watch } from 'vue'
-import { toMoney } from '@/helpers/to-money'
-import { storeToRefs } from 'pinia'
-import { useBillStore } from '@/store/bill'
-import { useProfileStore } from '@/store/profile'
-import { useModalStore } from '@/store/modal'
-import { ModalType } from '@/types/modal'
-import { VueDraggableNext as draggable } from 'vue-draggable-next'
-import { BIconCurrencyExchange, BIconEye, BIconEyeSlash, BIconList, BIconPlus, BIconPlusCircle } from 'bootstrap-icons-vue'
-import CardComponent from '@/components/CardComponent.vue'
-import FormattedAmount from '@/components/elements/FormattedAmount.vue'
-import ButtonComponent from '@/components/ButtonComponent.vue'
-import { useI18n } from 'vue-i18n'
-import { ColorType } from '@/types/colors'
-import LoaderElement from '@/components/elements/LoaderElement.vue'
-import { LoaderSize } from '@/types/loader'
+import { computed, onBeforeMount, ref, watch } from 'vue';
+import { toMoney } from '@/helpers/to-money';
+import { storeToRefs } from 'pinia';
+import { useBillStore } from '@/store/bill';
+import { useProfileStore } from '@/store/profile';
+import { useModalStore } from '@/store/modal';
+import { ModalType } from '@/types/modal';
+import { VueDraggableNext as draggable } from 'vue-draggable-next';
+import { BIconCurrencyExchange, BIconEye, BIconEyeSlash, BIconList, BIconPlus, BIconPlusCircle } from 'bootstrap-icons-vue';
+import CardComponent from '@/components/CardComponent.vue';
+import FormattedAmount from '@/components/elements/FormattedAmount.vue';
+import ButtonComponent from '@/components/ButtonComponent.vue';
+import { useI18n } from 'vue-i18n';
+import { ColorType } from '@/types/colors';
+import LoaderElement from '@/components/elements/LoaderElement.vue';
+import { LoaderSize } from '@/types/loader';
 
 function openModal(
   type: ModalType,
@@ -172,7 +178,7 @@ const currentCurrency = computed(() => {
   }
 });
 
-const changeCurrentRate = () => {
+const changeCurrentRate = (): void => {
   if (profile.value?.currencies && currentCurrencyIndex.value === profile.value?.currencies.length - 1) {
     currentCurrencyIndex.value = 0;
   } else {
@@ -180,7 +186,7 @@ const changeCurrentRate = () => {
   }
 };
 
-onBeforeMount(() => {
+onBeforeMount( () => {
   const billStore = useBillStore();
   if (!billStore.hasBills) {
     billStore.fetchBills();

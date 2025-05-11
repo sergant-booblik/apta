@@ -22,7 +22,7 @@ export function createUploadBillIconFunction(apiUrl: string): (
     return fetch(url.toString(),{
       method: 'POST',
       credentials: 'include',
-      body: formData
+      body: formData,
     }).then((resp) => resp.json())
       .then((resp: UploadBillIconResponse) => resp);
   };

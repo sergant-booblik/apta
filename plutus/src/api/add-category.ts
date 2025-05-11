@@ -15,10 +15,10 @@ export function createAddCategoryFunction(apiUrl: string): (request: AddCategory
       method: 'POST',
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(request.category)
+      body: JSON.stringify(request.category),
     }).then((resp) => resp.json())
-      .then((resp: AddCategoryResponse) => resp)
-  }
+      .then((resp: AddCategoryResponse) => resp);
+  };
 }

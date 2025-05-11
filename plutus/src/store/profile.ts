@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
 import { api } from '@/api';
 import type { Profile } from '@/types/profile';
-import type { FetchUserResponse } from '@/api/fetch-user'
-import type { UpdateProfileResponse } from '@/api/update-profile'
+import type { FetchUserResponse } from '@/api/fetch-user';
+import type { UpdateProfileResponse } from '@/api/update-profile';
 
 interface ProfileState {
   profile: Profile | undefined,
@@ -29,7 +29,7 @@ export const useProfileStore = defineStore('profile', {
          .finally(() => {
            this.loading = false;
          });
-     })
+     });
     },
     async updateProfile(profile: Profile) {
       return new Promise<UpdateProfileResponse>((resolve, reject) => {

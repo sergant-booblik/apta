@@ -7,7 +7,7 @@
     >
       <span
         class="w-5 h-5 rounded-full ms-1 border border-slate-300 dark:border-slate-700"
-        :style="{ backgroundColor: localValue ?? defaultBgColor }"
+        :style="{ backgroundColor: localValue ?? DEFAULT_BG_COLOR }"
       />
       <span class="me-1">
         {{ label }}
@@ -34,10 +34,10 @@
 
 <script setup lang="ts">
 import { ColorPicker } from 'vue3-colorpicker';
-import "vue3-colorpicker/style.css";
-import { computed, ref } from 'vue'
-import { onClickOutside } from '@vueuse/core'
-import { DEFAULT_BG_COLOR } from '@/types/colors'
+import { computed, ref } from 'vue';
+import { onClickOutside } from '@vueuse/core';
+import { DEFAULT_BG_COLOR } from '@/types/colors';
+import 'vue3-colorpicker/style.css';
 
 interface Props {
   modelValue: string,
@@ -53,11 +53,11 @@ const emit = defineEmits(['update']);
 const colorPickerRef = ref<HTMLElement>();
 const isColorPickerOpened = ref(false);
 
-const openColorPicker = () => {
+const openColorPicker = (): void => {
   isColorPickerOpened.value = true;
 };
 
-const closeColorPicker = () => {
+const closeColorPicker = (): void => {
   isColorPickerOpened.value = false;
 };
 

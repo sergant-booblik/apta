@@ -15,10 +15,10 @@ export function createReorderBillsFunction(apiUrl: string): (request: ReorderBil
       method: 'POST',
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(request)
+      body: JSON.stringify(request),
     }).then((resp) => resp.json())
-      .then((resp: ReorderBillsResponse) => resp)
-  }
+      .then((resp: ReorderBillsResponse) => resp);
+  };
 }

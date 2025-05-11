@@ -4,7 +4,7 @@ import { useAuthStore } from '@/store/auth';
 import { useProfileStore } from '@/store/profile';
 import { RouteName } from '@/router';
 
-export function setupRouterGuard(router: Router, pinia: Pinia) {
+export function setupRouterGuard(router: Router, pinia: Pinia): void {
   router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore(pinia);
     const profileStore = useProfileStore(pinia);

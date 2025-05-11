@@ -1,5 +1,5 @@
 export function formatDateForInput(date: Date): string {
-  const pad = (num: number) => String(num).padStart(2, '0');
+  const pad = (num: number): string => String(num).padStart(2, '0');
 
   const year = date.getFullYear();
   const month = pad(date.getMonth() + 1); // месяцы начинаются с 0

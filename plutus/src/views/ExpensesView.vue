@@ -9,10 +9,10 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-import ButtonComponent from '@/components/ButtonComponent.vue'
-import { useModalStore } from '@/store/modal'
-import { ModalType } from '@/types/modal'
+import { useI18n } from 'vue-i18n';
+import ButtonComponent from '@/components/ButtonComponent.vue';
+import { useModalStore } from '@/store/modal';
+import { ModalType } from '@/types/modal';
 
 const { t } = useI18n();
 

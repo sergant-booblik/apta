@@ -1,8 +1,9 @@
-import { Sign } from '@/types/currency'
-import { DEFAULT_BG_COLOR } from '@/types/colors'
+import { Sign } from '@/types/currency';
+import { DEFAULT_BG_COLOR } from '@/types/colors';
+import { Theme } from '@/types/profile';
 
-const theme = localStorage.getItem('theme') ?? 'light';
-const defaultBgColor = theme === 'light' ? DEFAULT_BG_COLOR.LIGHT : DEFAULT_BG_COLOR.DARK;
+const theme = localStorage.getItem('theme') ?? Theme.LIGHT;
+const defaultBgColor = theme === Theme.LIGHT ? DEFAULT_BG_COLOR.LIGHT : DEFAULT_BG_COLOR.DARK;
 
 export function getContrastAmountClass(backgroundColor: string = defaultBgColor, sign: Sign = Sign.NEUTRAL): string {
 
@@ -17,7 +18,7 @@ export function getContrastAmountClass(backgroundColor: string = defaultBgColor,
   const isDarkBackground = luminance < 0.5;
 
   if (sign === Sign.POSITIVE) {
-    return isDarkBackground ? 'text-lime-400' : "text-green-700";
+    return isDarkBackground ? 'text-lime-400' : 'text-green-700';
   }
 
   if (sign === Sign.NEGATIVE) {

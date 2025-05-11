@@ -1,4 +1,4 @@
-import type { Bill } from '@/types/bill'
+import type { Bill } from '@/types/bill';
 
 export interface UpdateBillRequest {
   bill: Partial<Bill>,
@@ -15,10 +15,10 @@ export function createUpdateBillFunction(apiUrl: string): (request: UpdateBillRe
       method: 'PUT',
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(request.bill)
+      body: JSON.stringify(request.bill),
     }).then((resp) => resp.json())
-      .then((resp: UpdateBillResponse) => resp)
-  }
+      .then((resp: UpdateBillResponse) => resp);
+  };
 }

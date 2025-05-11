@@ -17,13 +17,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { onClickOutside } from '@vueuse/core'
-import { storeToRefs } from 'pinia'
-import { useModalStore } from '@/store/modal'
+import { computed, ref } from 'vue';
+import { onClickOutside } from '@vueuse/core';
+import { storeToRefs } from 'pinia';
+import { useModalStore } from '@/store/modal';
 import { BIconXLg } from 'bootstrap-icons-vue';
-import Modal from '@/components/modal'
-import { ModalType } from '@/types/modal'
+import Modal from '@/components/modal';
+import { ModalType } from '@/types/modal';
 
 function closeModal(): void {
   const modalStore = useModalStore();
@@ -46,7 +46,7 @@ const ModalComponent = computed(() => {
     default:
       throw new Error(`Unrecognized ${type.value} modal type`);
   }
-})
+});
 
 onClickOutside(modalRef, () => modalStore.removeModal());
 </script>

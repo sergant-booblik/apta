@@ -1,17 +1,17 @@
 import { defineStore } from 'pinia';
-import { useProfileStore } from '@/store/profile'
+import { useProfileStore } from '@/store/profile';
 import { api } from '@/api';
-import type { RefreshTokenResponse, VerifyTokenResponse } from '@/api/auth'
+import type { RefreshTokenResponse, VerifyTokenResponse } from '@/api/auth';
 import type { ErrorData } from '@/types/error';
 import { RouteName } from '@/router';
-import type { LoginResponse } from '@/api/login'
-import type { Router } from 'vue-router'
-import type { RegisterResponse } from '@/api/register'
-import { useBillStore } from '@/store/bill'
-import { useCurrenciesStore } from '@/store/currencies'
-import { useCategoryStore } from '@/store/category'
-import { useExpenseStore } from '@/store/expense'
-import { useTransactionStore } from '@/store/transaction'
+import type { LoginResponse } from '@/api/login';
+import type { Router } from 'vue-router';
+import type { RegisterResponse } from '@/api/register';
+import { useBillStore } from '@/store/bill';
+import { useCurrenciesStore } from '@/store/currencies';
+import { useCategoryStore } from '@/store/category';
+import { useExpenseStore } from '@/store/expense';
+import { useTransactionStore } from '@/store/transaction';
 
 
 interface AuthState {
@@ -103,5 +103,5 @@ export const useAuthStore = defineStore('auth', {
     clearError() {
       this.errors = undefined;
     },
-  }
+  },
 });

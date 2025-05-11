@@ -15,5 +15,5 @@ export function createFetchUnitsFunction(apiUrl: string): () => Promise<FetchUni
       },
     }).then((resp) => resp.json())
       .then((resp: FetchUnitsResponse) => resp);
-  }
+  };
 }

@@ -20,5 +20,5 @@ export function createFetchCategoriesFunction(apiUrl: string): (request: FetchCa
       },
     }).then((resp) => resp.json())
       .then((resp: FetchCategoriesResponse) => resp);
-  }
+  };
 }

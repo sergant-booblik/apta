@@ -56,11 +56,11 @@
 </template>
 
 <script setup lang="ts">
-import { type Component, computed, toRefs } from 'vue'
-import { useDebounceFn } from '@vueuse/core'
-import { InputType } from '@/types/controllers'
-import type { ErrorDetail } from '@/types/error'
-import { useI18n } from 'vue-i18n'
+import { type Component, computed, toRefs } from 'vue';
+import { useDebounceFn } from '@vueuse/core';
+import { InputType } from '@/types/controllers';
+import type { ErrorDetail } from '@/types/error';
+import { useI18n } from 'vue-i18n';
 
 interface Props {
   modelValue?: string | number | Date,
@@ -85,7 +85,7 @@ const emit = defineEmits(['update:modelValue', 'input', 'blur']);
 
 const { t } = useI18n();
 
-const { modelValue, toFixed } = toRefs(props);
+const { modelValue } = toRefs(props);
 
 const inputValue = computed({
   get: () => modelValue.value,

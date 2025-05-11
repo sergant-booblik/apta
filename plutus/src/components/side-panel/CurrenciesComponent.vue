@@ -90,22 +90,22 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, ref } from 'vue'
-import { useCurrenciesStore } from '@/store/currencies'
-import { storeToRefs } from 'pinia'
-import { useProfileStore } from '@/store/profile'
-import type { Currency } from '@/types/currency'
-import PillComponent from '@/components/PillComponent.vue'
-import { ColorType } from '@/types/colors'
-import { BIconPlus, BIconSearch, BIconX } from 'bootstrap-icons-vue'
-import InputComponent from '@/components/InputComponent.vue'
-import { useI18n } from 'vue-i18n'
+import { computed, onBeforeMount, ref } from 'vue';
+import { useCurrenciesStore } from '@/store/currencies';
+import { storeToRefs } from 'pinia';
+import { useProfileStore } from '@/store/profile';
+import type { Currency } from '@/types/currency';
+import PillComponent from '@/components/PillComponent.vue';
+import { ColorType } from '@/types/colors';
+import { BIconPlus, BIconSearch, BIconX } from 'bootstrap-icons-vue';
+import InputComponent from '@/components/InputComponent.vue';
+import { useI18n } from 'vue-i18n';
 
 function useAddCurrency(): (currency: Currency) => void {
   const profileStore = useProfileStore();
   const userCurrencies = profileStore.profile?.currencies;
 
-  function addCurrency(currency: Currency) {
+  function addCurrency(currency: Currency): void {
     if (!profileStore.profile?.id) return;
     userCurrencies?.push(currency);
     userCurrencies?.sort((a, b) => {
@@ -115,7 +115,7 @@ function useAddCurrency(): (currency: Currency) => void {
       {
         ...profileStore.profile,
         currencies: userCurrencies,
-      }
+      },
     );
   }
 
@@ -126,7 +126,7 @@ function useRemoveCurrency(): (id: number) => void {
   const profileStore = useProfileStore();
   const userCurrencies = profileStore.profile?.currencies;
 
-  function removeCurrency(id: number) {
+  function removeCurrency(id: number): void {
     const index = userCurrencies?.findIndex((currency) => currency.id === id);
     if (!profileStore.profile?.id || index == undefined) return;
     userCurrencies?.splice(index, 1);
@@ -134,7 +134,7 @@ function useRemoveCurrency(): (id: number) => void {
       {
         ...profileStore.profile,
         currencies: userCurrencies,
-      }
+      },
     );
   }
 

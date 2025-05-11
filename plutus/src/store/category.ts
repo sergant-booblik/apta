@@ -1,8 +1,7 @@
-import type { Category, CategoryType, Subcategory } from '@/types/category'
-import { defineStore } from 'pinia'
-import { api } from '@/api'
-import type { Unit } from '@/types/unit'
-import type { Bill } from '@/types/bill'
+import type { Category, CategoryType, Subcategory } from '@/types/category';
+import { defineStore } from 'pinia';
+import { api } from '@/api';
+import type { Unit } from '@/types/unit';
 
 interface CategoryState {
   categories: Category[],
@@ -53,7 +52,7 @@ export const useCategoryStore = defineStore('category', {
           .then((response) => {
             this.categories.push(response.category);
             resolve(response.category);
-          })
+          }).catch((error) => reject(error));
       });
     },
     async addSubcategory(subcategory: Partial<Subcategory>): Promise<Subcategory> {
@@ -62,7 +61,7 @@ export const useCategoryStore = defineStore('category', {
           .then((response) => {
             this.subcategories.push(response.subcategory);
             resolve(response.subcategory);
-          })
+          }).catch((error) => reject(error));
       });
     },
     clearCategories() {
@@ -71,4 +70,4 @@ export const useCategoryStore = defineStore('category', {
       this.units = [];
     },
   },
-})
+});

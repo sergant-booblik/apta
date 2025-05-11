@@ -52,9 +52,9 @@
 
 <script setup lang="ts">
 import type { Choice } from '@/types/choice';
-import { computed, toRefs } from 'vue'
-import type { ErrorDetail } from '@/types/error'
-import { useI18n } from 'vue-i18n'
+import { computed, toRefs } from 'vue';
+import type { ErrorDetail } from '@/types/error';
+import { useI18n } from 'vue-i18n';
 
 interface Props {
   modelValue: unknown,

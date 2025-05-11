@@ -2,6 +2,7 @@ import { fileURLToPath, URL } from 'node:url';
 
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import eslintPlugin from 'vite-plugin-eslint';
 import svgLoaderPlugin from 'vite-svg-loader';
 
 function createSvgLoaderPlugin() {
@@ -22,6 +23,11 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    eslintPlugin({
+      cache: false,
+      emitWarning: true,
+      failOnError: true,
+    }),
     createSvgLoaderPlugin(),
   ],
   resolve: {

@@ -31,9 +31,9 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { RouteName } from '@/router'
-import { BIconWallet2 } from 'bootstrap-icons-vue'
-import Icon from "./icons";
+import { RouteName } from '@/router';
+import { BIconWallet2 } from 'bootstrap-icons-vue';
+import Icon from './icons';
 
 const { t } = useI18n();
 </script>

@@ -21,5 +21,5 @@ export function createFetchBillTransactionFunction(apiUrl: string): (request: Fe
       },
     }).then((resp) => resp.json())
       .then((resp: FetchBillTransactionsResponse) => resp);
-  }
+  };
 }

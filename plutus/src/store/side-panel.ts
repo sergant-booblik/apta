@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { SidePanelType } from '@/types/side-panel';
+import type { SidePanelType } from '@/types/side-panel';
 
 interface SidePanelState {
   type: SidePanelType | undefined,

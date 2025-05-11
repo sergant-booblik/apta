@@ -10,6 +10,7 @@
     <div class="alert__controls">
       <div
         v-for="control in controls"
+        :key="control.color"
         v-text="control.label"
         :class="[
           'alert__control',
@@ -22,8 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import type { Component } from 'vue'
-import type { AlertControl } from '@/types/controllers'
+import type { Component } from 'vue';
+import type { AlertControl } from '@/types/controllers';
 
 interface Props {
   icon: Component,

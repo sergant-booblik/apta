@@ -1,5 +1,3 @@
-import type { Currency } from '@/types/currency';
-
 export interface VerifyTokenResponse {
   success: boolean,
 }

@@ -3,10 +3,10 @@ import type { Ref } from 'vue';
 import { createRefreshTokenFunction, createVerifyTokenFunction } from '@/api/auth';
 import { createFetchCurrenciesFunction } from '@/api/fetch-currencies';
 import { createLoginFunction } from '@/api/login';
-import { createFetchBillsFunction } from '@/api/fetch-bills'
-import { createAddBillFunction} from "@/api/add-bill";
+import { createFetchBillsFunction } from '@/api/fetch-bills';
+import { createAddBillFunction } from '@/api/add-bill';
 import { createUploadBillIconFunction } from '@/api/upload-bill-icon';
-import { createFetchUserFunction } from '@/api/fetch-user'
+import { createFetchUserFunction } from '@/api/fetch-user';
 import { createLogoutFunction } from '@/api/logout';
 import { createUpdateProfileFunction } from '@/api/update-profile';
 import { createDeleteBillFunction } from '@/api/delete-bill';
@@ -19,9 +19,9 @@ import type { FetchBillsResponse, FetchBillRequest } from '@/api/fetch-bills';
 import type { FetchCurrenciesResponse } from '@/api/fetch-currencies';
 import type { AddBillRequest, AddBillResponse } from '@/api/add-bill';
 import type { UploadBillIconRequest, UploadBillIconResponse } from '@/api/upload-bill-icon';
-import type { UpdateProfileRequest, UpdateProfileResponse } from '@/api/update-profile'
-import type { FetchUserResponse } from '@/api/fetch-user'
-import type { LogoutResponse } from '@/api/logout'
+import type { UpdateProfileRequest, UpdateProfileResponse } from '@/api/update-profile';
+import type { FetchUserResponse } from '@/api/fetch-user';
+import type { LogoutResponse } from '@/api/logout';
 import type { DeleteBillRequest, DeleteBillResponse } from '@/api/delete-bill';
 import type { UpdateBillRequest, UpdateBillResponse } from '@/api/update-bill';
 import type { FetchBillTransactionsRequest, FetchBillTransactionsResponse } from '@/api/fetch-bill-transactions';
@@ -29,29 +29,29 @@ import type { FetchTotalSumRequest, FetchTotalSumResponse } from '@/api/fetch-to
 import {
   createFetchCategoriesFunction,
   type FetchCategoriesRequest,
-  type FetchCategoriesResponse
-} from '@/api/fetch-categories'
+  type FetchCategoriesResponse,
+} from '@/api/fetch-categories';
 import {
   createFetchSubcategoriesFunction,
   type FetchSubcategoriesRequest,
-  type FetchSubcategoriesResponse
-} from '@/api/fetch-subcategories'
-import { createFetchUnitsFunction, type FetchUnitsResponse } from '@/api/fetch-units'
-import { type AddExpenseRequest, type AddExpenseResponse, createAddExpenseFunction } from '@/api/add-expense'
-import type { AddCategoryRequest, AddCategoryResponse } from '@/api/add-category'
-import type { AddSubcategoryRequest, AddSubcategoryResponse } from '@/api/add-subcategory'
-import { createAddCategoryFunction } from '@/api/add-category'
-import { createAddSubcategoryFunction } from '@/api/add-subcategory'
+  type FetchSubcategoriesResponse,
+} from '@/api/fetch-subcategories';
+import { createFetchUnitsFunction, type FetchUnitsResponse } from '@/api/fetch-units';
+import { type AddExpenseRequest, type AddExpenseResponse, createAddExpenseFunction } from '@/api/add-expense';
+import type { AddCategoryRequest, AddCategoryResponse } from '@/api/add-category';
+import type { AddSubcategoryRequest, AddSubcategoryResponse } from '@/api/add-subcategory';
+import { createAddCategoryFunction } from '@/api/add-category';
+import { createAddSubcategoryFunction } from '@/api/add-subcategory';
 import {
   createReorderBillsFunction,
   type ReorderBillsRequest,
   type ReorderBillsResponse,
-} from '@/api/reorder-biils'
+} from '@/api/reorder-biils';
 import {
   createRegisterFunction,
   type RegisterRequest,
   type RegisterResponse,
-} from '@/api/register'
+} from '@/api/register';
 
 const userId = ref(0);
 const accessToken = ref('');

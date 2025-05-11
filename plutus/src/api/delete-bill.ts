@@ -15,6 +15,6 @@ export function createDeleteBillFunction(apiUrl: string): (request: DeleteBillRe
       headers: {
         'Content-Type': 'application/json',
       },
-    })
-  }
+    });
+  };
 }

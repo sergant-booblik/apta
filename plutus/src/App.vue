@@ -6,15 +6,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from 'vue'
+import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 import EmptyLayout from '@/layouts/EmptyLayout.vue';
 import MainLayout from '@/layouts/MainLayout.vue';
-import { Layout } from '@/router'
-import { useProfileStore } from '@/store/profile';
-import { applyTheme, setStoredTheme, useTheme } from '@/composable/useTheme'
-
-const profileStore = useProfileStore();
+import { Layout } from '@/router';
+import { useTheme } from '@/composable/useTheme';
 
 const route = useRoute();
 const layout = computed(() => route.meta.layout);

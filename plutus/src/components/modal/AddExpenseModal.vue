@@ -208,28 +208,27 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
-import InputComponent from '@/components/InputComponent.vue'
-import type { Expense } from '@/types/expense'
-import { InputType } from '@/types/controllers'
-import { useProfileStore } from '@/store/profile'
-import { storeToRefs } from 'pinia'
-import { useCategoryStore } from '@/store/category'
-import { useBillStore } from '@/store/bill'
-import ButtonComponent from '@/components/ButtonComponent.vue'
-import { useExpenseStore } from '@/store/expense'
-import SelectComponent from '@/components/SelectComponent.vue'
-import type { Choice } from '@/types/choice'
-import { useI18n } from 'vue-i18n'
-import ToggleComponent from '@/components/ToggleComponent.vue'
-import { ColorType } from '@/types/colors'
-import type { Category, Subcategory } from '@/types/category'
-import EmojiPickerComponent from '@/components/EmojiPickerComponent.vue'
-import { useModalStore } from '@/store/modal'
-import { formatDateForInput } from '@/helpers/format-date'
-import type { AddExpenseResponse } from '@/api/add-expense'
-import type { ErrorDetail } from '@/types/error'
-import { BIconCheck, BIconX } from 'bootstrap-icons-vue'
+import { computed, onMounted, ref } from 'vue';
+import InputComponent from '@/components/InputComponent.vue';
+import type { Expense } from '@/types/expense';
+import { InputType } from '@/types/controllers';
+import { useProfileStore } from '@/store/profile';
+import { storeToRefs } from 'pinia';
+import { useCategoryStore } from '@/store/category';
+import { useBillStore } from '@/store/bill';
+import ButtonComponent from '@/components/ButtonComponent.vue';
+import { useExpenseStore } from '@/store/expense';
+import SelectComponent from '@/components/SelectComponent.vue';
+import type { Choice } from '@/types/choice';
+import { useI18n } from 'vue-i18n';
+import ToggleComponent from '@/components/ToggleComponent.vue';
+import { ColorType } from '@/types/colors';
+import type { Category, Subcategory } from '@/types/category';
+import EmojiPickerComponent from '@/components/EmojiPickerComponent.vue';
+import { useModalStore } from '@/store/modal';
+import { formatDateForInput } from '@/helpers/format-date';
+import type { AddExpenseResponse } from '@/api/add-expense';
+import { BIconCheck, BIconX } from 'bootstrap-icons-vue';
 
 function updateSubcategories(): void {
   if (expense.value.categoryId) {

@@ -3,7 +3,9 @@
     <div class="auth-card">
       <div class="auth-title">
         <Icon.LogoIcon />
-        <h2 class="text-center">{{ $t('Auth.SignIn.title') }}</h2>
+        <h2 class="text-center">
+          {{ $t('Auth.SignIn.title') }}
+        </h2>
       </div>
       <form
         class="auth-card__form"
@@ -48,7 +50,7 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, ref, watch } from 'vue'
+import { onUnmounted, ref, watch } from 'vue';
 import { useAuthStore } from '@/store/auth';
 import InputComponent from '@/components/InputComponent.vue';
 import ButtonComponent from '@/components/ButtonComponent.vue';
@@ -57,8 +59,8 @@ import { RouteName } from '@/router';
 import Icon from '@/components/icons';
 import { useRouter } from 'vue-router';
 import { ButtonType, InputType } from '@/types/controllers';
-import { useI18n } from 'vue-i18n'
-import LoaderElement from '@/components/elements/LoaderElement.vue'
+import { useI18n } from 'vue-i18n';
+import LoaderElement from '@/components/elements/LoaderElement.vue';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -69,7 +71,7 @@ const { t } = useI18n();
 const email = ref('');
 const password = ref('');
 
-const login = () => {
+const login = (): void => {
   authStore.login(email.value, password.value)
     .then(() => {
       router.push({ name: RouteName.HOME });

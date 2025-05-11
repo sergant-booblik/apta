@@ -24,11 +24,12 @@
 <script setup lang="ts">
 import { ColorType } from '@/types/colors';
 import ButtonComponent from '@/components/ButtonComponent.vue';
-import { computed, ref } from 'vue'
-import EmojiPicker, { type EmojiExt } from 'vue3-emoji-picker'
-import 'vue3-emoji-picker/css';
+import { computed, ref } from 'vue';
+import EmojiPicker, { type EmojiExt } from 'vue3-emoji-picker';
 import { onClickOutside } from '@vueuse/core';
-import { useI18n } from 'vue-i18n'
+import { useI18n } from 'vue-i18n';
+import 'vue3-emoji-picker/css';
+import type { Theme } from '@/types/profile';
 
 function closeEmojiPicker(): void {
   isShowEmojiPicker.value = false;
@@ -46,7 +47,7 @@ function toggleEmojiPicker(): void {
   }
 }
 
-function selectEmoji(emoji: EmojiExt) {
+function selectEmoji(emoji: EmojiExt): void {
   localEmoji.value = emoji.i;
   closeEmojiPicker();
 }
@@ -70,7 +71,7 @@ const emojiPickerRef = ref<HTMLElement>();
 
 const isShowEmojiPicker = ref(false);
 
-const theme = localStorage.getItem('theme');
+const theme = localStorage.getItem('theme') as Theme;
 
 onClickOutside(emojiPickerRef, () => closeEmojiPicker());
 </script>

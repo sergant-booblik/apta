@@ -14,13 +14,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref } from 'vue';
 import { useSidePanelStore } from '@/store/side-panel';
 import HeaderComponent from '@/components/HeaderComponent.vue';
 import SubheaderComponent from '@/components/SubheaderComponent.vue';
 import SidePanelComponent from '@/components/SidePanelComponent.vue';
-import ModalComponent from "@/components/ModalComponent.vue";
-import {useModalStore} from "@/store/modal";
+import ModalComponent from '@/components/ModalComponent.vue';
+import { useModalStore } from '@/store/modal';
 
 const sidePanelStore = useSidePanelStore();
 const modalStore = useModalStore();

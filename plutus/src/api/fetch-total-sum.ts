@@ -1,5 +1,3 @@
-import type { Currency } from '@/types/currency'
-
 export interface FetchTotalSumRequest {
   currency?: string,
   isShowClosed?: boolean,
@@ -24,5 +22,5 @@ export function createFetchTotalSumFunction(apiUrl: string): (request: FetchTota
       },
     }).then((resp) => resp.json())
       .then((resp: FetchTotalSumResponse) => resp);
-  }
+  };
 }

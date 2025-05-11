@@ -51,7 +51,9 @@
         <div class="bill-card__top">
           <div>
             <p>{{ bill.name }}</p>
-            <p class="text-sm mb-3 opacity-60">{{ bill.subtitle }}</p>
+            <p class="text-sm mb-3 opacity-60">
+              {{ bill.subtitle }}
+            </p>
           </div>
           <div
             v-if="bill.customIcon"
@@ -67,7 +69,9 @@
             :is="`${bill.icon}-icon`"
           />
         </div>
-        <h2>{{ toMoney(bill.currentAmount, bill.currency.code) }}</h2>
+        <h2>
+          {{ toMoney(bill.currentAmount, bill.currency.code) }}
+        </h2>
         <FormattedAmount
           :currency-code="bill.currency.code"
           :sum="bill.transSum"
@@ -168,7 +172,9 @@
               v-else
               class="tab__transfers--empty"
             >
-              <h4>{{ t('Modal.OpenBill.Tab.transactions.Empty.title') }}</h4>
+              <h4>
+                {{ t('Modal.OpenBill.Tab.transactions.Empty.title') }}
+              </h4>
               <p>
                 {{ t('Modal.OpenBill.Tab.transactions.Empty.text') }}
               </p>
@@ -187,7 +193,9 @@
           >
             <div class="tab__customize">
               <div class="customize__icon">
-                <h3 class="mb-2">{{ t('Modal.OpenBill.Tab.customize.Icon.title') }}</h3>
+                <h3 class="mb-2">
+                  {{ t('Modal.OpenBill.Tab.customize.Icon.title') }}
+                </h3>
                 <div class="image-upload">
                   <input
                     ref="inputRef"
@@ -211,7 +219,9 @@
                 </div>
               </div>
               <div class="customize__colors">
-                <h3 class="mb-2">{{ t('Modal.OpenBill.Tab.customize.Colors.title') }}</h3>
+                <h3 class="mb-2">
+                  {{ t('Modal.OpenBill.Tab.customize.Colors.title') }}
+                </h3>
                 <div class="flex gap-4">
                   <ColorPicker
                     v-model="bill.customColor"
@@ -311,27 +321,40 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, type Ref, ref } from 'vue'
-import { useBillStore } from '@/store/bill'
-import { useModalStore } from '@/store/modal'
-import { storeToRefs } from 'pinia'
-import type { Bill } from '@/types/bill'
-import { toMoney } from '@/helpers/to-money'
-import CardComponent from '@/components/CardComponent.vue'
-import Icon from '@/components/icons'
-import { BIconExclamationCircle, BIconEyeSlash, BIconBoxArrowUpRight, BIconGear, BIconListNested, BIconPalette } from 'bootstrap-icons-vue'
-import FormattedAmount from '@/components/elements/FormattedAmount.vue'
-import { Sign } from '@/types/currency'
-import { useI18n } from 'vue-i18n'
-import InputComponent from '@/components/InputComponent.vue'
-import ButtonComponent from '@/components/ButtonComponent.vue'
-import { ColorType, DEFAULT_BG_COLOR, DEFAULT_FONT_COLOR } from '@/types/colors'
-import AlertComponent from '@/components/AlertComponent.vue'
-import { useProfileStore } from '@/store/profile'
-import { formatTimeAgo } from '@vueuse/core'
-import ColorPicker from '@/components/ColorPicker.vue'
-import { useTransactionStore } from '@/store/transaction'
-import type { CategoryType, SubcategoryType } from '@/types/category'
+import {
+  ref,
+  onMounted,
+  computed,
+  type Ref,
+  type Component,
+} from 'vue';
+import { useBillStore } from '@/store/bill';
+import { useModalStore } from '@/store/modal';
+import { storeToRefs } from 'pinia';
+import type { Bill } from '@/types/bill';
+import { toMoney } from '@/helpers/to-money';
+import CardComponent from '@/components/CardComponent.vue';
+import Icon from '@/components/icons';
+import {
+  BIconExclamationCircle,
+  BIconEyeSlash,
+  BIconBoxArrowUpRight,
+  BIconGear,
+  BIconListNested,
+  BIconPalette,
+} from 'bootstrap-icons-vue';
+import FormattedAmount from '@/components/elements/FormattedAmount.vue';
+import { Sign } from '@/types/currency';
+import { useI18n } from 'vue-i18n';
+import InputComponent from '@/components/InputComponent.vue';
+import ButtonComponent from '@/components/ButtonComponent.vue';
+import { ColorType, DEFAULT_BG_COLOR, DEFAULT_FONT_COLOR } from '@/types/colors';
+import AlertComponent from '@/components/AlertComponent.vue';
+import { useProfileStore } from '@/store/profile';
+import { formatTimeAgo } from '@vueuse/core';
+import ColorPicker from '@/components/ColorPicker.vue';
+import { useTransactionStore } from '@/store/transaction';
+import type { CategoryType, SubcategoryType } from '@/types/category';
 
 function useUploadFile(
   bill: Ref<Bill | undefined>,
@@ -349,25 +372,25 @@ function updateBill(field: keyof Bill, value: unknown): void {
   billStore.updateBill({ id: bill.value?.id, [field]: value });
 }
 
-function changeCustomColor(color: string) {
+function changeCustomColor(color: string): void {
   if (bill.value) {
     bill.value.customColor = color;
     updateBill('customColor', color);
   }
 }
 
-function changeCustomFontColor(color: string) {
+function changeCustomFontColor(color: string): void {
   if (bill.value) {
     bill.value.customFontColor = color;
     updateBill('customFontColor', color);
   }
 }
 
-function triggerFileInput() {
+function triggerFileInput(): void {
   inputRef.value?.click();
 }
 
-function calculateTransferIcon(type: CategoryType | SubcategoryType) {
+function calculateTransferIcon(type: CategoryType | SubcategoryType): Component {
   switch (type) {
     case 'income':
       return Icon.TransferIncomeIcon;
@@ -409,7 +432,7 @@ function openBill(): void {
   }
 }
 
-function toDate(string: Date) {
+function toDate(string: Date): string {
   const date = new Date(string);
   return date.toLocaleDateString(profile.value?.locale);
 }
@@ -444,7 +467,7 @@ onMounted(() => {
   if (bill.value) {
     transactionStore.fetchTransaction(bill.value.id, 10);
   }
-})
+});
 </script>
 
 <style scoped lang="scss">

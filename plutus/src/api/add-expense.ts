@@ -1,5 +1,5 @@
-import type { Expense } from '@/types/expense'
-import type { ErrorData } from '@/types/error'
+import type { Expense } from '@/types/expense';
+import type { ErrorData } from '@/types/error';
 
 export interface AddExpenseRequest {
   expense: Expense,
@@ -17,11 +17,11 @@ export function createAddExpenseFunction(apiUrl: string): (request: AddExpenseRe
       method: 'POST',
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(request.expense)
+      body: JSON.stringify(request.expense),
     }).then((resp) => resp.json())
       .then((resp: AddExpenseResponse) => resp)
-      .catch((errors: AddExpenseResponse) => errors)
-  }
+      .catch((errors: AddExpenseResponse) => errors);
+  };
 }

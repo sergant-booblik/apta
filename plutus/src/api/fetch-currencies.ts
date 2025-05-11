@@ -5,7 +5,7 @@ export interface FetchCurrenciesResponse {
 }
 
 export function createFetchCurrenciesFunction(
-  apiUrl: string
+  apiUrl: string,
 ): () => Promise<FetchCurrenciesResponse> {
   return (): Promise<FetchCurrenciesResponse> => {
     const url = new URL(`${apiUrl}/currency`);

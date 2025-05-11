@@ -1,4 +1,4 @@
-import type { ErrorData } from '@/types/error'
+import type { ErrorData } from '@/types/error';
 
 export interface LoginRequest {
   email: string,
@@ -22,8 +22,8 @@ export function createLoginFunction(
       body: JSON.stringify(request),
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
 
     const data = await resp.json();
@@ -33,5 +33,5 @@ export function createLoginFunction(
     }
 
     return data;
-  }
+  };
 }

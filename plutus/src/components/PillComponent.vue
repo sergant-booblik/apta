@@ -23,8 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import { type Component, ref } from 'vue'
-import { ColorType } from '@/types/colors'
+import { type Component, ref } from 'vue';
+import { ColorType } from '@/types/colors';
 
 interface Props {
   label?: string,

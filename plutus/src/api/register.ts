@@ -1,4 +1,4 @@
-import type { ErrorData } from '@/types/error'
+import type { ErrorData } from '@/types/error';
 
 export interface RegisterRequest {
   email: string,
@@ -24,8 +24,8 @@ export function createRegisterFunction(
       body: JSON.stringify(request),
       credentials: 'include',
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     });
 
     const data = await resp.json();
@@ -35,5 +35,5 @@ export function createRegisterFunction(
     }
 
     return data;
-  }
+  };
 }

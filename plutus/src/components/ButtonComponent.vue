@@ -17,9 +17,9 @@
 </template>
 
 <script setup lang="ts">
-import { ColorType } from '@/types/colors'
-import { ButtonType } from '@/types/controllers'
-import type { Component } from 'vue'
+import { ColorType } from '@/types/colors';
+import { ButtonType } from '@/types/controllers';
+import type { Component } from 'vue';
 
 interface Props {
   label?: string,

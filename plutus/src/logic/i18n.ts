@@ -1,5 +1,6 @@
-import { createI18n } from 'vue-i18n';
+// eslint-disable-next-line no-restricted-imports
 import en from '../../resources/i18n/en.json';
+import { createI18n } from 'vue-i18n';
 import { useProfileStore } from '@/store/profile';
 
 export type Locale = 'en';
@@ -31,7 +32,7 @@ export function setLocale(locale: string): void {
   i18n.global.locale.value = calculateCurrentLocale();
 }
 
-export const pluralizationRule = (choice: number, choicesLength: number) => {
+export const pluralizationRule = (choice: number, choicesLength: number): number => {
   if (choicesLength === 1) return 0;
 
   const lastDigit = choice % 10;

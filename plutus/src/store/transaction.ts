@@ -24,5 +24,5 @@ export const useTransactionStore = defineStore('transaction', {
     clearTransactions() {
       this.transactions = [];
     },
-  }
+  },
 });

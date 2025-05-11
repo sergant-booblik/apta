@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
 import { api } from '@/api';
-import type { Expense } from '@/types/expense'
-import type { ErrorData } from '@/types/error'
-import type { AddExpenseResponse } from '@/api/add-expense'
+import type { Expense } from '@/types/expense';
+import type { ErrorData } from '@/types/error';
+import type { AddExpenseResponse } from '@/api/add-expense';
 
 interface ExpenseState {
   expenses: Expense[],
@@ -41,4 +41,4 @@ export const useExpenseStore = defineStore('expense', {
       this.errors = {};
     },
   },
-})
+});

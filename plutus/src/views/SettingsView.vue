@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import { useSidePanelStore } from '@/store/side-panel';
-import { SidePanelType } from "@/types/side-panel";
+import { SidePanelType } from '@/types/side-panel';
 
 function openSideMenu(type: SidePanelType): void {
   const sidePanelStore = useSidePanelStore();

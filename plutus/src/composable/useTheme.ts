@@ -1,13 +1,11 @@
 import { watch } from 'vue';
 import { useProfileStore } from '@/store/profile';
-import {
-  getInitialTheme,
-  getStoredTheme,
-  setStoredTheme,
-  applyTheme,
-} from '@/logic/theme';
+import { applyTheme, getInitialTheme, getStoredTheme, setStoredTheme } from '@/logic/theme';
+import { Theme } from '@/types/profile';
 
-export function useTheme() {
+export function useTheme(): {
+  toggleTheme: () => void,
+} {
   const profileStore = useProfileStore();
 
   const initialTheme = profileStore.profile?.theme || getStoredTheme() || getInitialTheme();
@@ -22,12 +20,12 @@ export function useTheme() {
         applyTheme(newTheme);
       }
     },
-    { immediate: true }
+    { immediate: true },
   );
 
-  function toggleTheme() {
-    const current = getStoredTheme() ?? 'light';
-    const next = current === 'dark' ? 'light' : 'dark';
+  function toggleTheme(): void {
+    const current = getStoredTheme() ?? Theme.LIGHT;
+    const next = current === Theme.DARK ? Theme.LIGHT : Theme.DARK;
 
     setStoredTheme(next);
     applyTheme(next);

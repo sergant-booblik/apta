@@ -1,4 +1,4 @@
-import type { ColorType } from '@/types/colors'
+import type { ColorType } from '@/types/colors';
 
 export enum ButtonType {
   BUTTON = 'button',

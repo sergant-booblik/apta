@@ -14,11 +14,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, toRefs } from 'vue'
-import { toMoney } from '@/helpers/to-money'
-import { Sign } from '@/types/currency'
-import { getContrastAmountClass } from '@/helpers/contrast-amount-class'
-import Icon from '@/components/icons'
+import { computed, toRefs } from 'vue';
+import { toMoney } from '@/helpers/to-money';
+import { Sign } from '@/types/currency';
+import { getContrastAmountClass } from '@/helpers/contrast-amount-class';
+import Icon from '@/components/icons';
 
 function useCalculateSign(sign: Sign | undefined): (amount: number | undefined) => Sign {
   function calculateSign(amount: number | undefined): Sign {

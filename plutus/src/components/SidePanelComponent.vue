@@ -15,13 +15,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { onClickOutside } from '@vueuse/core'
-import { storeToRefs } from 'pinia'
-import { useSidePanelStore } from '@/store/side-panel'
+import { computed, ref } from 'vue';
+import { onClickOutside } from '@vueuse/core';
+import { storeToRefs } from 'pinia';
+import { useSidePanelStore } from '@/store/side-panel';
 import { BIconXLg } from 'bootstrap-icons-vue';
-import { SidePanelType } from '@/types/side-panel'
-import SidePanel from '@/components/side-panel'
+import { SidePanelType } from '@/types/side-panel';
+import SidePanel from '@/components/side-panel';
 
 function closeSidePanel(): void {
   const sidePanelStore = useSidePanelStore();
