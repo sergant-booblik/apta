@@ -2,7 +2,6 @@ name: Genitor
 
 on:
   push:
-  pull_request:
 
 jobs:
   install:

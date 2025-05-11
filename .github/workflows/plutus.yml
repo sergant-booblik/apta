@@ -2,7 +2,6 @@ name: Plutus
 
 on:
   push:
-  pull_request:
 
 jobs:
   install:
