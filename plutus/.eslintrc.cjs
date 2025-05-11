@@ -1,8 +1,6 @@
 /* eslint-env node */
 require('@rushstack/eslint-patch/modern-module-resolution');
 
-const unusedImports = require("eslint-plugin-unused-imports");
-
 module.exports = {
   root: true,
   'extends': [
@@ -11,7 +9,7 @@ module.exports = {
     '@vue/eslint-config-typescript',
   ],
   plugins: [
-    "unused-imports"
+    'unused-imports',
   ],
   parserOptions: {
     ecmaVersion: 'latest',
