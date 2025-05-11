@@ -2,5 +2,6 @@
 /genitor/.uploads/
 /genitor/node_modules/
 /genitor/dist/
+/genitor/.coverage/
 /genitor/.env
 /node_modules/

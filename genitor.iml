@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/genitor/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/genitor/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/genitor/.uploads" />
+      <excludeFolder url="file://$MODULE_DIR$/genitor/.coverage" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

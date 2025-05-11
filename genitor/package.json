@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon src/index.ts",
     "test:unit": "jest",
-    "test:coverage": "echo \"Error: no test specified\" && exit 1",
+    "test:coverage": "jest --coverage",
     "lint": "eslint './src/**/*.{ts,js}'",
     "build": "tsc",
     "lint:fix": "eslint './src/**/*.{ts,js}' --fix"

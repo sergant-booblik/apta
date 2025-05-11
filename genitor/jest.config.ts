@@ -8,4 +8,17 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
+  coverageDirectory: "./.coverage",
+  collectCoverageFrom: [
+    "src/**/*.ts",
+    "!src/**/*.d.ts"
+  ],
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 90,
+      lines: 95,
+      statements: 95,
+    }
+  }
 };
