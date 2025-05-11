@@ -5,13 +5,13 @@ import {
   JoinTable,
   ManyToOne,
   OneToMany, PrimaryColumn,
-} from 'typeorm'
+} from 'typeorm';
 import { User } from './user';
 import { Currency } from './currency';
 import { Transfer } from './transfer';
 import { Expense } from './expense';
 import { Income } from './income';
-import ShortUniqueId from 'short-unique-id'
+import ShortUniqueId from 'short-unique-id';
 
 const { randomUUID } = new ShortUniqueId({ length: 5 });
 
@@ -19,7 +19,6 @@ const { randomUUID } = new ShortUniqueId({ length: 5 });
 export class Bill {
   @PrimaryColumn('varchar', { default: randomUUID() })
   id!: string;
-
 
   @Column({ default: 0.00, type: 'float' })
   amount!: number;

@@ -5,13 +5,13 @@ import {
   Entity,
   JoinTable,
   ManyToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from './user';
 import { Bill } from './bill';
 import { Category } from './category';
 import { Subcategory } from './subcategory';
-import { Unit } from './unit'
+import { Unit } from './unit';
 
 @Entity()
 export class Expense {

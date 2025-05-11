@@ -1,4 +1,4 @@
-import {Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn, Column, JoinColumn} from 'typeorm';
+import { Entity, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn, Column, JoinColumn } from 'typeorm';
 import { Currency } from './currency';
 
 @Entity()

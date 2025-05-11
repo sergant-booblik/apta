@@ -1,4 +1,4 @@
-import {Column, DeleteDateColumn, Entity, JoinTable, ManyToOne, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
+import { Column, DeleteDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Category } from './category';
 import { Expense } from './expense';
 import { Income } from './income';

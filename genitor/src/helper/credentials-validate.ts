@@ -1,17 +1,17 @@
-import { ErrorDetail } from '../type/error'
+import type { ErrorDetail } from '@/type/error';
 
 const PASSWORD_LENGTH = 8;
 const REGEX_AT_LEAST_ONE_UPPERCASE = new RegExp('[A-Z]');
 const REGEX_AT_LEAST_ONE_LOWERCASE = new RegExp('[a-z]');
 const REGEX_AT_LEAST_ONE_DIGIT = new RegExp('[0-9]');
 const REGEX_AT_LEAST_ONE_SPEC_CHAR = new RegExp('[!@#$%^&*()_+\\-=[\\]{};\':"\\\\|,.<>/?]');
-const REGEX_HAS_SPACE = new RegExp('[\\s]');
+const REGEX_HAS_SPACE = new RegExp('\\s');
 
 export function validateEmail(email: string): ErrorDetail[] {
   const emailErrors: ErrorDetail[] = [];
 
   if (!email) {
-    emailErrors.push({ label: 'Error.Auth.Email.Validate.empty' })
+    emailErrors.push({ label: 'Error.Auth.Email.Validate.empty' });
     return emailErrors;
   }
 
@@ -82,7 +82,7 @@ export function validatePassword(password: string): ErrorDetail[] {
   return passwordErrors;
 }
 
-export function validateName(name: string) {
+export function validateName(name: string): ErrorDetail[] {
   const nameErrors: ErrorDetail[] = [];
 
   if (!name) {

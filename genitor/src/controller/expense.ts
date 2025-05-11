@@ -1,21 +1,22 @@
-import { genitorDataSource } from '../../ormconfig';
-import { Expense } from '../entity/expense';
-import { Request, Response } from 'express';
-import { Bill } from '../entity/bill';
-import { getUserId } from '../helper/get-user-id'
-import { ErrorData } from '../type/error'
+import { genitorDataSource } from '@/ormconfig';
+import { getUserId } from '@/helper/get-user-id';
+import { Expense } from '@/entity/expense';
+import { Bill } from '@/entity/bill';
+import type { Request, Response } from 'express';
+import type { ErrorData } from '@/type/error';
+import type { DeepPartial } from 'typeorm';
 
 const expenseRepository = genitorDataSource.getRepository(Expense);
 const billRepository = genitorDataSource.getRepository(Bill);
 
-export const getExpenses = async (req: Request, res: Response) => {
+export const getExpenses = async (req: Request, res: Response): Promise<void> => {
   const userId = req.params.userId as unknown as number;
   const expenses = await expenseRepository.find({ where: { user: { id: userId } } });
 
   res.send(expenses);
-}
+};
 
-export const addExpense = async (req: Request, res: Response) => {
+export const addExpense = async (req: Request, res: Response): Promise<void> => {
   const userId = await getUserId(req.cookies['accessToken']);
   const { name, amount, createdDate, billId, quantity, unitId, categoryId, subcategoryId } = req.body;
 
@@ -42,9 +43,9 @@ export const addExpense = async (req: Request, res: Response) => {
   }
 
   if (Object.keys(errors).length > 0) {
-    res.status(400).send({ errors })
+    res.status(400).send({ errors });
   } else {
-    const expense = await expenseRepository.save({
+    const expense: DeepPartial<Expense> ={
       user: { id: userId },
       bill: { id: billId as string },
       category: { id: categoryId as number },
@@ -54,15 +55,17 @@ export const addExpense = async (req: Request, res: Response) => {
       amount,
       createdDate,
       name,
-    });
+    };
+
+    await expenseRepository.save(expense);
 
     res.status(200).send({ expense });
   }
 
 
-}
+};
 
-export const updateExpense = async (req: Request, res: Response) => {
+export const updateExpense = async (req: Request, res: Response): Promise<void> => {
   const id = req.params.id as unknown as number;
   const userId = req.params.userId as unknown as number;
   const updatingExpense = await expenseRepository.findOne({ where: { id } });
@@ -72,7 +75,7 @@ export const updateExpense = async (req: Request, res: Response) => {
     categoryId,
     subcategoryId,
     amount,
-    name
+    name,
   } = await req.body;
 
   await genitorDataSource.transaction(async () => {
@@ -94,9 +97,9 @@ export const updateExpense = async (req: Request, res: Response) => {
       res.send(expense);
     }
   });
-}
+};
 
-export const deleteExpense = async (req: Request, res: Response) => {
+export const deleteExpense = async (req: Request, res: Response): Promise<void> => {
   const id = req.params.id as unknown as number;
   const removingExpense = await expenseRepository.findOne({ where: { id } });
 
@@ -108,4 +111,4 @@ export const deleteExpense = async (req: Request, res: Response) => {
       res.send({ message: 'success' });
     }
   });
-}
+};

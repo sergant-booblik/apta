@@ -5,7 +5,7 @@ import {
   Entity,
   JoinTable,
   ManyToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Bill } from './bill';
 import { User } from './user';
@@ -15,10 +15,10 @@ export class Transfer {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column({ type: "float", default: 0.00 })
+  @Column({ type: 'float', default: 0.00 })
   amountSent!: number;
 
-  @Column({ type: "float", default: 0.00 })
+  @Column({ type: 'float', default: 0.00 })
   amountReceived!: number;
 
   @ManyToOne(() => User, (user) => user.transfers)

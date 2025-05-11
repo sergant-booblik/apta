@@ -1,10 +1,19 @@
 // TODO create a folder for routing
 // TODO add bearer to protect api
 
-import { Router } from 'express';
-import { authLogin, authLogout, authRefresh, authRegister, verifyToken } from './controller/auth'
-import { getMyProfile, updateProfile } from './controller/users';
-import { getPinnedCurrencies } from './controller/currency';
+import type { Router } from 'express';
+import {
+  authLogin,
+  authLogout,
+  authRefresh,
+  authRegister,
+  verifyToken,
+} from '@/controller/auth';
+import {
+  getMyProfile,
+  updateProfile,
+} from '@/controller/users';
+import { getPinnedCurrencies } from '@/controller/currency';
 import {
   addBill,
   deleteBill,
@@ -12,28 +21,47 @@ import {
   fetchBillTransactions,
   fetchTotalBillsAmount, reorderBills,
   updateBill,
-  uploadBillIcon
-} from './controller/bill'
-import { AddTransfer, DeleteTransfer, GetTransfers, updateTransfer } from './controller/transfer';
+  uploadBillIcon,
+} from '@/controller/bill';
 import {
-  addCategory, addSubcategory,
+  AddTransfer,
+  DeleteTransfer,
+  getTransfers,
+  updateTransfer,
+} from '@/controller/transfer';
+import {
+  addCategory,
   fetchCategories,
-  fetchSubcategories, fetchUnits
-} from './controller/category'
-import { addExpense, deleteExpense, getExpenses, updateExpense } from './controller/expense';
-import { addIncome, deleteIncome, getIncomes, updateIncome } from './controller/income';
+  fetchUnits,
+} from '@/controller/category';
+import {
+  addSubcategory,
+  fetchSubcategories,
+} from '@/controller/subcategory';
+import {
+  addExpense,
+  deleteExpense,
+  getExpenses,
+  updateExpense,
+} from '@/controller/expense';
+import {
+  addIncome,
+  deleteIncome,
+  getIncomes,
+  updateIncome,
+} from '@/controller/income';
 import multer from 'multer';
 
 const storage = multer.diskStorage({
   destination: './.uploads/icon',
-  filename(req, file, callback) {
+  filename(_, file, callback) {
     callback(null, Date.now() + '_' + file.originalname);
   },
 
 });
 const uploadIcon = multer({ storage });
 
-export const routes = (router: Router) => {
+export const routes = (router: Router): void => {
   router.post('/api/auth/register/', authRegister);
   router.post('/api/auth/login/', authLogin);
   router.get('/api/auth/verify/', verifyToken);
@@ -55,26 +83,18 @@ export const routes = (router: Router) => {
 
   router.get('/api/bill/:id/transactions?:count', fetchBillTransactions);
 
-  router.get('/api/:userId/transfer', GetTransfers);
+  router.get('/api/:userId/transfer', getTransfers);
   router.post('/api/:userId/transfer', AddTransfer);
   router.put('/api/:userId/transfer/:id', updateTransfer);
   router.delete('/api/transfer/:id', DeleteTransfer);
 
 
   router.get('/api/category?:type', fetchCategories);
-  router.get('/api/subcategory?:category', fetchSubcategories);
   router.get('/api/unit/', fetchUnits);
   router.post('/api/category', addCategory);
-  router.post('/api/subcategory', addSubcategory);
 
-  // router.post('/api/:userId/category', addCategory);
-  // router.put('/api/category/:id', updateCategory);
-  // router.delete('/api/category/:id', deleteCategory);
-  //
-  // router.get('/api/subcategory', getSubCategories);
-  // router.post('/api/subcategory', addSubcategory);
-  // router.put('/api/subcategory/:id', updateSubcategory);
-  // router.delete('/api/subcategory/:id', deleteSubcategory);
+  router.get('/api/subcategory?:category', fetchSubcategories);
+  router.post('/api/subcategory', addSubcategory);
 
   router.post('/api/expense', addExpense);
 
@@ -86,5 +106,5 @@ export const routes = (router: Router) => {
   router.post('/api/:userId/income', addIncome);
   router.put('/api/:userId/income/:id', updateIncome);
   router.delete('/api/income/:id', deleteIncome);
-}
+};
 

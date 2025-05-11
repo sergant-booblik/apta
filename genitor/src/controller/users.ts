@@ -1,23 +1,24 @@
-import { genitorDataSource} from '../../ormconfig';
-import { User} from '../entity/user';
-import { Request, Response } from 'express';
+import { genitorDataSource } from '@/ormconfig';
+import { User } from '@/entity/user';
+import type { Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
-import { getUserId } from '../helper/get-user-id';
-import { Currency } from '../entity/currency'
+import { getUserId } from '@/helper/get-user-id';
+import { Currency } from '@/entity/currency';
 
 const userRepository = genitorDataSource.getRepository(User);
 const currencyRepository = genitorDataSource.getRepository(Currency);
 
-export const getMyProfile = async (req: Request, res: Response) => {
+export const getMyProfile = async (req: Request, res: Response): Promise<void> => {
   try {
     const accessToken = req.cookies['accessToken'];
     const payload: any = verify(accessToken, 'access_token');
 
     if (!payload) {
-      return res.status(401).send({
+      res.status(401).send({
         message: 'Unauthenticated',
         error: 'Error.Invalid.Unauthenticated',
       });
+      return;
     }
 
     const user = await userRepository.findOne({
@@ -27,16 +28,17 @@ export const getMyProfile = async (req: Request, res: Response) => {
     });
 
     res.send({ profile: user });
-  } catch (e) {
-    return res.status(401).send({
-      message: 'Unauthenticated. Some errors',
+  } catch (error) {
+    res.status(401).send({
+      message: `Unauthenticated. Some errors: ${error}`,
       error: 'Error.Invalid.Unauthenticated',
-    })
+    });
+    return;
   }
 
-}
+};
 
-export const updateProfile = async (req: Request, res: Response) => {
+export const updateProfile = async (req: Request, res: Response): Promise<void> => {
   const accessToken = req.cookies['accessToken'];
   const userId = await getUserId(accessToken).then((result) => result);
 
@@ -49,12 +51,12 @@ export const updateProfile = async (req: Request, res: Response) => {
     .getOne();
 
   if (!user) {
-    return res.status(404).send({ message: 'User not found' });
+    res.status(404).send({ message: 'User not found' });
+    return;
   }
 
   if (data.currencies) {
-    const newCurrencies = await currencyRepository.findByIds(data.currencies);
-    user.currencies = newCurrencies;
+    user.currencies = await currencyRepository.findBy({ id: data.currencies });
   }
 
   Object.assign(user, data);
@@ -62,4 +64,4 @@ export const updateProfile = async (req: Request, res: Response) => {
   await userRepository.save(user);
 
   res.send({ profile: user });
-}
+};

@@ -1,7 +1,7 @@
-import {Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn} from 'typeorm';
-import {Bill} from "./bill";
-import {User} from "./user";
-import {Rate} from "./rate";
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Bill } from './bill';
+import { User } from './user';
+import { Rate } from './rate';
 
 @Entity()
 export class Currency {

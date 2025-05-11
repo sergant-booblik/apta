@@ -1,16 +1,42 @@
-import { NextFunction, Request, Response } from 'express'
-import { genitorDataSource } from '../../ormconfig';
-import { User } from '../entity/user';
-import { Bill } from '../entity/bill';
-import { Transfer } from '../entity/transfer';
-import { getUserId } from '../helper/get-user-id';
-import { Income } from '../entity/income';
-import { Expense } from '../entity/expense';
-import ShortUniqueId from 'short-unique-id';
-import uploadToS3 from '../middleware/upload';
+import { genitorDataSource } from '@/ormconfig';
 import { getCurrencies } from './rate';
+import { getUserId } from '@/helper/get-user-id';
+import uploadToS3 from '@/middleware/upload';
+import { User } from '@/entity/user';
+import { Bill } from '@/entity/bill';
+import { Transfer } from '@/entity/transfer';
+import { Income } from '@/entity/income';
+import { Expense } from '@/entity/expense';
+import ShortUniqueId from 'short-unique-id';
+import type { Request, Response } from 'express';
+
 type TransactionType = 'income' | 'expense';
 type TransferType = 'transferReceived' | 'transferSend';
+
+export interface ModifiedTransaction {
+  type: TransactionType,
+  amount: number,
+  category: string,
+  subcategory: string,
+  name: string,
+  date: Date,
+}
+
+export interface ModifiedTransfer {
+  type: TransferType,
+  amount: number,
+  category: string,
+  subcategory: string,
+  name: string,
+  date: Date,
+}
+
+export interface ModifiedBill extends Bill {
+  currentAmount: number,
+  incomeSum: number,
+  outcomeSum: number,
+  transSum: number,
+}
 
 const repositories = {
   user: genitorDataSource.getRepository(User),
@@ -24,7 +50,7 @@ const formatTransaction = (
   transaction: Income | Expense,
   type: TransactionType,
   amount: number,
-) => ({
+): ModifiedTransaction => ({
   type,
   amount,
   category: `${transaction.category.emoji} ${transaction.category.name}`,
@@ -36,21 +62,21 @@ const formatTransaction = (
 const formatTransfer = (
   transfer: Transfer,
   billId: string,
-) => ({
+): ModifiedTransfer => ({
   type: transfer.sendingBill.id === billId ? 'transferSend' : 'transferReceived' as TransferType,
   amount: transfer.sendingBill.id === billId ? transfer.amountSent * -1 : transfer.amountReceived,
   category: 'Transfer.History.transaction',
   subcategory: transfer.sendingBill.id === billId ? 'Transfer.History.sent' : 'Transfer.History.received',
   name: transfer.sendingBill.id === billId ? 'Transfer.History.to' : 'Transfer.History.from',
   date: transfer.createdDate,
-})
+});
 
 const processTransactions = (
   transactions: Income[] | Expense[],
   billId: string,
   type: TransactionType,
   amountMultiplier = 1,
-) =>
+): ModifiedTransaction[] =>
   transactions
     .filter(tx => tx.bill.id === billId)
     .map(tx => formatTransaction(tx, type, tx.amount * amountMultiplier));
@@ -58,10 +84,10 @@ const processTransactions = (
 const processTransfers = (
   transfers: Transfer[],
   billId: string,
-) => transfers.filter((ts) => ts.receivingBill.id === billId || ts.sendingBill.id === billId)
+): ModifiedTransfer[] => transfers.filter((ts) => ts.receivingBill.id === billId || ts.sendingBill.id === billId)
   .map((ts) => formatTransfer(ts, billId));
 
-const getModifiedBills = async (userId: number, isShowClosed: boolean) => {
+const getModifiedBills = async (userId: number | undefined, isShowClosed: boolean): Promise<ModifiedBill[]> => {
   const [bills, transfers, incomes, expenses] = await Promise.all([
     repositories.bill.find({
       where: { user: { id: userId }, ...(isShowClosed ? {} : { isClosed: false }) },
@@ -98,18 +124,17 @@ const getModifiedBills = async (userId: number, isShowClosed: boolean) => {
   });
 };
 
-export const fetchBills = async (req: Request, res: Response) => {
+export const fetchBills = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = await getUserId(req.cookies['accessToken']);
     const isShowClosed = req.query.closed === 'true';
     res.send({ bills: await getModifiedBills(userId, isShowClosed) });
   } catch (error) {
-    console.error("Error fetching bills:", error);
-    res.status(500).send({ error: "Failed to fetch bills" });
+    res.status(500).send({ error: `Failed to fetch bills: ${error}` });
   }
 };
 
-export const fetchBillTransactions = async (req: Request, res: Response) => {
+export const fetchBillTransactions = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = await getUserId(req.cookies['accessToken']);
     const billId = req.params.id;
@@ -131,12 +156,11 @@ export const fetchBillTransactions = async (req: Request, res: Response) => {
 
     res.send({ transactions });
   } catch (error) {
-    console.error("Error fetching transactions:", error);
-    res.status(500).send({ error: "Failed to fetch transactions" });
+    res.status(500).send({ error: `Failed to fetch transactions: ${error}` });
   }
 };
 
-export const fetchTotalBillsAmount = async (req: Request, res: Response) => {
+export const fetchTotalBillsAmount = async (req: Request, res: Response): Promise<void> => {
   try {
     const userId = await getUserId(req.cookies['accessToken']);
     const userData = await repositories.user.findOne({ where: { id: userId } });
@@ -160,12 +184,12 @@ export const fetchTotalBillsAmount = async (req: Request, res: Response) => {
 
     res.send({ total: { amount: totalSum, currencyCode: currentCurrencyCode } });
   } catch (error) {
-    console.error("Error fetching total sum:", error);
-    res.status(500).send({ error: "Failed to fetch total sum" });
+    res.status(500)
+      .send({ error: `Failed to fetch total sum: ${error}` });
   }
 };
 
-export const addBill = async (req: Request, res: Response) => {
+export const addBill = async (req: Request, res: Response): Promise<void> => {
   const accessToken = req.cookies['accessToken'];
   const userId = await getUserId(accessToken).then((result) => result);
   const { randomUUID } = new ShortUniqueId({ length: 5 });
@@ -175,9 +199,9 @@ export const addBill = async (req: Request, res: Response) => {
   const bill = await repositories.bill.save({ ...req.body, id: randomUUID(), user: { id: userId }, name, amount, currency: { id: currencyId } });
 
   res.send(bill);
-}
+};
 
-export const updateBill = async (req: Request, res: Response) => {
+export const updateBill = async (req: Request, res: Response): Promise<void> => {
   const id = req.params.id as unknown;
   const data = req.body;
 
@@ -185,9 +209,9 @@ export const updateBill = async (req: Request, res: Response) => {
   const bill = await repositories.bill.findOne({ where: { id: id as string | undefined } });
 
   res.send({ bill });
-}
+};
 
-export const reorderBills = async (req: Request, res: Response) => {
+export const reorderBills = async (req: Request, res: Response): Promise<void> => {
   const accessToken = req.cookies['accessToken'];
   const userId = await getUserId(accessToken).then((result) => result);
   const billId = req.body.id;
@@ -213,16 +237,17 @@ export const reorderBills = async (req: Request, res: Response) => {
   await repositories.bill.save(filtered);
 
   res.send({ filtered });
-}
+};
 
-export const uploadBillIcon = async (req: Request, res: Response, next: NextFunction) => {
+export const uploadBillIcon = async (req: Request, res: Response): Promise<void> => {
   try {
     if (!req.file) {
-      return res.status(400).json({ error: "No file uploaded" });
+      res.status(400).json({ error: 'No file uploaded' });
+      return;
     }
 
     const id = req.params.id as string;
-    const username = id || "default";
+    const username = id || 'default';
 
     // Загружаем файл в S3
     const customIconUrl = await uploadToS3(req.file, username);
@@ -234,12 +259,11 @@ export const uploadBillIcon = async (req: Request, res: Response, next: NextFunc
 
     res.json({ bill });
   } catch (error) {
-    console.error("Upload error:", error);
-    res.status(500).json({ error: "Upload failed" });
+    res.status(500).json({ error: `Upload failed: ${error}` });
   }
-}
+};
 
-export const deleteBill = async (req: Request, res: Response) => {
+export const deleteBill = async (req: Request, res: Response): Promise<void> => {
   const id = req.params.id as unknown;
 
   const bill = await repositories.bill.findOne({
@@ -266,6 +290,6 @@ export const deleteBill = async (req: Request, res: Response) => {
   await repositories.bill.softDelete({ id: id as string });
 
   res.send({
-    message: 'success'
+    message: 'success',
   });
-}
+};

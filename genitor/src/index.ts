@@ -1,17 +1,18 @@
+
+import { genitorDataSource } from './ormconfig';
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { genitorDataSource } from '../ormconfig';
 import { routes } from './routes';
-import { seedCurrenciesIfNeeded } from './utils/seed-currencies'
-import { fixRateCurrency } from './utils/fix-rate-currency'
+import { seedCurrenciesIfNeeded } from './utils/seed-currencies';
+import { fixRateCurrency } from './utils/fix-rate-currency';
 
 export const PORT = 8000;
 
 genitorDataSource.initialize().then(async (dataSource) => {
   const app = express();
   await seedCurrenciesIfNeeded(dataSource).then(() => {
-    fixRateCurrency(dataSource).catch(console.error);
+    fixRateCurrency(dataSource);
   });
 
   app.use(express.json());
@@ -25,6 +26,7 @@ genitorDataSource.initialize().then(async (dataSource) => {
   routes(app);
 
   app.listen(PORT, () => {
+    // eslint-disable-next-line no-console
     console.log('Listening to port 8000');
   });
 });

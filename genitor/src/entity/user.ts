@@ -5,15 +5,15 @@ import {
   Entity, JoinTable, ManyToMany, ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from 'typeorm';
 import { Bill } from './bill';
 import { Transfer } from './transfer';
 import { Category } from './category';
 import { Expense } from './expense';
 import { Income } from './income';
-import {Currency} from "./currency";
-import { Unit } from './unit'
+import { Currency } from './currency';
+import { Unit } from './unit';
 
 @Entity()
 export class User {
@@ -23,7 +23,7 @@ export class User {
   @Column({ default: '' })
   name: string;
 
-  @Column({ type: "longtext", default: null })
+  @Column({ type: 'longtext', default: null })
   imageUrl: string;
 
   @Column({ unique: true })
@@ -56,7 +56,7 @@ export class User {
 
   @ManyToOne(() => Currency, (currency) => currency.users, { eager: true })
   @JoinTable()
-  defaultCurrency: Currency
+  defaultCurrency: Currency;
 
   @Column({ default: false })
   isBlocked: boolean;
@@ -64,10 +64,10 @@ export class User {
   @Column({ default: false })
   isConfirmed: boolean;
 
-  @Column({default: 'en-US'})
+  @Column({ default: 'en-US' })
   locale: string;
 
-  @Column({default: 'light'})
+  @Column({ default: 'light' })
   theme: string;
 
   @CreateDateColumn()

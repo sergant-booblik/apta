@@ -1,8 +1,9 @@
-import { DataSource } from 'typeorm';
-import { Currency } from '../entity/currency';
+// eslint-disable-next-line no-restricted-imports
 import * as rawCurrencySeed from '../../resources/currency-seed.json';
+import type { DataSource } from 'typeorm';
+import { Currency } from '@/entity/currency';
 
-export async function seedCurrenciesIfNeeded(dataSource: DataSource) {
+export async function seedCurrenciesIfNeeded(dataSource: DataSource): Promise<void> {
   const currencyRepository = dataSource.getRepository(Currency);
 
   const existing = await currencyRepository.find();

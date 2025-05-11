@@ -10,5 +10,9 @@
     "strict": true,
     "skipLibCheck": true,
     "strictPropertyInitialization": false,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
 }

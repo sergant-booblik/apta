@@ -1,8 +1,8 @@
-import { DataSource } from 'typeorm'
-import { Rate } from '../entity/rate'
-import { Currency } from '../entity/currency'
+import type { DataSource } from 'typeorm';
+import { Rate } from '@/entity/rate';
+import { Currency } from '@/entity/currency';
 
-export async function fixRateCurrency(dataSource: DataSource) {
+export async function fixRateCurrency(dataSource: DataSource): Promise<void> {
   const rateRepository = dataSource.getRepository(Rate);
   const currencyRepository = dataSource.getRepository(Currency);
 
@@ -14,7 +14,7 @@ export async function fixRateCurrency(dataSource: DataSource) {
   currencies.forEach((currency) => {
     const isRateExist = rates.find((rate) => rate.currency.id === currency.id);
     if (!isRateExist) {
-      ratesToUpdate.push({ updatedDate: new Date(0), currency })
+      ratesToUpdate.push({ updatedDate: new Date(0), currency });
     }
   });
 

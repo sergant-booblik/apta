@@ -12,5 +12,5 @@ export const genitorDataSource = new DataSource({
   password: process.env.ORM_CONFIG_PASSWORD!,
   entities: ['src/entity/*.ts'],
   logging: false,
-  synchronize: true
+  synchronize: true,
 });

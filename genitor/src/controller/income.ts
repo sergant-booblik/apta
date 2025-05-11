@@ -1,19 +1,19 @@
-import { genitorDataSource } from '../../ormconfig';
-import { Income } from '../entity/income';
-import { Request, Response } from 'express';
-import { Bill } from '../entity/bill';
+import { genitorDataSource } from '@/ormconfig';
+import { Income } from '@/entity/income';
+import { Bill } from '@/entity/bill';
+import type { Request, Response } from 'express';
 
 const incomeRepository = genitorDataSource.getRepository(Income);
 const billRepository = genitorDataSource.getRepository(Bill);
 
-export const getIncomes = async (req: Request, res: Response) => {
+export const getIncomes = async (req: Request, res: Response): Promise<void> => {
   const userId = req.params.userId as unknown as number;
   const incomes = await incomeRepository.find({ where: { user: { id: userId } } });
 
   res.send(incomes);
-}
+};
 
-export const addIncome = async (req: Request, res: Response) => {
+export const addIncome = async (req: Request, res: Response): Promise<void> => {
   const userId = req.params.userId as unknown as number;
   const { name, amount, billId, categoryId, subcategoryId } = req.body;
 
@@ -31,9 +31,9 @@ export const addIncome = async (req: Request, res: Response) => {
 
     res.send(income);
   });
-}
+};
 
-export const updateIncome = async (req: Request, res: Response) => {
+export const updateIncome = async (req: Request, res: Response): Promise<void> => {
   const id = req.params.id as unknown as number;
   const userId = req.params.userId as unknown as number;
   const updatingIncome = await incomeRepository.findOne({ where: { id } });
@@ -43,7 +43,7 @@ export const updateIncome = async (req: Request, res: Response) => {
     categoryId,
     subcategoryId,
     amount,
-    name
+    name,
   } = await req.body;
 
   await genitorDataSource.transaction(async () => {
@@ -65,9 +65,9 @@ export const updateIncome = async (req: Request, res: Response) => {
       res.send(expense);
     }
   });
-}
+};
 
-export const deleteIncome = async (req: Request, res: Response) => {
+export const deleteIncome = async (req: Request, res: Response): Promise<void> => {
   const id = req.params.id as unknown as number;
   const removingIncome = await incomeRepository.findOne({ where: { id } });
 
@@ -79,4 +79,4 @@ export const deleteIncome = async (req: Request, res: Response) => {
       res.send({ message: 'success' });
     }
   });
-}
+};

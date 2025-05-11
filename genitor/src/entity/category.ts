@@ -2,17 +2,14 @@ import {
   Column,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  JoinTable,
   ManyToOne,
   OneToMany,
-  PrimaryGeneratedColumn
-} from 'typeorm'
-import { User } from "./user";
-import {Subcategory} from "./subcategory";
-import {subscribe} from "diagnostics_channel";
-import {Expense} from "./expense";
-import {Income} from "./income";
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { User } from './user';
+import { Subcategory } from './subcategory';
+import { Expense } from './expense';
+import { Income } from './income';
 
 export enum CategoryType {
   EXPENSE = 'expense',

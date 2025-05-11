@@ -1,19 +1,19 @@
-import {Request, response, Response} from "express";
-import {genitorDataSource} from "../../ormconfig";
-import {Transfer} from "../entity/transfer";
-import {Bill} from "../entity/bill";
+import { genitorDataSource } from '@/ormconfig';
+import type { Request, Response } from 'express';
+import { Transfer } from '@/entity/transfer';
+import { Bill } from '@/entity/bill';
 
 const transferRepository = genitorDataSource.getRepository(Transfer);
 const billRepository = genitorDataSource.getRepository(Bill);
 
-export const GetTransfers = async (req: Request, res: Response) => {
+export const getTransfers = async (req: Request, res: Response): Promise<void> => {
   const userId = req.params.userId as unknown as number;
   const transfers = await transferRepository.find({ where: { user: { id: userId } } });
 
   res.send(transfers);
-}
+};
 
-export const AddTransfer = async (req: Request, res: Response) => {
+export const AddTransfer = async (req: Request, res: Response): Promise<void> => {
   const userId = req.params.userId as unknown as number;
   const {
     amountSent,
@@ -38,9 +38,9 @@ export const AddTransfer = async (req: Request, res: Response) => {
 
     res.send(transfer);
   });
-}
+};
 
-export const updateTransfer = async (req: Request, res: Response) => {
+export const updateTransfer = async (req: Request, res: Response): Promise<void> => {
   const id = req.params.id as unknown as number;
   const userId = req.params.userId as unknown as number;
   const updatingTransaction = await transferRepository.findOne({ where: { id } });
@@ -75,7 +75,7 @@ export const updateTransfer = async (req: Request, res: Response) => {
   });
 };
 
-export const DeleteTransfer = async (req: Request, res: Response) => {
+export const DeleteTransfer = async (req: Request, res: Response): Promise<void> => {
   const id = req.params.id as unknown as number;
   const removingTransaction = await transferRepository.findOne({ where: { id } });
 
@@ -86,9 +86,9 @@ export const DeleteTransfer = async (req: Request, res: Response) => {
       await transferRepository.softDelete({ id: id as number });
 
       res.send({
-        message: 'success'
+        message: 'success',
       });
     }
 
-  })
-}
+  });
+};

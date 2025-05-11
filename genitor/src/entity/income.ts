@@ -5,7 +5,7 @@ import {
   Entity,
   JoinTable,
   ManyToOne,
-  PrimaryGeneratedColumn
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from './user';
 import { Bill } from './bill';

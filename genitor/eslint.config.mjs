@@ -23,7 +23,7 @@ export default {
     'object-curly-spacing': ['error', 'always'],
     'comma-dangle': ['error', 'always-multiline'],
     'semi': ['error', 'always'],
-    'no-console': ['warn', { allow: ['warn', 'error'] }],
+    'no-console': ['error'],
     'no-debugger': 'warn',
     'no-alert': 'error',
     '@typescript-eslint/consistent-type-imports': 'error',

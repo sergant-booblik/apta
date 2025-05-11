@@ -1,4 +1,5 @@
 // eslint-disable-next-line no-restricted-imports
+
 import en from '../../resources/i18n/en.json';
 import { createI18n } from 'vue-i18n';
 import { useProfileStore } from '@/store/profile';
