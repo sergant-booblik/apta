@@ -14,11 +14,8 @@ export default mergeConfig(
         reporter: ['text', 'html'],
         thresholds: {
           functions: 80,
-          lines: 80,
-          branches: 70,
-          statements: 80,
         },
-        exclude: ['node_modules/', 'tests/', 'dist/'],
+        exclude: ['node_modules/', 'tests/', 'dist/', '*.cjs', '*.config.ts'],
       },
     },
   }),

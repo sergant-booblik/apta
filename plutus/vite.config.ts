@@ -37,4 +37,8 @@ export default defineConfig({
       'scss': fileURLToPath(new URL('./scss', import.meta.url)),
     },
   },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+  },
 });

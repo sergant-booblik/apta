@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { formatDateForInput } from '../src/helpers/format-date';
+import { formatDateForInput } from '@/helpers/format-date';
 
 describe('formatDateForInput', () => {
   it('should format date correctly', () => {
