@@ -77,12 +77,6 @@ jobs:
         run: npm run test:coverage
         working-directory: plutus
 
-#      - name: Upload coverage report
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: coverage-report
-#          path: coverage
-
   test:
     needs: [ coverage-test ]
     runs-on: ubuntu-latest

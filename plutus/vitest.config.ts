@@ -12,6 +12,12 @@ export default mergeConfig(
       coverage: {
         provider: 'istanbul',
         reporter: ['text', 'html'],
+        thresholds: {
+          functions: 80,
+          lines: 80,
+          branches: 70,
+          statements: 80,
+        },
         exclude: ['node_modules/', 'tests/', 'dist/'],
       },
     },
