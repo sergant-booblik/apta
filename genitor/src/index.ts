@@ -10,6 +10,7 @@ import * as process from 'node:process';
 export const PORT = 8000;
 
 genitorDataSource.initialize().then(async (dataSource) => {
+  console.log('CORS_ORIGIN:', process.env.CORS_ORIGIN);
   const app = express();
   await seedCurrenciesIfNeeded(dataSource).then(() => {
     fixRateCurrency(dataSource);
