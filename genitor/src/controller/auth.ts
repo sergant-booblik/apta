@@ -18,6 +18,8 @@ const createToken = (userId: string, type: 'access_token' | 'refresh_token', exp
 const setCookie = (res: Response, token: string, type: 'accessToken' | 'refreshToken', maxAge: number): void => {
   res.cookie(type, token, {
     httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge: maxAge,
     path: '/',
   });
@@ -185,7 +187,10 @@ export const authRefresh = async (req: Request, res: Response): Promise<void> =>
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 24 * 60 * 60 * 1000, //equivalent to 1 day
+      path: '/',
     });
 
     res.send({
