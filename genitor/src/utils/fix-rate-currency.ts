@@ -14,7 +14,10 @@ export async function fixRateCurrency(dataSource: DataSource): Promise<void> {
   currencies.forEach((currency) => {
     const isRateExist = rates.find((rate) => rate.currency.id === currency.id);
     if (!isRateExist) {
-      ratesToUpdate.push({ updatedDate: new Date(0), currency });
+      ratesToUpdate.push({
+        updatedDate: new Date(0),
+        currency: { id: currency.id } as Currency,
+      });
     }
   });
 
