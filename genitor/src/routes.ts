@@ -51,6 +51,7 @@ import {
   updateIncome,
 } from '@/controller/income';
 import multer from 'multer';
+import { fetchTranslations } from '@/controller/translations';
 
 const storage = multer.diskStorage({
   destination: './.uploads/icon',
@@ -62,6 +63,8 @@ const storage = multer.diskStorage({
 const uploadIcon = multer({ storage });
 
 export const routes = (router: Router): void => {
+  router.get('/api/translations/:lang', fetchTranslations);
+
   router.post('/api/auth/register/', authRegister);
   router.post('/api/auth/login/', authLogin);
   router.get('/api/auth/verify/', verifyToken);

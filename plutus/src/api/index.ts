@@ -52,6 +52,11 @@ import {
   type RegisterRequest,
   type RegisterResponse,
 } from '@/api/register';
+import {
+  createFetchTranslationsFunction,
+  type FetchTranslationsRequest,
+  type FetchTranslationsResponse,
+} from '@/api/fetch-translations';
 
 const userId = ref(0);
 const accessToken = ref('');
@@ -59,6 +64,8 @@ const accessToken = ref('');
 interface Api {
   userId: Ref<number>;
   accessToken: Ref<string | undefined>;
+
+  fetchTranslations: (request: FetchTranslationsRequest) => Promise<FetchTranslationsResponse>;
 
   login: (request: LoginRequest) => Promise<LoginResponse>;
   register: (request: RegisterRequest) => Promise<RegisterResponse>;
@@ -95,6 +102,8 @@ function createApi(): Api {
   return {
     userId,
     accessToken,
+
+    fetchTranslations: createFetchTranslationsFunction(apiUrl),
 
     login: createLoginFunction(apiUrl),
     register: createRegisterFunction(apiUrl),

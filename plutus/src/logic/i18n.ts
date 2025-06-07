@@ -1,23 +1,21 @@
 // eslint-disable-next-line no-restricted-imports
-import en from '../../resources/i18n/en.json';
-import { createI18n } from 'vue-i18n';
+import { createI18n, type Locale } from 'vue-i18n';
 import { useProfileStore } from '@/store/profile';
-
-export type Locale = 'en';
+import { useTranslationStore } from '@/store/translation';
 
 export const LOCALE_STORAGE_KEY = 'locale';
 
 export function calculateCurrentLocale(): Locale {
   const profileStore = useProfileStore();
 
-  const profileLocale = profileStore.profile?.locale  as Locale;
+  const profileLocale = profileStore.profile?.locale as Locale;
   if (profileLocale) {
-    return profileLocale;
+    return profileLocale as Locale;
   }
 
   const storedLocale = localStorage.getItem(LOCALE_STORAGE_KEY) as Locale;
   if (storedLocale) {
-    return storedLocale;
+    return storedLocale as Locale;
   }
 
   const browserLocale = navigator.language.slice(0, 2) || navigator.languages?.[ 0 ].slice(0, 2) || 'en';
@@ -50,11 +48,22 @@ export const pluralizationRule = (choice: number, choicesLength: number): number
 const i18n = createI18n({
   legacy: false,
   locale: 'en',
-  fallbackLocale: 'ru',
-  messages: { en },
+  fallbackLocale: 'en',
+  messages: {},
   pluralRules: {
     ru: pluralizationRule,
   },
 });
+
+export async function initI18n(): Promise<void> {
+  const locale = calculateCurrentLocale() as Locale;
+  const translationStore = useTranslationStore();
+  await translationStore.fetchTranslations(locale);
+
+  const localeMessage = translationStore.translation?.[locale] ?? {};
+
+  i18n.global.setLocaleMessage(locale, localeMessage);
+  i18n.global.locale.value = locale;
+}
 
 export default i18n;
