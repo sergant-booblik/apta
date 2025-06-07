@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import { routes } from './routes';
 import { seedCurrenciesIfNeeded } from './utils/seed-currencies';
 import { fixRateCurrency } from './utils/fix-rate-currency';
+import * as process from 'node:process';
 
 export const PORT = 8000;
 
@@ -17,7 +18,7 @@ genitorDataSource.initialize().then(async (dataSource) => {
   app.use(express.json());
   app.use(cookieParser());
   app.use(cors({
-    origin: ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:4200', 'http://localhost:8000', 'http://localhost:5173'],
+    origin: process.env.CORS_ORIGIN,
     credentials: true,
   }));
   app.use(express.static('.uploads'));
