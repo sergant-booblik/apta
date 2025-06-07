@@ -56,7 +56,7 @@ export const updateProfile = async (req: Request, res: Response): Promise<void> 
   }
 
   if (data.currencies) {
-    user.currencies = await currencyRepository.findBy({ id: data.currencies });
+    user.currencies = await currencyRepository.findBy({ id: data.currencies.id });
   }
 
   Object.assign(user, data);

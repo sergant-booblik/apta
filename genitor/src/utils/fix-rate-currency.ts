@@ -16,7 +16,7 @@ export async function fixRateCurrency(dataSource: DataSource): Promise<void> {
     if (!isRateExist) {
       ratesToUpdate.push({
         updatedDate: new Date(0),
-        currency: { id: currency.id } as Currency,
+        currency,
       });
     }
   });
