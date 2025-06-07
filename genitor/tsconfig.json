@@ -10,7 +10,7 @@
     "strict": true,
     "skipLibCheck": true,
     "strictPropertyInitialization": false,
-    "baseUrl": "./",
+    "baseUrl": ".",
     "outDir": "dist",
     "paths": {
       "@/*": ["src/*"]

@@ -201,7 +201,7 @@ export const authRefresh = async (req: Request, res: Response): Promise<void> =>
   }
 };
 
-export const authLogout = async (res: Response): Promise<void> => {
+export const authLogout = async (_req: Request, res: Response): Promise<void> => {
   res.cookie('accessToken', 'deleted', { maxAge: 0 });
   res.cookie('refreshToken', 'deleted', { maxAge: 0 });
   res.send({
