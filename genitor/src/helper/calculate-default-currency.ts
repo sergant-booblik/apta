@@ -12,7 +12,7 @@ export async function calculateDefaultCurrency(userLocale: string): Promise<Curr
 
   const currencyByLocale = await currencyRepository
     .createQueryBuilder()
-    .where('FIND_IN_SET(:locale, currency.locale)', { locale: userLocale })
+    .where('FIND_IN_SET(:locale, Currency.locale)', { locale: userLocale })
     .getOne();
 
   return currencyByLocale ?? defaultCurrency;
