@@ -18,7 +18,7 @@ genitorDataSource.initialize().then(async (dataSource) => {
   app.use(express.json());
   app.use(cookieParser());
   app.use(cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: '*', // для теста
     credentials: true,
   }));
   app.use(express.static('.uploads'));
