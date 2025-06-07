@@ -4,4 +4,5 @@
 /genitor/dist/
 /genitor/.coverage/
 /genitor/.env
+/plutus/.env
 /node_modules/

@@ -97,7 +97,7 @@ interface Api {
   fetchUnits: () => Promise<FetchUnitsResponse>;
 }
 function createApi(): Api {
-  const apiUrl = 'http://localhost:8000/api';
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   return {
     userId,
